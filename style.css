@@ -6,6 +6,32 @@ body {
     background-color: aqua;
 }
 
+nav {
+    width: 100%;
+    height: 60px;
+    background-color: silver;
+}
+
 main {
     background-color: grey;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+#user {
+    width: auto;
+    height: 50px;
+    float: right;
+    text-align: center;
+    background-color: white;
+}
+
+.inputfield {
+    width: 80%;
+    padding: 5px;
+}
+
+.inputbutton {
+    padding: 2%;
 }
