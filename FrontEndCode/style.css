@@ -1,3 +1,6 @@
+/* here will be where all the CSS code goes for all the pages
+authors: Fraser, Leah
+*/
 * {
     margin: 0px;
 }
@@ -18,7 +21,20 @@ main {
     margin-left: 25%;
     margin-right: 25%;
 }
+/* styles for the index page*/
+.column {
+  float: left;
+  width: 50%;
+}
 
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* style for the Login page/ signup*/
 #user {
     width: auto;
     height: 50px;
