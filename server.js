@@ -56,10 +56,9 @@ app.get("/", function(req, res) {
             if (results.length == 1) {
                 username = results[0].name;
 
-            }
-            console.log(username);
-            res.render("index", {username: username});
+                res.render("index", {username: username});
 
+            }
             
         });
     }
