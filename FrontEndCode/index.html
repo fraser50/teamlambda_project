@@ -15,7 +15,12 @@ authors: Leah -->
       -->
       <nav>
         <a class="active" href="/">Home</a>
-        <a href="login">Log In</a>
+        <? if (username) { ?>
+        <p style="float:right"><?= username ?></p>
+        <a style="float:right" href="/logout">Logout</a>
+        <? } else { ?>
+          <a href="login">Log In</a>
+        <? } ?>
       </nav>
       <div class="row">
          <div class="column">

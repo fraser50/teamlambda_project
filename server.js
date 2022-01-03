@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 
 var conn = mysql.createConnection({
     host: process.env['MYSQL_HOST'],
@@ -33,8 +34,29 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "FrontEndCode"));
+app.set('view options', {delimiter: '?'});
+
 app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "FrontEndCode/index.html"));
+    username = undefined;
+
+    cookies = parseCookies(req.headers.cookie);
+
+    session = cookies.session;
+
+    if (typeof session == 'string') {
+        conn.query("SELECT name FROM users INNER JOIN sessions ON users.userID=sessions.userID AND sessions.sessionString=?", [session], function(error, results, fields) {
+            if (results.length == 1) {
+                username = results[0].name;
+
+            }
+            console.log(username);
+            res.render("index", {username: username});
+
+            
+        });
+    }
 });
 
 app.get("/login", function(req, res) {
@@ -65,8 +87,19 @@ app.post("/login", function(req, res) {
         // Compare password against hash
         bcrypt.compare(pass, dbpass, function(err, result) {
             if (result) {
-                //TODO: redirect to home page, create session and set cookie
-                return res.send("Login successful!");
+
+                // Produce a session
+                currentTime = new Date();
+                sessionString = crypto.randomBytes(32).toString("hex");
+
+                conn.query("INSERT INTO sessions (sessionString,userID,creationDate,creationIP) VALUES (?,?,?,?)",
+                [sessionString, userID, currentTime, req.ip], function (error, results, fields) {
+                    if (error) throw error;
+                    res.cookie("session", sessionString);
+                    return res.redirect("/");
+
+                });
+
             } else {
                 return res.send("Authentication failure!");
             }
