@@ -46,7 +46,7 @@ app.get("/", function(req, res) {
 
     session = cookies.session;
     
-    if (session == undefined) {
+    if (session == undefined || true) {
         res.render("index", {username: username});
         return;
     }
