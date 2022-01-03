@@ -127,6 +127,7 @@ app.get("/logout", function(req, res) {
     });
 
     res.clearCookie("session");
+    return app.redirect("/");
 
 });
 
