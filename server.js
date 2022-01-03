@@ -19,6 +19,7 @@ conn.connect(function (err) {
 
 function parseCookies(cookies) {
     cookieDict = {};
+    if (cookies == undefined) return cookieDict;
     cookies.split("; ").forEach(function (c, i) {
         cookieData = c.split("=");
         cookieName = cookieData[0];
