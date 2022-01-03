@@ -120,14 +120,14 @@ app.get("/logout", function(req, res) {
 
     session = cookies.session;
 
-    if (session == undefined) return app.redirect("/");
+    if (session == undefined) return res.redirect("/");
 
     conn.query("DELETE FROM sessions WHERE sessionString=?", [session], function (error, results, fields) {
 
     });
 
     res.clearCookie("session");
-    return app.redirect("/");
+    return res.redirect("/");
 
 });
 
