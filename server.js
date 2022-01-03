@@ -113,6 +113,23 @@ app.post("/login", function(req, res) {
     });
 });
 
+app.get("/logout", function(req, res) {
+    username = undefined;
+
+    cookies = parseCookies(req.headers.cookie);
+
+    session = cookies.session;
+
+    if (session == undefined) return app.redirect("/");
+
+    conn.query("DELETE FROM sessions WHERE sessionString=?", [session], function (error, results, fields) {
+
+    });
+
+    res.clearCookie("session");
+
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));
