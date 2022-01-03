@@ -20,8 +20,18 @@ CREATE TABLE IF NOT EXISTS users(
     email VARCHAR(32) NOT NULL UNIQUE,
     name VARCHAR(32) NOT NULL UNIQUE,
     pass VARCHAR(64) NOT NULL,
-    admin CHAR(1) NOT NULL,
-    avatar VARCHAR(32)
+    admin CHAR(1) NOT NULL DEFAULT 'N',
+    avatar VARCHAR(32),
+    approved CHAR(1) NOT NULL DEFAULT 'N'
+);
+
+CREATE TABLE IF NOT EXISTS sessions(
+    sessionID INTEGER PRIMARY KEY,
+    sessionString CHAR(32) NOT NULL UNIQUE,
+    userID INTEGER NOT NULL,
+    creationDate TIMESTAMP NOT NULL,
+    creationIP VARCHAR(64) NOT NULL,
+    lastUse TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS groups(
