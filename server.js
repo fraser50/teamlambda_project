@@ -45,6 +45,11 @@ app.get("/", function(req, res) {
     cookies = parseCookies(req.headers.cookie);
 
     session = cookies.session;
+    
+    if (session == undefined) {
+        res.render("index", {username: username});
+        return;
+    }
 
     if (typeof session == 'string') {
         conn.query("SELECT name FROM users INNER JOIN sessions ON users.userID=sessions.userID AND sessions.sessionString=?", [session], function(error, results, fields) {
