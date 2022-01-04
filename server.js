@@ -58,6 +58,8 @@ app.get("/", function(req, res) {
 
                 res.render("index", {username: username});
 
+            } else {
+                res.render("index", {username: undefined});
             }
             
         });
