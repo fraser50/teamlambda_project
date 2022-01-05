@@ -62,7 +62,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/login", function(req, res) {
-    res.sendFile(path.join(__dirname, "FrontEndCode/login.html"));
+    res.render("login", {alert: undefined});
 });
 
 app.post("/login", function(req, res) {
@@ -70,7 +70,8 @@ app.post("/login", function(req, res) {
     pass = req.body.pass;
 
     if (!(typeof email=='string' && typeof pass=='string')) {
-        return res.send("Error: username or password was empty");
+        res.render("login", {alert: "Please only enter text!"});
+        return;
     }
 
     // All emails should be lowercase
@@ -78,7 +79,8 @@ app.post("/login", function(req, res) {
     conn.query('SELECT userID,email,pass,name FROM users WHERE email=?', [email], function (error, results, fields) {
         if (results.length == 0) {
             // If there are no results, then that user does not exist
-            return res.send("Error: user does not exist!");
+            res.render("login", {alert: "User does not exist!"});
+            return;
         }
 
         user = results[0];
@@ -103,7 +105,7 @@ app.post("/login", function(req, res) {
                 });
 
             } else {
-                return res.send("Authentication failure!");
+                res.render("login", {alert: "Password was incorrect!"});
             }
         });
 
