@@ -79,3 +79,12 @@ main {
 .inputbutton {
     padding: 2%;
 }
+
+.alert {
+  background-color: darkorange;
+  border-radius: 15%;
+  border-color: black;
+  border-style: solid;
+  width: 10%;
+  padding: 25px;
+}
