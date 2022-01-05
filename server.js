@@ -4,17 +4,12 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
-var conn = mysql.createConnection({
+var conn = mysql.createPool({
+    connectionLimit : 10,
     host: process.env['MYSQL_HOST'],
     user: process.env['MYSQL_USER'],
     password: process.env['MYSQL_PASS'],
     database: process.env["MYSQL_DB"]
-});
-
-conn.connect(function (err) {
-    if (!err) return;
-    console.log("Failed to connect to DB!");
-    process.exit(1);
 });
 
 function parseCookies(cookies) {
