@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- this is the upload page
+authors: Fraser (based on index page) -->
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Upload</title>
+    </head>
+
+    <body>
+      <!--this page will have:
+       a navigation bar at the top
+       2 columns, left is preview and caption field, right is group selection, license selection and upload
+       Footer will be copyright, etc
+      -->
+      <nav>
+        <a class="active" href="/">Home</a>
+        <? if (username) { ?>
+        <p style="float:right"><?= username ?></p>
+        <a style="float:right" href="/logout">Logout</a>
+        <? } else { ?>
+          <a href="login">Log In</a>
+        <? } ?>
+      </nav>
+      <main>
+        <h1>WARNING: Not functional yet</h1>
+        <form action="/upload" method="post">
+          <div class="row">
+            <div class="column">
+                 <img src="placeholder.png" style="width:250px; height:250px;"><br>
+                 Caption<br>
+                 <input type="text" name="caption" class="inputfield">
+            </div>
+            <div class="column">
+                 License<br>
+                 <select name="license">
+                   <option>Please specify</option>
+                   <option>A</option>
+                   <option>B</option>
+                   <option>C</option>
+                </select><br>
+                <input type="submit" value="Upload" class="inputbutton">
+            </div>
+         </div>
+        </form>
+    </main>
+      <div class="contact">
+        <p> Contact info and legal stuff here! </p>
+      </div>
+
+    </body>
+
+
+</html>

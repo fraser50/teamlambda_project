@@ -130,9 +130,17 @@ app.get("/logout", function(req, res) {
 
 });
 
+app.get("/upload", function(req, res) {
+    res.render("upload", {username: undefined});
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));
+});
+
+app.get("/placeholder.png", function(req, res) {
+    res.sendFile(path.join(__dirname, "FrontEndCode/placeholder.png"));
 });
 
 app.listen(8080);
