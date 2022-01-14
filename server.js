@@ -134,6 +134,47 @@ app.get("/upload", function(req, res) {
     res.render("upload", {username: undefined});
 });
 
+app.get("/register", function(req, res) {
+    res.render("register", {alert: undefined});
+});
+
+app.post("/register", function(req, res) {
+    email = req.body.email;
+    pass1 = req.body.pass1;
+    pass2 = req.body.pass2;
+    username = req.body.username;
+
+    if (!(typeof email=='string' && typeof pass1=='string' && typeof pass2=='string' && typeof username=='string')) {
+        res.render("register", {alert: "Please only enter text!"});
+        return;
+    }
+
+    if (pass1 != pass2) {
+        res.render("register", {alert: "Passwords provided do not match!"});
+        return;
+    }
+
+    // We only want Heriot-Watt students to be able to register for now
+    if (!email.endsWith("@hw.ac.uk")) {
+        res.render("register", {alert: "Sorry, you are unable to sign up with that email!"});
+        return;
+    }
+
+    //TODO: Only allow email to consist of alphanumeric characters
+
+    hashedpass = bcrypt.hashSync(pass1, 10);
+
+    conn.query("INSERT INTO users (email,name,pass) VALUES (?,?,?)", [email,username,hashedpass], function (err, results) {
+        if(err) {
+            res.render("register", {alert: "Email/username is already registered!"});
+            return;
+        }
+
+        // TODO: Create session and log user in
+        return res.redirect("/");
+    });
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));
