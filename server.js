@@ -177,8 +177,12 @@ app.post("/register", function(req, res) {
             return;
         }
 
-        // TODO: Create session and log user in
-        return res.redirect("/");
+        userID = results.insertId;
+
+        createSession(userID, req.ip, function(sessionString) {
+            res.cookie("session", sessionString);
+            return res.redirect("/");
+        });
     });
 });
 
