@@ -12,6 +12,21 @@ var conn = mysql.createPool({
     database: process.env["MYSQL_DB"]
 });
 
+//TODO: Separate this into a seperate utilities file (util.js)
+
+// Generate a session for a given user, and provides the session ID to the given callback
+function createSession(userID, ip, callback) {
+    currentTime = new Date();
+    sessionString = crypto.randomBytes(32).toString("hex");
+
+    conn.query("INSERT INTO sessions (sessionString,userID,creationDate,creationIP) VALUES (?,?,?,?)",
+    [sessionString, userID, currentTime, ip], function (error, results, fields) {
+        if (error) throw error;
+
+        callback(sessionString);
+    });
+}
+
 function parseCookies(cookies) {
     cookieDict = {};
     if (cookies == undefined) return cookieDict;
@@ -91,17 +106,9 @@ app.post("/login", function(req, res) {
         // Compare password against hash
         bcrypt.compare(pass, dbpass, function(err, result) {
             if (result) {
-
-                // Produce a session
-                currentTime = new Date();
-                sessionString = crypto.randomBytes(32).toString("hex");
-
-                conn.query("INSERT INTO sessions (sessionString,userID,creationDate,creationIP) VALUES (?,?,?,?)",
-                [sessionString, userID, currentTime, req.ip], function (error, results, fields) {
-                    if (error) throw error;
+                createSession(userID, req.ip, function(sessionString) {
                     res.cookie("session", sessionString);
                     return res.redirect("/");
-
                 });
 
             } else {
