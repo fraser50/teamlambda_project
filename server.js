@@ -41,6 +41,27 @@ function parseCookies(cookies) {
     return cookieDict;
 }
 
+function getUserFromCookies(rawCookies, callback) {
+    cookies = parseCookies(rawCookies);
+
+    var session = cookies.session;
+    
+    if (session == undefined || typeof session != "string") {
+        callback(null);
+        return;
+    }
+
+    conn.query("SELECT users.userID,email,name,admin,avatar,approved FROM users INNER JOIN sessions ON users.userID=sessions.userID AND sessions.sessionString=?", [session], function(error, results, fields) {
+        if (results.length == 1) {
+            callback(results[0]);
+
+        } else {
+            callback(null);
+        }
+        
+    });
+}
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -50,30 +71,14 @@ app.set("views", path.join(__dirname, "FrontEndCode"));
 app.set('view options', {delimiter: '?'});
 
 app.get("/", function(req, res) {
-    username = undefined;
+    getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) {
+            res.render("index", {username: user.name});
 
-    cookies = parseCookies(req.headers.cookie);
-
-    session = cookies.session;
-    
-    if (session == undefined) {
-        res.render("index", {username: username});
-        return;
-    }
-
-    if (typeof session == 'string') {
-        conn.query("SELECT name FROM users INNER JOIN sessions ON users.userID=sessions.userID AND sessions.sessionString=?", [session], function(error, results, fields) {
-            if (results.length == 1) {
-                username = results[0].name;
-
-                res.render("index", {username: username});
-
-            } else {
-                res.render("index", {username: undefined});
-            }
-            
-        });
-    }
+        } else {
+            res.render("index", {username: undefined});
+        }
+    });
 });
 
 app.get("/login", function(req, res) {
