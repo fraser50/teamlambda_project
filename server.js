@@ -191,6 +191,44 @@ app.post("/register", function(req, res) {
     });
 });
 
+app.get("/creategroup", function(req, res) {
+    getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) {
+            res.render("creategroup", {alert: undefined});
+
+        } else {
+            return res.redirect("/login");
+        }
+    });
+});
+
+app.post("/creategroup", function(req, res) {
+    getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) {
+            groupname = req.body.groupname;
+            groupdesc = req.body.groupdesc;
+
+            if (!(typeof groupname=='string' || groupdesc=='string')) {
+                res.render("creategroup", {alert: "Please only enter text!"});
+                return;
+            }
+
+            conn.query("INSERT INTO groups (groupName,groupDesc,private) VALUES (?,?,?)", [groupname, groupdesc, 'N'], function(err, results) {
+                if (err) {
+                    res.render("creategroups", {alert: "A group with that name already exists!"});
+                    return;
+                }
+
+                // TODO: Redirect to group overview (when added)
+                return res.redirect("/");
+            });
+
+        } else {
+            return res.redirect("/login");
+        }
+    });
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));
