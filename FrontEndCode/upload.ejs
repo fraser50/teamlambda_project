@@ -13,15 +13,7 @@ authors: Fraser (based on index page) -->
        2 columns, left is preview and caption field, right is group selection, license selection and upload
        Footer will be copyright, etc
       -->
-      <nav>
-        <a class="active" href="/">Home</a>
-        <? if (username) { ?>
-        <p style="float:right"><?= username ?></p>
-        <a style="float:right" href="/logout">Logout</a>
-        <? } else { ?>
-          <a href="login">Log In</a>
-        <? } ?>
-      </nav>
+      <%- include('includes/nav.ejs'); %>
       <main>
         <h1>WARNING: Not functional yet</h1>
         <form action="/upload" method="post">

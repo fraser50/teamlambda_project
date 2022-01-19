@@ -13,16 +13,7 @@ authors: Leah -->
        2 columns, 1 for a slidshow of most popular content (for that week based on views) the other will be of the most recent uploads
        and a section at the bottom to show the teams contact information and any legal stuff
       -->
-      <nav>
-        <a class="active" href="/">Home</a>
-        <? if (username) { ?>
-        <p style="float:right"><?= username ?></p>
-        <a style="float:right" href="/logout">Logout</a>
-        <a style="float:right" href="/upload">Upload</a>
-        <? } else { ?>
-          <a href="login">Log In</a>
-        <? } ?>
-      </nav>
+      <%- include('includes/nav.ejs'); %>
       <div class="row">
          <div class="column">
               <p> this is where the most popular content goes</p>

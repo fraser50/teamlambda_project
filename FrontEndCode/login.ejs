@@ -14,10 +14,7 @@ authors: Fraser, Leah -->
        a button to submit as a login and a button to submit as a registration
        and a section at the bottom to show the teams contact information and any legal stuff
       -->
-      <nav>
-        <a href="/">Home</a>
-        <a class="active" href="login">Log In</a>
-      </nav>
+      <%- include('includes/nav.ejs'); %>
         <main>
           <div id="user">
               Join X other users
@@ -26,11 +23,7 @@ authors: Fraser, Leah -->
             </br>
             </br>
             </br>
-            <? if (alert) { ?>
-            <div class="alert">
-              <p><?= alert ?></p>
-            </div><br>
-            <? } ?>
+            <%- include('includes/alert.ejs'); %>
                 <form action="/login" method="post">
                     Email<br>
                     <input type="email" name="email" class="inputfield"><br><br>

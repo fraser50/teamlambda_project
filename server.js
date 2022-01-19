@@ -68,7 +68,6 @@ app.use(express.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
-app.set('view options', {delimiter: '?'});
 
 app.get("/", function(req, res) {
     getUserFromCookies(req.headers.cookie, function(user) {
@@ -82,7 +81,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/login", function(req, res) {
-    res.render("login", {alert: undefined});
+    res.render("login", {alert: undefined, username: undefined});
 });
 
 app.post("/login", function(req, res) {
@@ -90,7 +89,7 @@ app.post("/login", function(req, res) {
     pass = req.body.pass;
 
     if (!(typeof email=='string' && typeof pass=='string')) {
-        res.render("login", {alert: "Please only enter text!"});
+        res.render("login", {alert: "Please only enter text!", username: undefined});
         return;
     }
 
@@ -99,7 +98,7 @@ app.post("/login", function(req, res) {
     conn.query('SELECT userID,email,pass,name FROM users WHERE email=?', [email], function (error, results, fields) {
         if (results.length == 0) {
             // If there are no results, then that user does not exist
-            res.render("login", {alert: "User does not exist!"});
+            res.render("login", {alert: "User does not exist!", username: undefined});
             return;
         }
 
@@ -117,7 +116,7 @@ app.post("/login", function(req, res) {
                 });
 
             } else {
-                res.render("login", {alert: "Password was incorrect!"});
+                res.render("login", {alert: "Password was incorrect!", username: undefined});
             }
         });
 
@@ -143,7 +142,15 @@ app.get("/logout", function(req, res) {
 });
 
 app.get("/upload", function(req, res) {
-    res.render("upload", {username: undefined});
+    getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) {
+            res.render("upload", {username: user.name});
+
+        } else {
+            return res.redirect("/login");
+        }
+    });
+    
 });
 
 app.get("/register", function(req, res) {
@@ -194,7 +201,7 @@ app.post("/register", function(req, res) {
 app.get("/creategroup", function(req, res) {
     getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
-            res.render("creategroup", {alert: undefined});
+            res.render("creategroup", {alert: undefined, username: user.name});
 
         } else {
             return res.redirect("/login");
@@ -209,13 +216,13 @@ app.post("/creategroup", function(req, res) {
             groupdesc = req.body.groupdesc;
 
             if (!(typeof groupname=='string' || groupdesc=='string')) {
-                res.render("creategroup", {alert: "Please only enter text!"});
+                res.render("creategroup", {alert: "Please only enter text!", username: user.name});
                 return;
             }
 
             conn.query("INSERT INTO groups (groupName,groupDesc,private) VALUES (?,?,?)", [groupname, groupdesc, 'N'], function(err, results) {
                 if (err) {
-                    res.render("creategroups", {alert: "A group with that name already exists!"});
+                    res.render("creategroups", {alert: "A group with that name already exists!", username: user.name});
                     return;
                 }
 
