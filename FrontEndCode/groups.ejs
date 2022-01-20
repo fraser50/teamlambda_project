@@ -1,0 +1,18 @@
+<html>
+    <!-- This page contains all registered groups (that are public) -->
+
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>Groups</title>
+        <%- include('includes/nav.ejs'); %>
+        <main>
+            <% groups.forEach(function(g) { %>
+                <div class="group">
+                    <h2><%= g.groupName %></h2><br>
+                    <img src="/placeholder.png" style="width:50%;height:50%;"><br>
+                    <p><%= g.groupDesc %></p>
+                </div><br>
+            <% }); %>
+        </main>
+    </head>
+</html>

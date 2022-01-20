@@ -236,6 +236,20 @@ app.post("/creategroup", function(req, res) {
     });
 });
 
+app.get("/groups", function(req, res) {
+    getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) {
+            conn.query("SELECT * FROM groups", function(err, results, fields) {
+                res.render("groups", {username: user.name, groups: results});
+            });
+
+        } else {
+            // TODO: Decide if users should be able to view group list when logged out
+            return res.redirect("/login");
+        }
+    });
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));
