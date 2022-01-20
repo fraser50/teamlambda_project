@@ -72,6 +72,8 @@ main {
   /* changes main above's width used in login and regester pages*/
   main{
     width: 100%;
+    margin-left: 0%;
+    margin-right: 0%;
   }
 }
 /* style for the Login page/ signup*/
