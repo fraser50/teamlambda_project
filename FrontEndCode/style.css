@@ -43,6 +43,7 @@ nav a.active {
   background-color: aqua;
 }
 
+/* used in login and register page for to hold the form */
 main {
     background-color: grey;
     width: 50%;
@@ -63,12 +64,18 @@ main {
 }
 /* does a media query that activates when width is smaller than 800px: */
 @media screen and (max-width: 800px) {
+  /* changes column above's width used in index page*/
   .column {
     width: 100%; /* The width is 100%, when the viewport is 800px or smaller.
      So this will make the colums 1 after other rather than side by side*/
   }
+  /* changes main above's width used in login and regester pages*/
+  main{
+    width: 100%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
 }
-
 /* style for the Login page/ signup*/
 #user {
     width: auto;
