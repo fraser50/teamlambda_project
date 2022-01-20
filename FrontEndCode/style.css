@@ -67,6 +67,7 @@ main {
     width: 100%; /* The width is 100%, when the viewport is 800px or smaller.
      So this will make the colums 1 after other rather than side by side*/
   }
+}
 
 /* style for the Login page/ signup*/
 #user {
