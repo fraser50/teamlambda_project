@@ -6,7 +6,7 @@ authors: Fraser, Leah
 }
 
 body {
-    background-color: aqua;
+    background-color: darkgrey;
 }
 
 nav {
@@ -40,7 +40,7 @@ nav a.active {
   position: fixed;
   bottom: 0px;
   width: 100%;
-  background-color: white;
+  background-color: aqua;
 }
 
 main {
