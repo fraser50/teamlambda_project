@@ -168,6 +168,7 @@ app.post("/register", function(req, res) {
         return;
     }
 
+    // The password and confirm password fields should be the same
     if (pass1 != pass2) {
         res.render("register", {alert: "Passwords provided do not match!"});
         return;
@@ -183,14 +184,18 @@ app.post("/register", function(req, res) {
 
     hashedpass = bcrypt.hashSync(pass1, 10);
 
+    // Attempt to insert the new user into the users table
     conn.query("INSERT INTO users (email,name,pass) VALUES (?,?,?)", [email,username,hashedpass], function (err, results) {
         if(err) {
+            // If there is an error, this most likely means a user with the same name/email address is already registered
             res.render("register", {alert: "Email/username is already registered!"});
             return;
         }
 
+        // Get the user ID (Primary Key) of the newly inserted user
         userID = results.insertId;
 
+        // Create a session for the user and redirect them to the home page
         createSession(userID, req.ip, function(sessionString) {
             res.cookie("session", sessionString);
             return res.redirect("/");
