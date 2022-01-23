@@ -154,7 +154,7 @@ app.get("/upload", function(req, res) {
 });
 
 app.get("/register", function(req, res) {
-    res.render("register", {alert: undefined});
+    res.render("register", {alert: undefined, username: undefined});
 });
 
 app.post("/register", function(req, res) {
@@ -164,19 +164,19 @@ app.post("/register", function(req, res) {
     username = req.body.username;
 
     if (!(typeof email=='string' && typeof pass1=='string' && typeof pass2=='string' && typeof username=='string')) {
-        res.render("register", {alert: "Please only enter text!"});
+        res.render("register", {alert: "Please only enter text!", username: undefined});
         return;
     }
 
     // The password and confirm password fields should be the same
     if (pass1 != pass2) {
-        res.render("register", {alert: "Passwords provided do not match!"});
+        res.render("register", {alert: "Passwords provided do not match!", username: undefined});
         return;
     }
 
     // We only want Heriot-Watt students to be able to register for now
     if (!email.endsWith("@hw.ac.uk")) {
-        res.render("register", {alert: "Sorry, you are unable to sign up with that email!"});
+        res.render("register", {alert: "Sorry, you are unable to sign up with that email!", undefined});
         return;
     }
 
@@ -188,7 +188,7 @@ app.post("/register", function(req, res) {
     conn.query("INSERT INTO users (email,name,pass) VALUES (?,?,?)", [email,username,hashedpass], function (err, results) {
         if(err) {
             // If there is an error, this most likely means a user with the same name/email address is already registered
-            res.render("register", {alert: "Email/username is already registered!"});
+            res.render("register", {alert: "Email/username is already registered!", username: undefined});
             return;
         }
 
