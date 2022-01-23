@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS sessions(
     userID INTEGER NOT NULL,
     creationDate TIMESTAMP NOT NULL,
     creationIP VARCHAR(64) NOT NULL,
-    lastUse TIMESTAMP
+    lastUse TIMESTAMP,
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS groups(
@@ -48,7 +49,9 @@ CREATE TABLE IF NOT EXISTS groupMembership(
     groupRank CHAR(1) NOT NULL,
     dateJoined DATE,
     favourite CHAR(1) NOT NULL,
-    PRIMARY KEY (userID, groupID)
+    PRIMARY KEY (userID, groupID),
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE,
+    FOREIGN KEY (groupID) REFERENCES groups(groupID) ON DELETE CASCADE
 );
 
 /*
@@ -57,18 +60,21 @@ Still needs image storing
 CREATE TABLE IF NOT EXISTS upload( 
     uploadID INTEGER PRIMARY KEY AUTO_INCREMENT,
     userID INTEGER NOT NULL,
-    groupID INTEGER NOT NULL,
+    groupID INTEGER,
     licenseType VARCHAR(150) NOT NULL,
     datePosted DATE,
     caption VARCHAR(500) NOT NULL,
-    fName VARCHAR(64) NOT NULL
+    fName VARCHAR(64) NOT NULL,
+    FOREIGN KEY (groupID) REFERENCES groups(groupID) ON DELETE SET NULL,
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS uploadComments(
     commentID INTEGER PRIMARY KEY AUTO_INCREMENT,
     userID INTEGER NOT NULL,
-    groupID INTEGER NOT NULL,
     uploadID INTEGER NOT NULL,
     datePosted DATE,
     commentContent VARCHAR(500) NOT NULL,
+    FOREIGN KEY (uploadID) REFERENCES upload(uploadID) ON DELETE CASCADE,
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
 );
