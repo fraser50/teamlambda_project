@@ -54,20 +54,21 @@ CREATE TABLE IF NOT EXISTS groupMembership(
 /*
 Still needs image storing
 */
-CREATE TABLE IF NOT EXISTS upload(
-    uploadID INTEGER PRIMARY KEY AUTO_INCREMENT
+CREATE TABLE IF NOT EXISTS upload( 
+    uploadID INTEGER PRIMARY KEY AUTO_INCREMENT,
     userID INTEGER NOT NULL,
     groupID INTEGER NOT NULL,
     licenseType VARCHAR(150) NOT NULL,
     datePosted DATE,
-    caption VARCHAR(500) NOT NULL
+    caption VARCHAR(500) NOT NULL,
+    fName VARCHAR(64) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS uploadComments(
-    commentID INTEGER PRIMARY KEY AUTO_INCREMENT
+    commentID INTEGER PRIMARY KEY AUTO_INCREMENT,
     userID INTEGER NOT NULL,
     groupID INTEGER NOT NULL,
-    uploadID CHAR(1) NOT NULL,
+    uploadID INTEGER NOT NULL,
     datePosted DATE,
     commentContent VARCHAR(500) NOT NULL,
 );
