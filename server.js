@@ -154,29 +154,31 @@ app.get("/upload", function(req, res) {
 });
 
 app.post("/upload", function(req, res) {
-    caption = req.body.caption;
-    license = req.body.license;
+    getUserFromCookies(req.headers.cookie, function (user) {
+        if (user) {
+            caption = req.body.caption;
+            license = req.body.license;
 
-    if (!(typeof caption=='string' )) {
-        res.render("upload", {alert: "Please only enter text!", username: user.name});
-        return;
-    }
+            if (!(typeof caption=='string' )) {
+                res.render("upload", {alert: "Please only enter text!", username: user.name});
+                return;
+            }
+        
+            conn.query("INSERT INTO upload (userID,licenseType,caption,fName) VALUES (?,?,?,?)", [user.userID, license, caption, "placeholder"], function (err, results) {
+                if(err) {
+                    res.render("upload", {alert: "There was a problem with your upload please try again", username: user.name});
+                    return;
+                }
 
+                // TODO: Separate page for each upload (scrapbook)
+                return res.redirect("/");
+            });
 
-       // Attempt to insert the new user into the users table
-    conn.query("INSERT INTO upload (licenseType,caption) VALUES (?,?)", [license,caption], function (err, results) {
-        if(err) {
-            // If there is an error, this most likely means a user with the same name/email address is already registered
-            res.render("upload", {alert: "There was a problem with your upload please try again", username: user.name});
-            return;
+        } else {
+            return res.redirect("/login");
         }
-
-        // Create a session for the user and redirect them to the home page
-        createSession(userID, req.ip, function(sessionString) {
-            res.cookie("session", sessionString);
-            return res.redirect("/");
-        });
     });
+    
 });
 
 app.get("/register", function(req, res) {
