@@ -111,3 +111,11 @@ main {
   width: 25%;
   height: 25%;
 }
+
+.comment {
+  background-color: white;
+  width: 80%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+}
