@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- this is a login page
+authors: Fraser, Leah -->
+<html>
+    <head>
+        <link rel="stylesheet" href="/style.css">
+        <!-- meta tag used to help css respond to mobile screens better  -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Scrapbook</title>
+    </head>
+
+    <body>
+      <!--this page will have:
+       a navigation bar at the top
+       Image along with any captions, followed by author, license, etc
+      -->
+      <%- include('includes/nav.ejs'); %>
+        <main>
+          <center>
+
+            </br>
+            </br>
+            </br>
+            
+            <img src="/placeholder.png" style="width:300px; height:300px"><br>
+            <p>Poster: <%= poster %></p><br>
+            <p>License: <%= license %></p><br><br>
+            <h2>Comments</h2><br>
+            <% if (username) { %>
+              <form action="image">
+                <input type="text"><br>
+                <input type="submit" value="Post">
+                <!-- TODO: report -->
+              </form><br>
+            <% } %>
+            <% comments.forEach(function(c) { %>
+              <div class="comment">
+                <h2><%= c.name %></h2><br><br>
+                <p><%= c.content %></p>
+              </div><br>
+            <% }); %>
+            </center>
+        </main>
+        <div class="contact">
+          <p> Contact info and legal stuff here! </p>
+        </div>
+    </body>
+
+
+</html>

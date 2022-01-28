@@ -283,6 +283,39 @@ app.get("/groups", function(req, res) {
     });
 });
 
+app.get("/image/:uploadID", function(req, res) {
+    uploadID = req.params.uploadID;
+
+    getUserFromCookies(req.headers.cookie, function (user) {
+        // TODO: Additional features when user logged in (republish, add to one of my groups, etc)
+        username = undefined;
+        if (user) {
+            username = user.name;
+        }
+
+        conn.query("SELECT upload.*,users.name FROM upload INNER JOIN users ON upload.userID=users.userID WHERE uploadID=?", [uploadID,], function(err, results) {
+            if (results.length == 1) {
+                r = results[0];
+                uname = r.name;
+
+                // TODO: Fetch actual comments from database
+
+                commentTest1 = {name: "User1", content: "Hello, I want to chat!"};
+                commentTest2 = {name: "User2", content: "What do you want to chat about?"};
+
+                res.render("image", {username: username, comments: [commentTest1, commentTest2], poster: uname, license: "Test"});
+
+            } else {
+                // TODO: Give an actual error page to the user
+                return res.status(404).send("<html><body><p>That content does not appear to exist!</p></body></html>");
+            }
+
+        });
+
+    });
+
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));
