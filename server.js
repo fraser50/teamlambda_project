@@ -3,6 +3,7 @@ const path = require("path");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
+const fs = require("fs");
 
 const multer = require("multer");
 const upload = multer({dest: "uploads/"});
@@ -159,7 +160,7 @@ app.get("/logout", function(req, res) {
 app.get("/upload", function(req, res) {
     getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
-            res.render("upload", {username: user.name});
+            res.render("upload", {username: user.name, alert: undefined});
 
         } else {
             return res.redirect("/login");
@@ -168,8 +169,9 @@ app.get("/upload", function(req, res) {
     
 });
 
+permittedExtensions = ["png", "jpg", "jpeg"];
+
 app.post("/upload", authenticateUser, upload.single("imgfile"), function(req, res) {
-    console.log(req.file);
     caption = req.body.caption;
     license = req.body.license;
 
@@ -178,14 +180,34 @@ app.post("/upload", authenticateUser, upload.single("imgfile"), function(req, re
         return;
     }
 
-    conn.query("INSERT INTO upload (userID,licenseType,caption,fName) VALUES (?,?,?,?)", [req.user.userID, license, caption, "placeholder"], function (err, results) {
+    ext = undefined;
+    permittedExtensions.forEach(function(item, i) {
+        originalName = req.file.originalname.toLowerCase();
+        if (originalName.endsWith("."+item)) {
+            ext = item;
+        }
+    });
+
+    if (ext == undefined) {
+        // TODO: Delete file
+        console.log("Invalid file extension!");
+        res.render("upload", {alert: "That upload has an invalid extension!", username: req.user.name});
+        return;
+
+    } else {
+        fs.renameSync(path.join(__dirname, "uploads/"+req.file.filename), path.join(__dirname, "uploads/"+req.file.filename+"."+ext));
+    }
+
+    fName = req.file.filename+"."+ext;
+
+    conn.query("INSERT INTO upload (userID,licenseType,caption,fName) VALUES (?,?,?,?)", [req.user.userID, license, caption, fName], function (err, results) {
         if(err) {
             res.render("upload", {alert: "There was a problem with your upload please try again", username: req.user.name});
             return;
         }
 
         // TODO: Separate page for each upload (scrapbook)
-        return res.redirect("/");
+        return res.redirect("/image/"+results.insertId);
     });
 });
 
@@ -311,7 +333,7 @@ app.get("/image/:uploadID", function(req, res) {
                 commentTest1 = {name: "User1", content: "Hello, I want to chat!"};
                 commentTest2 = {name: "User2", content: "What do you want to chat about?"};
 
-                res.render("image", {username: username, comments: [commentTest1, commentTest2], poster: uname, license: "Test"});
+                res.render("image", {username: username, comments: [commentTest1, commentTest2], poster: uname, license: "Test", fName: r.fName});
 
             } else {
                 // TODO: Give an actual error page to the user
@@ -332,5 +354,7 @@ app.get("/style.css", function(req, res) {
 app.get("/placeholder.png", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/placeholder.png"));
 });
+
+app.use("/uploads", express.static("uploads", {dotfiles: 'ignore'}));
 
 app.listen(8080);

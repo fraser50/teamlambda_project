@@ -17,7 +17,8 @@ authors: Fraser (based on index page) -->
       -->
       <%- include('includes/nav.ejs'); %>
       <main>
-        <h1>WARNING: Not functional yet</h1>
+        <%- include('includes/alert.ejs'); %>
+        <h1 style="color: red;">WARNING: Make sure no image you upload contains location data!</h1><br>
         <form action="/upload" method="post" enctype="multipart/form-data">
           <div class="row">
             <div class="column">
