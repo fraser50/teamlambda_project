@@ -4,6 +4,9 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
+const multer = require("multer");
+const upload = multer({dest: "uploads/"});
+
 var conn = mysql.createPool({
     connectionLimit : 10,
     host: process.env['MYSQL_HOST'],
@@ -59,6 +62,18 @@ function getUserFromCookies(rawCookies, callback) {
             callback(null);
         }
         
+    });
+}
+
+function authenticateUser(req, res, next) {
+    getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) {
+            req.user = user;
+            next();
+
+        } else {
+            return req.redirect("/login");
+        }
     });
 }
 
@@ -153,32 +168,25 @@ app.get("/upload", function(req, res) {
     
 });
 
-app.post("/upload", function(req, res) {
-    getUserFromCookies(req.headers.cookie, function (user) {
-        if (user) {
-            caption = req.body.caption;
-            license = req.body.license;
+app.post("/upload", authenticateUser, upload.single("imgfile"), function(req, res) {
+    console.log(req.file);
+    caption = req.body.caption;
+    license = req.body.license;
 
-            if (!(typeof caption=='string' )) {
-                res.render("upload", {alert: "Please only enter text!", username: user.name});
-                return;
-            }
-        
-            conn.query("INSERT INTO upload (userID,licenseType,caption,fName) VALUES (?,?,?,?)", [user.userID, license, caption, "placeholder"], function (err, results) {
-                if(err) {
-                    res.render("upload", {alert: "There was a problem with your upload please try again", username: user.name});
-                    return;
-                }
+    if (!(typeof caption=='string' )) {
+        res.render("upload", {alert: "Please only enter text!", username: req.user.name});
+        return;
+    }
 
-                // TODO: Separate page for each upload (scrapbook)
-                return res.redirect("/");
-            });
-
-        } else {
-            return res.redirect("/login");
+    conn.query("INSERT INTO upload (userID,licenseType,caption,fName) VALUES (?,?,?,?)", [req.user.userID, license, caption, "placeholder"], function (err, results) {
+        if(err) {
+            res.render("upload", {alert: "There was a problem with your upload please try again", username: req.user.name});
+            return;
         }
+
+        // TODO: Separate page for each upload (scrapbook)
+        return res.redirect("/");
     });
-    
 });
 
 app.get("/register", function(req, res) {

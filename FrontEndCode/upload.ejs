@@ -18,7 +18,7 @@ authors: Fraser (based on index page) -->
       <%- include('includes/nav.ejs'); %>
       <main>
         <h1>WARNING: Not functional yet</h1>
-        <form action="/upload" method="post">
+        <form action="/upload" method="post" enctype="multipart/form-data">
           <div class="row">
             <div class="column">
                  <img src="placeholder.png" style="width:250px; height:250px;"><br>
@@ -34,6 +34,7 @@ authors: Fraser (based on index page) -->
                    <option>C</option>
                 </select><br>
                 <input type="submit" value="Upload" class="inputbutton">
+                <input type="file" name="imgfile">
             </div>
          </div>
         </form>
