@@ -118,4 +118,6 @@ main {
   border-width: 1px;
   border-style: solid;
   border-color: black;
+  word-wrap: break-word;
+  text-align: left;
 }

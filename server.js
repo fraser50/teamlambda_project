@@ -100,8 +100,8 @@ app.get("/", function(req, res) {
 app.get("/login", function(req, res) {
     conn.query("SELECT COUNT(*) AS numberOfUsers FROM users", function(err, results){
         number = results[0].numberOfUsers;
+        res.render("login", {alert: undefined, username: undefined, users: number});
     });
-    res.render("login", {alert: undefined, username: undefined, users: number});
 });
 
 app.post("/login", function(req, res) {
@@ -332,12 +332,13 @@ app.get("/image/:uploadID", function(req, res) {
                 r = results[0];
                 uname = r.name;
 
-                // TODO: Fetch actual comments from database
+                // Fetch comments from database
+                conn.query("SELECT commentID,commentContent AS content,datePosted,users.name FROM uploadComments INNER JOIN users ON users.userID=uploadComments.userID WHERE uploadID=?",
+                [uploadID,], function(err, results) {
+                    res.render("image", {username: username, comments: results, poster: uname, license: "Test", fName: r.fName, uploadID: uploadID});
 
-                commentTest1 = {name: "User1", content: "Hello, I want to chat!"};
-                commentTest2 = {name: "User2", content: "What do you want to chat about?"};
 
-                res.render("image", {username: username, comments: [commentTest1, commentTest2], poster: uname, license: "Test", fName: r.fName});
+                });
 
             } else {
                 // TODO: Give an actual error page to the user
@@ -347,6 +348,19 @@ app.get("/image/:uploadID", function(req, res) {
         });
 
     });
+});
+
+app.post("/image/:uploadID/comment", authenticateUser, function(req, res) {
+    uploadID = req.params.uploadID;
+
+    if (typeof req.body.comment != "string") {
+        return res.redirect("/image/"+uploadID);
+    }
+
+    conn.query("INSERT INTO uploadComments (userID,uploadID,datePosted,commentContent) VALUES (?,?,?,?)", [req.user.userID,uploadID, new Date(), req.body.comment], function(err, results) {
+        return res.redirect("/image/"+uploadID);
+    });
+
 });
 
 // TODO: Use a static directory for things like stylesheets, images, etc
