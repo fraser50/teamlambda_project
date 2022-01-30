@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- this is an administration page
+authors: Emily -->
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <!-- meta tag used to help css respond to mobile screens better -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Page</title>
+    </head>
+
+    <body>
+      <!--this page will have:
+       a navigation bar at the top
+       a section for the websites administration and a section with statistics about the website
+       and a section at the bottom to show the teams contact information and any legal stuff
+      -->
+      
+      <%- include('includes/nav.ejs'); %>
+      <div class="row">
+         <div class="column">
+              <p> this is where the administration info is displayed </p>
+         </div>
+         <div class="column">
+              <p> this is where the websites statistics are displayed </p>
+         </div>
+      </div>
+      <div class="contact">
+        <p> Contact info and legal stuff here! </p>
+      </div>
+
+    </body>
+
+</html>
