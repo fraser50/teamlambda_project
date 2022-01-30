@@ -101,7 +101,7 @@ app.get("/login", function(req, res) {
     conn.query("SELECT COUNT(userID) FROM users", function(err, results){
         var number = results[0];
     });
-    res.render("login", {alert: undefined, username: undefined, number:number});
+    res.render("login", {alert: undefined, username: undefined, users: number});
 });
 
 app.post("/login", function(req, res) {
