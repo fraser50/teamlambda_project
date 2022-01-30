@@ -98,8 +98,8 @@ app.get("/", function(req, res) {
 
 
 app.get("/login", function(req, res) {
-    conn.query("SELECT COUNT(userID) FROM users", function(err, results){
-        var number = results[0];
+    conn.query("SELECT COUNT(*) AS numberOfUsers FROM users", function(err, results){
+        var number = results[0].numberOfUsers;
     });
     res.render("login", {alert: undefined, username: undefined, users: number});
 });
