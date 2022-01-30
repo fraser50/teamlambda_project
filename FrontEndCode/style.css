@@ -6,7 +6,7 @@ authors: Fraser, Leah
 }
 
 body {
-    background-color: silver;
+    background-color: whitesmoke;
 }
 
 nav {
@@ -40,7 +40,7 @@ nav a.active {
   position: fixed;
   bottom: 0px;
   width: 100%;
-  background-color: royalblue;
+  background-color: silver;
 }
 
 /* used in login and register page for to hold the form */
