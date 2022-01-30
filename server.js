@@ -96,6 +96,12 @@ app.get("/", function(req, res) {
     });
 });
 
+app.get("/login", function(res){
+    conn.query("SELECT COUNT(userID) FROM users", function(err, results){
+        number = results[0];
+    });
+});
+
 app.get("/login", function(req, res) {
     res.render("login", {alert: undefined, username: undefined});
 });
@@ -343,7 +349,6 @@ app.get("/image/:uploadID", function(req, res) {
         });
 
     });
-
 });
 
 // TODO: Use a static directory for things like stylesheets, images, etc
