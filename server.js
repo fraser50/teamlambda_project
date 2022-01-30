@@ -96,14 +96,11 @@ app.get("/", function(req, res) {
     });
 });
 
-app.get("/login", function(res){
-    conn.query("SELECT COUNT(userID) FROM users", function(err, results){
-        number = results[0];
-        res.render("login", {number: number});
-    });
-});
 
 app.get("/login", function(req, res) {
+    conn.query("SELECT COUNT(userID) FROM users", function(err, results){
+        number = results[0];
+    });
     res.render("login", {alert: undefined, username: undefined});
 });
 
