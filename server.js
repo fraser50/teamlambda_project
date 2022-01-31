@@ -195,8 +195,8 @@ app.post("/upload", authenticateUser, upload.single("imgfile"), function(req, re
     });
 
     if (ext == undefined) {
-        // TODO: Delete file
         console.log("Invalid file extension!");
+        fs.unlinkSync(path.join(path.__dirname, "uploads/"+req.file.originalname));
         res.render("upload", {alert: "That upload has an invalid extension!", username: req.user.name});
         return;
 
