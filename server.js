@@ -315,6 +315,9 @@ app.get("/groups", function(req, res) {
             return res.redirect("/login");
         }
     });
+    conn.query("SELECT groupID FROM groups", function(err, results1, fields){
+        res.render("groups", {groupID: results1});
+    });
 });
 
 app.get("/image/:uploadID", function(req, res) {
