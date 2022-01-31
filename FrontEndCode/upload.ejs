@@ -34,6 +34,12 @@ authors: Fraser (based on index page) -->
                    <option>B</option>
                    <option>C</option>
                 </select><br>
+                <select name="selectedgroup">
+                  <option value="none">No group</option>
+                  <% groups.forEach(function(g) { %>
+                    <option value="<%= g.groupID %>"><%= g.groupName %></option>
+                  <% }); %>
+                </select>
                 <input type="submit" value="Upload" class="inputbutton">
                 <input type="file" name="imgfile">
             </div>

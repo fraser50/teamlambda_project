@@ -164,7 +164,9 @@ app.get("/logout", function(req, res) {
 app.get("/upload", function(req, res) {
     getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
-            res.render("upload", {username: user.name, alert: undefined});
+            conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
+                res.render("upload", {username: user.name, alert: undefined, groups: results});
+            });
 
         } else {
             return res.redirect("/login");
@@ -179,7 +181,7 @@ app.post("/upload", authenticateUser, upload.single("imgfile"), function(req, re
     caption = req.body.caption;
     license = req.body.license;
 
-    if (!(typeof caption=='string' )) {
+    if (!(typeof caption=='string' && typeof req.body.selectedgroup=='string')) {
         res.render("upload", {alert: "Please only enter text!", username: req.user.name});
         return;
     }
@@ -204,7 +206,9 @@ app.post("/upload", authenticateUser, upload.single("imgfile"), function(req, re
 
     fName = req.file.filename+"."+ext;
 
-    conn.query("INSERT INTO upload (userID,licenseType,caption,fName) VALUES (?,?,?,?)", [req.user.userID, license, caption, fName], function (err, results) {
+    selectedgroup = req.body.selectedgroup == "none" ? null : parseInt(req.body.selectedgroup);
+
+    conn.query("INSERT INTO upload (userID,licenseType,caption,fName,groupID) VALUES (?,?,?,?,?)", [req.user.userID, license, caption, fName, selectedgroup], function (err, results) {
         if(err) {
             res.render("upload", {alert: "There was a problem with your upload please try again", username: req.user.name});
             return;
