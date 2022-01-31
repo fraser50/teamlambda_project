@@ -5,17 +5,10 @@
         <link rel="stylesheet" href="style.css">
         <!-- meta tag used to help css respond to mobile screens better  -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Groups</title>
+        <title>Group</title>
     </head>
     <%- include('includes/nav.ejs'); %>
     <main>
-        <% groups.forEach(function(g) { %>
-            <div class="group">
-                <h2><%= g.groupName %></h2>
-                <br>
-                <img src="/placeholder.png" style="width:50%;height:50%;"><br>
-                <p><%= g.groupDesc %></p>
-            </div><br>
-        <% }); %>
+
     </main>
 </html>
