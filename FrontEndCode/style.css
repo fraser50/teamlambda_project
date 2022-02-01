@@ -108,8 +108,9 @@ main {
 .group {
     diplay: flex;
     padding: 2px;
+}
     
-&_column{
+.group_column{
   background-color: white;
   border-width: 5px;
   border-style: solid;
@@ -121,16 +122,16 @@ main {
     width: 25%;
 }
 
-&_thumb { 
+.group_thumb { 
     position: reative;
 }
 
-&_image {
+.group_image {
     display: block;
     width: 100%;
 }
 
-&_description {
+.group_description {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -138,7 +139,7 @@ main {
     width: 100;
     font-size: 16px;
 }
-}
+
     
 
 .comment {
