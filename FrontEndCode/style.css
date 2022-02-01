@@ -110,6 +110,9 @@ main {
   border-color: black;
   width: 35%;
   height: 35%;
+  display: flex;
+  padding: 2px;
+  transition:.3s;
 }
 
 .comment {
