@@ -112,6 +112,9 @@ main {
   border-color: black;
   width: 35%;
   height: 35%;
+}
+
+.group_column {
   display: flex;
   padding: 2px;
   transition:.3s;
