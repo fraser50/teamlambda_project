@@ -48,7 +48,7 @@ nav a.active {
 /* used in login and register page for to hold the form */
 main {
     background-color: silver;
-    width: 50%;
+    width: 100%;
     margin-left: 25%;
     margin-right: 25%;
 }
