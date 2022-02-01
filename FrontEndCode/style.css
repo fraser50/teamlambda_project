@@ -3,6 +3,8 @@ authors: Fraser, Leah
 */
 * {
     margin: 0px;
+    padding: 0;
+    user-select: none;    
 }
 
 body {
