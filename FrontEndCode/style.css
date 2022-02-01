@@ -112,7 +112,9 @@ main {
   border-color: black;
   width: 25%;
   height: 25%;
-  display: inline-grid;
+  display: grid;
+    grid-column-gap: 50px;
+    grid-row-gap:50px;
 }  
 
 .comment {
