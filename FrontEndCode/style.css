@@ -124,3 +124,8 @@ main {
   word-wrap: break-word;
   text-align: left;
 }
+
+.group_image {
+  width: 50px;
+  height: 50px;
+}
