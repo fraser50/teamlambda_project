@@ -112,7 +112,7 @@ main {
   border-color: black;
   width: 25%;
   height: 25%;
-  display: grid;
+  display: inline-grid;
 }  
 
 .comment {
