@@ -120,6 +120,25 @@ main {
     flex-direction: column;
     width: 25%;
 }
+}
+&_thumb { 
+    position: reative;
+}
+
+&_image {
+    display: block;
+    width: 100%;
+}
+
+&_description {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 25px 15px 15px;
+    width: 100;
+    font-size: 16px;
+}
+    
 
 .comment {
   background-color: white;
