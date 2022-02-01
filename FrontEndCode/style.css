@@ -120,7 +120,7 @@ main {
     flex-direction: column;
     width: 25%;
 }
-}
+
 &_thumb { 
     position: reative;
 }
@@ -137,6 +137,7 @@ main {
     padding: 25px 15px 15px;
     width: 100;
     font-size: 16px;
+}
 }
     
 
