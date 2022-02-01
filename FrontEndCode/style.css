@@ -119,7 +119,6 @@ main {
   padding: 2px;
   transition:.3s;
   flex-direction: column;
-  width: 25%;
 }
 
 .comment {
