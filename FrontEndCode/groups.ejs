@@ -11,12 +11,15 @@
     <body>
         <% groups.forEach(function(g) { %>
             <div class="group">
-            <div class="group_column">
-                <h2><%= g.groupName %></h2>
-                <br>
-                <img src="/placeholder.png" ><br>
-                <p><%= g.groupDesc %></p>
-                </div>
+                <div class="group_column">
+                    <h2><%= g.groupName %></h2>
+                    <br>
+                    <figure class="thumb">
+                        <img src="/placeholder.png"  class="image"><br>
+                        <figcaption class="description"
+                            <p><%= g.groupDesc %></p></figcaption>
+                    </figure>
+                    </div>
             </div><br>
         <% }); %>
     </body>
