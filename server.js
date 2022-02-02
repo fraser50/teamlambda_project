@@ -89,7 +89,6 @@ app.get("/", function(req, res) {
     getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
             res.render("index", {username: user.name});
-
         } else {
             res.render("index", {username: undefined});
         }
@@ -389,5 +388,15 @@ app.get("/placeholder.png", function(req, res) {
 });
 
 app.use("/uploads", express.static("uploads", {dotfiles: 'ignore'}));
+
+app.get("/support", function(req, res) {
+        getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) {
+            res.render("support", {username: user.name});
+        } else {
+            res.render("support", {username: undefined});
+        }
+    });
+});
 
 app.listen(8080);
