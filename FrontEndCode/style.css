@@ -28,13 +28,13 @@ nav  * {
 
 /* Change the color of links on hover */
 nav a:hover {
-  background-color: LightSkyBlue;
-  color: Black;
+  background-color: DodgerBlue;
+  color: White;
 }
 
 /* Add a color to the active/current link */
 nav a.active {
-  background-color: DeepSkyBlue;
+  background-color: DodgerBlue;
   color: White;
 }
 
@@ -47,7 +47,7 @@ nav a.active {
 
 /* used in login and register page for to hold the form */
 main {
-    background-color: LightSkyBlue;
+    background-color: lightGray;
     width: 50%;
     margin-left: 25%;
     margin-right: 25%;
@@ -84,7 +84,7 @@ main {
     height: 50px;
     float: center;
     text-align: center;
-    background-color: LightSkyBlue;
+    background-color: lightGray;
 }
 
 .inputfield {
