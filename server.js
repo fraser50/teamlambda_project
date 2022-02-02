@@ -96,10 +96,12 @@ app.get("/", function(req, res) {
     });
 });
 
+currentUsersNum = 0;
 
 app.get("/login", function(req, res) {
     conn.query("SELECT COUNT(*) AS numberOfUsers FROM users", function(err, results){
         number = results[0].numberOfUsers;
+        currentUsersNum = number;
         res.render("login", {alert: undefined, username: undefined, users: number});
     });
 });
@@ -109,7 +111,7 @@ app.post("/login", function(req, res) {
     pass = req.body.pass;
 
     if (!(typeof email=='string' && typeof pass=='string')) {
-        res.render("login", {alert: "Please only enter text!", username: undefined});
+        res.render("login", {alert: "Please only enter text!", username: undefined, users: currentUsersNum});
         return;
     }
 
@@ -118,7 +120,7 @@ app.post("/login", function(req, res) {
     conn.query('SELECT userID,email,pass,name FROM users WHERE email=?', [email], function (error, results, fields) {
         if (results.length == 0) {
             // If there are no results, then that user does not exist
-            res.render("login", {alert: "User does not exist!", username: undefined});
+            res.render("login", {alert: "User does not exist!", username: undefined, users: currentUsersNum});
             return;
         }
 
@@ -136,7 +138,7 @@ app.post("/login", function(req, res) {
                 });
 
             } else {
-                res.render("login", {alert: "Password was incorrect!", username: undefined});
+                res.render("login", {alert: "Password was incorrect!", username: undefined, users: currentUsersNum});
             }
         });
 
