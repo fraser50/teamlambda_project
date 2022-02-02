@@ -373,7 +373,7 @@ app.post("/image/:uploadID/comment", authenticateUser, function(req, res) {
 
 app.get("/group/:groupID", authenticateUser, function(req, res) {
     conn.query("SELECT * FROM upload WHERE groupID=?", [req.params.groupID],function(err, results, fields) {
-    res.render("group", {username: user.name, group: results});
+    res.render("group", {username: req.user.name, group: results});
     });
 });
 
