@@ -8,7 +8,7 @@ authors: Fraser, Leah, Emily, Kath
 }
 
 body {
-    background-color: DimGrey;
+    background-color: Grey;
 }
 
 nav {
@@ -34,7 +34,7 @@ nav a:hover {
 
 /* Add a color to the active/current link */
 nav a.active {
-  background-color: dimgrey;
+  background-color: red;
   color: white;
 }
 
