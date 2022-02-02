@@ -220,7 +220,10 @@ app.post("/upload", authenticateUser, upload.single("imgfile"), function(req, re
 });
 
 app.get("/register", function(req, res) {
+    conn.query("SELECT COUNT(*) AS numberOfUsers FROM users", function(err, results){
+        number = results[0].numberOfUsers;
     res.render("register", {alert: undefined, username: undefined});
+    });
 });
 
 app.post("/register", function(req, res) {
