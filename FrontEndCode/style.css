@@ -13,8 +13,8 @@ body {
 
 nav {
     width: 100%;
-    height: 55px;
-    background-color: DarkSlateGray;
+    height: 50px;
+    background-color: DarkBlue;
     overflow: hidden;
 }
 nav  * {
@@ -29,13 +29,13 @@ nav  * {
 /* Change the color of links on hover */
 nav a:hover {
   background-color: silver;
-  color: black;
+  color: DarkBlue;
 }
 
 /* Add a color to the active/current link */
 nav a.active {
-  background-color: white;
-  color: black;
+  background-color: whiteSmoke;
+  color: DarkBlue;
 }
 
 .contact {
