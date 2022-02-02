@@ -388,6 +388,7 @@ app.get("/placeholder.png", function(req, res) {
 });
 
 app.use("/uploads", express.static("uploads", {dotfiles: 'ignore'}));
+app.use("/static", express.static("static", {dotfiles: 'ignore'}));
 
 app.get("/support", function(req, res) {
         getUserFromCookies(req.headers.cookie, function(user) {
