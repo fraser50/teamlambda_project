@@ -3,8 +3,7 @@ authors: Fraser, Leah, Emily, Kath
 */
 * {
     margin: 0px;
-    padding: 0;
-    user-select: none;    
+    padding: 0; 
 }
 body {
     background-color: DimGray;
