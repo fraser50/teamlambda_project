@@ -340,11 +340,12 @@ app.get("/image/:uploadID", function(req, res) {
             if (results.length == 1) {
                 r = results[0];
                 uname = r.name;
+                caption = r.caption;
 
                 // Fetch comments from database
                 conn.query("SELECT commentID,commentContent AS content,datePosted,users.name FROM uploadComments INNER JOIN users ON users.userID=uploadComments.userID WHERE uploadID=?",
                 [uploadID,], function(err, results) {
-                    res.render("image", {username: username, comments: results, poster: uname, license: "Test", fName: r.fName, uploadID: uploadID});
+                    res.render("image", {username: username, comments: results, poster: uname, caption: caption, license: "Test", fName: r.fName, uploadID: uploadID});
 
 
                 });
