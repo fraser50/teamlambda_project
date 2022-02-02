@@ -7,12 +7,13 @@ authors: Fraser, Leah, Emily, Kath
     user-select: none;    
 }
 body {
-    background-color: lightSkyBlue;
+    background-color: black;
+    color: white;
 }
 nav {
     width: 100%;
     height: 48px;
-    background-color: Gray;
+    background-color: DimGray;
     overflow: hidden;
 }
 nav  * {
@@ -25,19 +26,20 @@ nav  * {
 }
 /* Change the color of links on hover */
 nav a:hover {
-  background-color: silver;
+  background-color: Gray;
   color: white;
 }
 /* Add a color to the active/current link */
 nav a.active {
-  background-color: DimGray;
+  background-color: cornflowerblue;
   color: white;
 }
 .contact {
   position: fixed;
   bottom: 0px;
   width: 100%;
-  background-color: silver;
+  background-color: Gray;
+  color: white;
 }
 /* used in login and register page for to hold the form */
 main {
