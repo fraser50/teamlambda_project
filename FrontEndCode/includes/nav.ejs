@@ -2,7 +2,7 @@
 authors: Fraser, Leah, Emily -->
 <nav>
   <!-- this will contain the buttons at the top of the screen for navigation -->
-    <a class="active" href="/">Home</a>
+    <a href="/">Home</a>
     <a href="/groups">Groups</a>
     <a href="/support">Help</a>
     <% if (username) { %>
@@ -14,4 +14,14 @@ authors: Fraser, Leah, Emily -->
     <% } else { %>
       <a href="/login">Log In</a>
     <% } %>
+
+    <script>
+      var elements = document.getElementsByTagName("a");
+      for (i=0; i<elements.length; i++) {
+        element = elements[i];
+        if (element.href.endsWith(document.location.pathname)) {
+          element.className = "active";
+        }
+      }
+    </script>
   </nav>
