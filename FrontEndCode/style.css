@@ -1,5 +1,5 @@
 /* here will be where all the CSS code goes for all the pages
-authors: Fraser, Leah
+authors: Fraser, Leah, Emily, Kath
 */
 * {
     margin: 0px;
@@ -8,13 +8,13 @@ authors: Fraser, Leah
 }
 
 body {
-    background-color: dimgrey;
+    background-color: whiteSmoke;
 }
 
 nav {
     width: 100%;
-    height: 60px;
-    background-color: silver;
+    height: 55px;
+    background-color: DarkSlateGray;
     overflow: hidden;
 }
 nav  * {
@@ -28,14 +28,14 @@ nav  * {
 
 /* Change the color of links on hover */
 nav a:hover {
-  background-color: white;
+  background-color: silver;
   color: black;
 }
 
 /* Add a color to the active/current link */
 nav a.active {
-  background-color: aqua;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .contact {
