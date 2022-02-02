@@ -12,7 +12,8 @@
         <main>
             <center>
             <% groups.forEach(function(g) { %>
-                <a href="/group/<%= g.groupID %>"></a><div class="group">
+                <div class="group">
+                    <a href="/group/<%= g.groupID %>" style="color: black; text-decoration: none;">
                     <div class="group_column">
                         <h2><%= g.groupName %></h2>
                         <br>
@@ -20,9 +21,9 @@
                             <img src="/placeholder.png" style="width:50%;height:50%;" class="group_image"><br>
                             <figcaption class="group_description"
                                 <p><%= g.groupDesc %></p></figcaption>
-                        </figure>
+                        </figure></div></a>
                         </div>
-                </div></a><br>
+                </div><br>
             <% }); %>
             </center>
         </main>

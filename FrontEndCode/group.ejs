@@ -12,7 +12,7 @@
         <main>
             <center>
             <% group.forEach(function(u) { %>
-                <a href="/image/<%= u.uploadID %>""></a>
+                <a href="/image/<%= u.uploadID %>" style="color: black; text-decoration: none;">
                 <div class="upload">
                     <div class="upload_column">
 
@@ -21,7 +21,7 @@
                             <figcaption class="upload_caption"
                                 <p><%= u.caption %></p></figcaption>
                         </figure>
-                        </div>
+                        </div></a>
                 </div><br>
             <% }); %>
             </center>
