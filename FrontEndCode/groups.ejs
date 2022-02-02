@@ -9,18 +9,22 @@
     </head>
     <%- include('includes/nav.ejs'); %>
     <body>
-        <% groups.forEach(function(g) { %>
-            <div class="group">
-                <div class="group_column">
-                    <a href="/group/<%= g.groupID %>"><h2><%= g.groupName %></h2></a>
-                    <br>
-                    <figure class="group_thumb">
-                        <img src="/placeholder.png" style="width:50%;height:50%;" class="group_image"><br>
-                        <figcaption class="group_description"
-                            <p><%= g.groupDesc %></p></figcaption>
-                    </figure>
-                    </div>
-            </div><br>
-        <% }); %>
+        <main>
+            <center>
+            <% groups.forEach(function(g) { %>
+                <a href="/group/<%= g.groupID %>"></a><div class="group">
+                    <div class="group_column">
+                        <h2><%= g.groupName %></h2>
+                        <br>
+                        <figure class="group_thumb">
+                            <img src="/placeholder.png" style="width:50%;height:50%;" class="group_image"><br>
+                            <figcaption class="group_description"
+                                <p><%= g.groupDesc %></p></figcaption>
+                        </figure>
+                        </div>
+                </div></a><br>
+            <% }); %>
+            </center>
+        </main>
     </body>
 </html>
