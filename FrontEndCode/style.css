@@ -94,13 +94,6 @@ main {
   width: 10%;
   padding: 25px;
 }
-.group {
-  background-color: white;
-  border-width: 5px;
-  border-style: solid;
-  border-color: black;
-  width: 25%;
-  height: 25%;
 
 .inputfield {
     width: 80%;
@@ -120,7 +113,7 @@ main {
   padding: 25px;
 }
 
-.group {
+.group, .upload {
   background-color: white;
   border-width: 5px;
   border-style: solid;
