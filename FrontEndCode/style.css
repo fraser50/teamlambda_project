@@ -8,13 +8,13 @@ authors: Fraser, Leah, Emily, Kath
 }
 
 body {
-    background-color: LightSkyBlue;
+    background-color: whiteSmoke;
 }
 
 nav {
     width: 100%;
     height: 48px;
-    background-color: black;
+    background-color: DeepSkyBlue;
     overflow: hidden;
 }
 nav  * {
@@ -34,7 +34,7 @@ nav a:hover {
 
 /* Add a color to the active/current link */
 nav a.active {
-  background-color: DeepSkyBlue;
+  background-color: Black;
   color: white;
 }
 
@@ -47,7 +47,7 @@ nav a.active {
 
 /* used in login and register page for to hold the form */
 main {
-    background-color: white;
+    background-color: LightSkyBlue;
     width: 50%;
     margin-left: 25%;
     margin-right: 25%;
@@ -84,7 +84,7 @@ main {
     height: 50px;
     float: center;
     text-align: center;
-    background-color: black;
+    background-color: Silver;
     color:white;
 }
 
