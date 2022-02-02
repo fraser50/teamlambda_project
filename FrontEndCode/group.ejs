@@ -1,5 +1,5 @@
 <html>
-    <!-- This page contains all registered groups (that are public) -->
+    <!-- This page contains all of a groups uploads (that are public) -->
 
     <head>
         <link rel="stylesheet" href="style.css">
@@ -14,7 +14,7 @@
                 <div class="upload_column">
                     
                     <figure class="upload_thumb">
-                        <img src="/placeholder.png" style="width:50%;height:50%;" class="group_image"><br>
+                        <img src="/upload/<%= u.fName %>" style="width:50%;height:50%;" class="group_image"><br>
                         <figcaption class="upload caption\"
                             <p><%= u.caption %></p></figcaption>
                     </figure>
