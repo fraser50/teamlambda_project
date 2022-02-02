@@ -7,7 +7,7 @@ authors: Fraser, Leah, Emily, Kath
     user-select: none;    
 }
 body {
-    background-color: lightGray;
+    background-color: lightSkyBlue;
 }
 nav {
     width: 100%;
@@ -25,8 +25,8 @@ nav  * {
 }
 /* Change the color of links on hover */
 nav a:hover {
-  background-color: white;
-  color: black;
+  background-color: silver;
+  color: white;
 }
 /* Add a color to the active/current link */
 nav a.active {
