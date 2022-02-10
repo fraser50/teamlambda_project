@@ -2,11 +2,12 @@ const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
 const fs = require("fs");
 
 const multer = require("multer");
 const upload = multer({dest: "uploads/"});
+
+const util = require("./util.js");
 
 var conn = mysql.createPool({
     connectionLimit : 10,
@@ -16,67 +17,7 @@ var conn = mysql.createPool({
     database: process.env["MYSQL_DB"]
 });
 
-//TODO: Separate this into a seperate utilities file (util.js)
-
-// Generate a session for a given user, and provides the session ID to the given callback
-function createSession(userID, ip, callback) {
-    currentTime = new Date();
-    sessionString = crypto.randomBytes(32).toString("hex");
-
-    conn.query("INSERT INTO sessions (sessionString,userID,creationDate,creationIP) VALUES (?,?,?,?)",
-    [sessionString, userID, currentTime, ip], function (error, results, fields) {
-        if (error) throw error;
-
-        callback(sessionString);
-    });
-}
-
-function parseCookies(cookies) {
-    cookieDict = {};
-    if (cookies == undefined) return cookieDict;
-    cookies.split("; ").forEach(function (c, i) {
-        cookieData = c.split("=");
-        cookieName = cookieData[0];
-        cookieContents = cookieData[1];
-
-        cookieDict[cookieName] = cookieContents;
-    });
-
-    return cookieDict;
-}
-
-function getUserFromCookies(rawCookies, callback) {
-    cookies = parseCookies(rawCookies);
-
-    var session = cookies.session;
-    
-    if (session == undefined || typeof session != "string") {
-        callback(null);
-        return;
-    }
-
-    conn.query("SELECT users.userID,email,name,admin,avatar,approved FROM users INNER JOIN sessions ON users.userID=sessions.userID AND sessions.sessionString=?", [session], function(error, results, fields) {
-        if (results.length == 1) {
-            callback(results[0]);
-
-        } else {
-            callback(null);
-        }
-        
-    });
-}
-
-function authenticateUser(req, res, next) {
-    getUserFromCookies(req.headers.cookie, function(user) {
-        if (user) {
-            req.user = user;
-            next();
-
-        } else {
-            return req.redirect("/login");
-        }
-    });
-}
+util.setConnection(conn);
 
 const app = express();
 app.use(express.json());
@@ -86,7 +27,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
 
 app.get("/", function(req, res) {
-    getUserFromCookies(req.headers.cookie, function(user) {
+    util.getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
             res.render("index", {username: user.name});
         } else {
@@ -131,7 +72,7 @@ app.post("/login", function(req, res) {
         // Compare password against hash
         bcrypt.compare(pass, dbpass, function(err, result) {
             if (result) {
-                createSession(userID, req.ip, function(sessionString) {
+                util.createSession(userID, req.ip, function(sessionString) {
                     res.cookie("session", sessionString);
                     return res.redirect("/");
                 });
@@ -147,7 +88,7 @@ app.post("/login", function(req, res) {
 app.get("/logout", function(req, res) {
     username = undefined;
 
-    cookies = parseCookies(req.headers.cookie);
+    cookies = util.parseCookies(req.headers.cookie);
 
     session = cookies.session;
 
@@ -163,7 +104,7 @@ app.get("/logout", function(req, res) {
 });
 
 app.get("/upload", function(req, res) {
-    getUserFromCookies(req.headers.cookie, function(user) {
+    util.getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
             conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
                 res.render("upload", {username: user.name, alert: undefined, groups: results});
@@ -178,7 +119,7 @@ app.get("/upload", function(req, res) {
 
 permittedExtensions = ["png", "jpg", "jpeg"];
 
-app.post("/upload", authenticateUser, upload.single("imgfile"), function(req, res) {
+app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(req, res) {
     caption = req.body.caption;
     license = req.body.license;
 
@@ -266,7 +207,7 @@ app.post("/register", function(req, res) {
         userID = results.insertId;
 
         // Create a session for the user and redirect them to the home page
-        createSession(userID, req.ip, function(sessionString) {
+        util.createSession(userID, req.ip, function(sessionString) {
             res.cookie("session", sessionString);
             return res.redirect("/");
         });
@@ -274,7 +215,7 @@ app.post("/register", function(req, res) {
 });
 
 app.get("/creategroup", function(req, res) {
-    getUserFromCookies(req.headers.cookie, function(user) {
+    util.getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
             res.render("creategroup", {alert: undefined, username: user.name});
 
@@ -285,7 +226,7 @@ app.get("/creategroup", function(req, res) {
 });
 
 app.post("/creategroup", function(req, res) {
-    getUserFromCookies(req.headers.cookie, function(user) {
+    util.getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
             groupname = req.body.groupname;
             groupdesc = req.body.groupdesc;
@@ -312,7 +253,7 @@ app.post("/creategroup", function(req, res) {
 });
 
 app.get("/groups", function(req, res) {
-    getUserFromCookies(req.headers.cookie, function(user) {
+    util.getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
             conn.query("SELECT * FROM groups", function(err, results, fields) {
                 res.render("groups", {username: user.name, groups: results});
@@ -329,7 +270,7 @@ app.get("/groups", function(req, res) {
 app.get("/image/:uploadID", function(req, res) {
     uploadID = req.params.uploadID;
 
-    getUserFromCookies(req.headers.cookie, function (user) {
+    util.getUserFromCookies(req.headers.cookie, function (user) {
         // TODO: Additional features when user logged in (republish, add to one of my groups, etc)
         username = undefined;
         if (user) {
@@ -360,7 +301,7 @@ app.get("/image/:uploadID", function(req, res) {
     });
 });
 
-app.post("/image/:uploadID/comment", authenticateUser, function(req, res) {
+app.post("/image/:uploadID/comment", util.authenticateUser, function(req, res) {
     uploadID = req.params.uploadID;
 
     if (typeof req.body.comment != "string") {
@@ -373,7 +314,7 @@ app.post("/image/:uploadID/comment", authenticateUser, function(req, res) {
 
 });
 
-app.get("/group/:groupID", authenticateUser, function(req, res) {
+app.get("/group/:groupID", util.authenticateUser, function(req, res) {
     conn.query("SELECT * FROM upload WHERE groupID=?", [req.params.groupID],function(err, results, fields) {
     res.render("group", {username: req.user.name, group: results});
     });
@@ -392,7 +333,7 @@ app.use("/uploads", express.static("uploads", {dotfiles: 'ignore'}));
 app.use("/static", express.static("static", {dotfiles: 'ignore'}));
 
 app.get("/support", function(req, res) {
-        getUserFromCookies(req.headers.cookie, function(user) {
+        util.getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
             res.render("support", {username: user.name});
         } else {
