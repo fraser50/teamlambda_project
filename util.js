@@ -53,6 +53,7 @@ function getUserFromCookies(rawCookies, callback) {
     });
 }
 
+// This function tries to authenticate a user and will send them to the login page if they're not logged in
 function authenticateUser(req, res, next) {
     getUserFromCookies(req.headers.cookie, function(user) {
         if (user) {
@@ -60,12 +61,21 @@ function authenticateUser(req, res, next) {
             next();
 
         } else {
-            return req.redirect("/login");
+            return res.redirect("/login");
         }
     });
 }
+
+// This function tries to authenticate a user but will still let them in if they're not logged in
+function authenticateUserOptional(req, res, next) {
+    getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) req.user = user;
+        next();
+    });
+}
+
 exports.setConnection = setConnection;
 exports.createSession = createSession;
 exports.parseCookies = parseCookies;
-exports.getUserFromCookies = getUserFromCookies;
 exports.authenticateUser = authenticateUser;
+exports.authenticateUserOptional = authenticateUserOptional;

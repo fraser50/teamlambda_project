@@ -26,14 +26,13 @@ app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
 
-app.get("/", function(req, res) {
-    util.getUserFromCookies(req.headers.cookie, function(user) {
-        if (user) {
-            res.render("index", {username: user.name});
-        } else {
-            res.render("index", {username: undefined});
-        }
-    });
+app.get("/", util.authenticateUserOptional, function(req, res) {
+    if (req.user) {
+        res.render("index", {username: req.user.name});
+
+    } else {
+        res.render("index", {username: undefined});
+    }
 });
 
 currentUsersNum = 0;
@@ -103,16 +102,9 @@ app.get("/logout", function(req, res) {
 
 });
 
-app.get("/upload", function(req, res) {
-    util.getUserFromCookies(req.headers.cookie, function(user) {
-        if (user) {
-            conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
-                res.render("upload", {username: user.name, alert: undefined, groups: results});
-            });
-
-        } else {
-            return res.redirect("/login");
-        }
+app.get("/upload", util.authenticateUser, function(req, res) {
+    conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
+        res.render("upload", {username: req.user.name, alert: undefined, groups: results});
     });
     
 });
@@ -214,90 +206,63 @@ app.post("/register", function(req, res) {
     });
 });
 
-app.get("/creategroup", function(req, res) {
-    util.getUserFromCookies(req.headers.cookie, function(user) {
-        if (user) {
-            res.render("creategroup", {alert: undefined, username: user.name});
+app.get("/creategroup", util.authenticateUser, function(req, res) {
+    res.render("creategroup", {alert: undefined, username: req.user.name});
 
-        } else {
-            return res.redirect("/login");
+});
+
+app.post("/creategroup", util.authenticateUser, function(req, res) {
+    groupname = req.body.groupname;
+    groupdesc = req.body.groupdesc;
+
+    if (!(typeof groupname=='string' || groupdesc=='string')) {
+        res.render("creategroup", {alert: "Please only enter text!", username: user.name});
+        return;
+    }
+
+    conn.query("INSERT INTO groups (groupName,groupDesc,private) VALUES (?,?,?)", [groupname, groupdesc, 'N'], function(err, results) {
+        if (err) {
+            res.render("creategroups", {alert: "A group with that name already exists!", username: req.user.name});
+            return;
         }
+
+        // TODO: Redirect to group overview (when added)
+        return res.redirect("/");
     });
 });
 
-app.post("/creategroup", function(req, res) {
-    util.getUserFromCookies(req.headers.cookie, function(user) {
-        if (user) {
-            groupname = req.body.groupname;
-            groupdesc = req.body.groupdesc;
-
-            if (!(typeof groupname=='string' || groupdesc=='string')) {
-                res.render("creategroup", {alert: "Please only enter text!", username: user.name});
-                return;
-            }
-
-            conn.query("INSERT INTO groups (groupName,groupDesc,private) VALUES (?,?,?)", [groupname, groupdesc, 'N'], function(err, results) {
-                if (err) {
-                    res.render("creategroups", {alert: "A group with that name already exists!", username: user.name});
-                    return;
-                }
-
-                // TODO: Redirect to group overview (when added)
-                return res.redirect("/");
-            });
-
-        } else {
-            return res.redirect("/login");
-        }
-    });
-});
-
-app.get("/groups", function(req, res) {
-    util.getUserFromCookies(req.headers.cookie, function(user) {
-        if (user) {
-            conn.query("SELECT * FROM groups", function(err, results, fields) {
-                res.render("groups", {username: user.name, groups: results});
-            });
-
-        } else {
-            // TODO: Decide if users should be able to view group list when logged out
-            return res.redirect("/login");
-        }
+app.get("/groups", util.authenticateUser, function(req, res) {
+    conn.query("SELECT * FROM groups", function(err, results, fields) {
+        res.render("groups", {username: req.user.name, groups: results});
     });
     
 });
 
-app.get("/image/:uploadID", function(req, res) {
+app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
     uploadID = req.params.uploadID;
 
-    util.getUserFromCookies(req.headers.cookie, function (user) {
-        // TODO: Additional features when user logged in (republish, add to one of my groups, etc)
-        username = undefined;
-        if (user) {
-            username = user.name;
+    // TODO: Additional features when user logged in (republish, add to one of my groups, etc)
+    username = undefined;
+    if (req.user) {
+        username = req.user.name;
+    }
+
+    conn.query("SELECT upload.*,users.name FROM upload INNER JOIN users ON upload.userID=users.userID WHERE uploadID=?", [uploadID,], function(err, results) {
+        if (results.length == 1) {
+            r = results[0];
+            uname = r.name;
+            caption = r.caption;
+
+            // Fetch comments from database
+            conn.query("SELECT commentID,commentContent AS content,datePosted,users.name FROM uploadComments INNER JOIN users ON users.userID=uploadComments.userID WHERE uploadID=?",
+            [uploadID,], function(err, results) {
+                res.render("image", {username: username, comments: results, poster: uname, caption: caption, license: "Test", fName: r.fName, uploadID: uploadID});
+            });
+
+        } else {
+            // TODO: Give an actual error page to the user
+            return res.status(404).send("<html><body><p>That content does not appear to exist!</p></body></html>");
         }
-
-        conn.query("SELECT upload.*,users.name FROM upload INNER JOIN users ON upload.userID=users.userID WHERE uploadID=?", [uploadID,], function(err, results) {
-            if (results.length == 1) {
-                r = results[0];
-                uname = r.name;
-                caption = r.caption;
-
-                // Fetch comments from database
-                conn.query("SELECT commentID,commentContent AS content,datePosted,users.name FROM uploadComments INNER JOIN users ON users.userID=uploadComments.userID WHERE uploadID=?",
-                [uploadID,], function(err, results) {
-                    res.render("image", {username: username, comments: results, poster: uname, caption: caption, license: "Test", fName: r.fName, uploadID: uploadID});
-
-
-                });
-
-            } else {
-                // TODO: Give an actual error page to the user
-                return res.status(404).send("<html><body><p>That content does not appear to exist!</p></body></html>");
-            }
-
-        });
-
     });
 });
 
@@ -332,14 +297,13 @@ app.get("/placeholder.png", function(req, res) {
 app.use("/uploads", express.static("uploads", {dotfiles: 'ignore'}));
 app.use("/static", express.static("static", {dotfiles: 'ignore'}));
 
-app.get("/support", function(req, res) {
-        util.getUserFromCookies(req.headers.cookie, function(user) {
-        if (user) {
-            res.render("support", {username: user.name});
-        } else {
-            res.render("support", {username: undefined});
-        }
-    });
+app.get("/support", util.authenticateUserOptional, function(req, res) {
+    if (req.user) {
+        res.render("support", {username: req.user.name});
+        
+    } else {
+        res.render("support", {username: undefined});
+    }
 });
 
 app.listen(8080);
