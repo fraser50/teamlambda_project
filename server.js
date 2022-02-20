@@ -148,7 +148,6 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
             return;
         }
 
-        // TODO: Separate page for each upload (scrapbook)
         return res.redirect("/image/"+results.insertId);
     });
 });
@@ -226,8 +225,7 @@ app.post("/creategroup", util.authenticateUser, function(req, res) {
             return;
         }
 
-        // TODO: Redirect to group overview (when added)
-        return res.redirect("/");
+        return res.redirect("/group/"+results.insertId);
     });
 });
 
