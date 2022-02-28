@@ -7,8 +7,8 @@ function setConnection(c) {
 
 // Generate a session for a given user, and provides the session ID to the given callback
 function createSession(userID, ip, callback) {
-    currentTime = new Date();
-    sessionString = crypto.randomBytes(32).toString("hex");
+    var currentTime = new Date();
+    var sessionString = crypto.randomBytes(32).toString("hex");
 
     conn.query("INSERT INTO sessions (sessionString,userID,creationDate,creationIP) VALUES (?,?,?,?)",
     [sessionString, userID, currentTime, ip], function (error, results, fields) {
@@ -19,7 +19,7 @@ function createSession(userID, ip, callback) {
 }
 
 function parseCookies(cookies) {
-    cookieDict = {};
+    var cookieDict = {};
     if (cookies == undefined) return cookieDict;
     cookies.split("; ").forEach(function (c, i) {
         cookieData = c.split("=");
@@ -33,7 +33,7 @@ function parseCookies(cookies) {
 }
 
 function getUserFromCookies(rawCookies, callback) {
-    cookies = parseCookies(rawCookies);
+    var cookies = parseCookies(rawCookies);
 
     var session = cookies.session;
     

@@ -39,15 +39,15 @@ currentUsersNum = 0;
 
 app.get("/login", function(req, res) {
     conn.query("SELECT COUNT(*) AS numberOfUsers FROM users", function(err, results){
-        number = results[0].numberOfUsers;
-        currentUsersNum = number;
+        var number = results[0].numberOfUsers;
+        var currentUsersNum = number;
         res.render("login", {alert: undefined, username: undefined, users: number});
     });
 });
 
 app.post("/login", function(req, res) {
-    email = req.body.email;
-    pass = req.body.pass;
+    var email = req.body.email;
+    var pass = req.body.pass;
 
     if (!(typeof email=='string' && typeof pass=='string')) {
         res.render("login", {alert: "Please only enter text!", username: undefined, users: currentUsersNum});
@@ -55,7 +55,8 @@ app.post("/login", function(req, res) {
     }
 
     // All emails should be lowercase
-    email = email.toLowerCase();
+    var email = email.toLowerCase();
+
     conn.query('SELECT userID,email,pass,name FROM users WHERE email=?', [email], function (error, results, fields) {
         if (results.length == 0) {
             // If there are no results, then that user does not exist
@@ -63,10 +64,10 @@ app.post("/login", function(req, res) {
             return;
         }
 
-        user = results[0];
-        userID = user.userID;
-        dbpass = user.pass;
-        username = user.name;
+        var user = results[0];
+        var userID = user.userID;
+        var dbpass = user.pass;
+        var username = user.name;
 
         // Compare password against hash
         bcrypt.compare(pass, dbpass, function(err, result) {
@@ -85,11 +86,11 @@ app.post("/login", function(req, res) {
 });
 
 app.get("/logout", function(req, res) {
-    username = undefined;
+    var username = undefined;
 
-    cookies = util.parseCookies(req.headers.cookie);
+    var cookies = util.parseCookies(req.headers.cookie);
 
-    session = cookies.session;
+    var session = cookies.session;
 
     if (session == undefined) return res.redirect("/");
 
@@ -112,15 +113,15 @@ app.get("/upload", util.authenticateUser, function(req, res) {
 permittedExtensions = ["png", "jpg", "jpeg"];
 
 app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(req, res) {
-    caption = req.body.caption;
-    license = req.body.license;
+    var caption = req.body.caption;
+    var license = req.body.license;
 
     if (!(typeof caption=='string' && typeof req.body.selectedgroup=='string')) {
         res.render("upload", {alert: "Please only enter text!", username: req.user.name});
         return;
     }
 
-    ext = undefined;
+    var ext = undefined;
     permittedExtensions.forEach(function(item, i) {
         originalName = req.file.originalname.toLowerCase();
         if (originalName.endsWith("."+item)) {
@@ -138,9 +139,9 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
         fs.renameSync(path.join(__dirname, "uploads/"+req.file.filename), path.join(__dirname, "uploads/"+req.file.filename+"."+ext));
     }
 
-    fName = req.file.filename+"."+ext;
+    var fName = req.file.filename+"."+ext;
 
-    selectedgroup = req.body.selectedgroup == "none" ? null : parseInt(req.body.selectedgroup);
+    var selectedgroup = req.body.selectedgroup == "none" ? null : parseInt(req.body.selectedgroup);
 
     conn.query("INSERT INTO upload (userID,licenseType,caption,fName,groupID) VALUES (?,?,?,?,?)", [req.user.userID, license, caption, fName, selectedgroup], function (err, results) {
         if(err) {
@@ -154,16 +155,16 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
 
 app.get("/register", function(req, res) {
     conn.query("SELECT COUNT(*) AS numberOfUsers FROM users", function(err, results){
-        number = results[0].numberOfUsers;
-    res.render("register", {alert: undefined, username: undefined, users: number});
+        var number = results[0].numberOfUsers;
+        res.render("register", {alert: undefined, username: undefined, users: number});
     });
 });
 
 app.post("/register", function(req, res) {
-    email = req.body.email;
-    pass1 = req.body.pass1;
-    pass2 = req.body.pass2;
-    username = req.body.username;
+    var email = req.body.email;
+    var pass1 = req.body.pass1;
+    var pass2 = req.body.pass2;
+    var username = req.body.username;
 
     if (!(typeof email=='string' && typeof pass1=='string' && typeof pass2=='string' && typeof username=='string')) {
         res.render("register", {alert: "Please only enter text!", username: undefined});
@@ -184,7 +185,7 @@ app.post("/register", function(req, res) {
 
     //TODO: Only allow email to consist of alphanumeric characters
 
-    hashedpass = bcrypt.hashSync(pass1, 10);
+    var hashedpass = bcrypt.hashSync(pass1, 10);
 
     // Attempt to insert the new user into the users table
     conn.query("INSERT INTO users (email,name,pass) VALUES (?,?,?)", [email,username,hashedpass], function (err, results) {
@@ -195,7 +196,7 @@ app.post("/register", function(req, res) {
         }
 
         // Get the user ID (Primary Key) of the newly inserted user
-        userID = results.insertId;
+        var userID = results.insertId;
 
         // Create a session for the user and redirect them to the home page
         util.createSession(userID, req.ip, function(sessionString) {
@@ -211,8 +212,8 @@ app.get("/creategroup", util.authenticateUser, function(req, res) {
 });
 
 app.post("/creategroup", util.authenticateUser, function(req, res) {
-    groupname = req.body.groupname;
-    groupdesc = req.body.groupdesc;
+    var groupname = req.body.groupname;
+    var groupdesc = req.body.groupdesc;
 
     if (!(typeof groupname=='string' || groupdesc=='string')) {
         res.render("creategroup", {alert: "Please only enter text!", username: user.name});
@@ -237,19 +238,19 @@ app.get("/groups", util.authenticateUser, function(req, res) {
 });
 
 app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
-    uploadID = req.params.uploadID;
+    var uploadID = req.params.uploadID;
 
     // TODO: Additional features when user logged in (republish, add to one of my groups, etc)
-    username = undefined;
+    var username = undefined;
     if (req.user) {
         username = req.user.name;
     }
 
     conn.query("SELECT upload.*,users.name FROM upload INNER JOIN users ON upload.userID=users.userID WHERE uploadID=?", [uploadID,], function(err, results) {
         if (results.length == 1) {
-            r = results[0];
-            uname = r.name;
-            caption = r.caption;
+            var r = results[0];
+            var uname = r.name;
+            var caption = r.caption;
 
             // Fetch comments from database
             conn.query("SELECT commentID,commentContent AS content,datePosted,users.name FROM uploadComments INNER JOIN users ON users.userID=uploadComments.userID WHERE uploadID=?",
@@ -265,7 +266,7 @@ app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
 });
 
 app.post("/image/:uploadID/comment", util.authenticateUser, function(req, res) {
-    uploadID = req.params.uploadID;
+    var uploadID = req.params.uploadID;
 
     if (typeof req.body.comment != "string") {
         return res.redirect("/image/"+uploadID);
