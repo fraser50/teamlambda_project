@@ -121,6 +121,13 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
         return;
     }
 
+    if (req.file == undefined) {
+        conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
+            res.render("upload", {username: req.user.name, alert: "No file has been selected!", groups: results});
+        });
+        return;
+    }
+
     var ext = undefined;
     permittedExtensions.forEach(function(item, i) {
         originalName = req.file.originalname.toLowerCase();
@@ -132,7 +139,11 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
     if (ext == undefined) {
         console.log("Invalid file extension!");
         fs.unlinkSync(path.join(path.__dirname, "uploads/"+req.file.originalname));
-        res.render("upload", {alert: "That upload has an invalid extension!", username: req.user.name});
+
+        conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
+            res.render("upload", {username: req.user.name, alert: "That upload has an invalid extension!", groups: results});
+        });
+
         return;
 
     } else {
@@ -145,7 +156,10 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
 
     conn.query("INSERT INTO upload (userID,licenseType,caption,fName,groupID) VALUES (?,?,?,?,?)", [req.user.userID, license, caption, fName, selectedgroup], function (err, results) {
         if(err) {
-            res.render("upload", {alert: "There was a problem with your upload please try again", username: req.user.name});
+            conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
+                res.render("upload", {username: req.user.name, alert: "There was a problem with your upload please try again", groups: results});
+            });
+            
             return;
         }
 
