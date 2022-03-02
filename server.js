@@ -73,7 +73,8 @@ app.post("/login", function(req, res) {
         bcrypt.compare(pass, dbpass, function(err, result) {
             if (result) {
                 util.createSession(userID, req.ip, function(sessionString) {
-                    res.cookie("session", sessionString);
+                    // Cookie will expire in 30 days
+                    res.cookie("session", sessionString, {maxAge: new Date(1000 * 60 * 60 * 24 * 30)});
                     return res.redirect("/");
                 });
 
