@@ -240,13 +240,32 @@ app.post("/creategroup", util.authenticateUser, function(req, res) {
             return;
         }
 
+        var groupID = results.insertId;
+
+        conn.query("INSERT INTO groupMembership (userID, groupID, groupRank, dateJoined, favourite) VALUES (?, ?, ?, ?, ?)",
+        // The following options exist for groupRank: owner: o, admin: a, moderator: m, normal: n, guest: g
+        [req.user.userID, groupID, "o", new Date(), "n"], function(err, results) {
+        });
+
         return res.redirect("/group/"+results.insertId);
     });
 });
 
 app.get("/groups", util.authenticateUser, function(req, res) {
     conn.query("SELECT * FROM groups", function(err, results, fields) {
-        res.render("groups", {username: req.user.name, groups: results});
+        // TODO: Find a more sane way of doing this
+        var groupToFav = {};
+        conn.query("SELECT groupID,favourite FROM groupMembership WHERE userID=?", [req.user.userID], function(err, resultsb) {
+            resultsb.forEach(function (f, i) {
+                groupToFav[f.groupID] = f.favourite;
+            });
+
+            results.forEach(function (r, i) {
+                r.favourite = groupToFav[r.groupID];
+            });
+    
+            res.render("groups", {username: req.user.name, groups: results});
+        });
     });
     
 });
@@ -293,8 +312,42 @@ app.post("/image/:uploadID/comment", util.authenticateUser, function(req, res) {
 });
 
 app.get("/group/:groupID", util.authenticateUser, function(req, res) {
-    conn.query("SELECT * FROM upload WHERE groupID=?", [req.params.groupID],function(err, results, fields) {
-    res.render("group", {username: req.user.name, group: results});
+    conn.query("SELECT favourite FROM groupMembership WHERE userID=? AND groupID=?", [req.user.userID, req.params.groupID], function (err, results) {
+        var fav = 'n';
+
+        if (results.length == 1) {
+            fav = results[0].favourite;
+        }
+
+        conn.query("SELECT * FROM upload WHERE groupID=?", [req.params.groupID],function(err, results, fields) {
+            res.render("group", {username: req.user.name, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png"});
+        });
+    });
+    
+});
+
+app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
+    conn.query("SELECT favourite FROM groupMembership WHERE userID=? AND groupID=?", [req.user.userID, req.params.groupID], function (err, results) {
+        var fav = 'y';
+        var groupID = req.params.groupID;
+
+        if (results.length == 1) {
+            fav = results[0].favourite == 'y' ? 'n' : 'y';
+        }
+
+        if (results.length == 0) {
+            conn.query("INSERT INTO groupMembership (userID, groupID, groupRank, dateJoined, favourite) VALUES (?, ?, ?, ?, ?)",
+            [req.user.userID, groupID, "g", new Date(), fav], function(err, results) {
+                
+                return res.redirect("/group/"+req.params.groupID);
+                
+        });
+
+        } else {
+            conn.query("UPDATE groupMembership SET favourite=? WHERE userID=? AND groupID=?", [fav, req.user.userID, req.params.groupID], function (err, results) {
+                return res.redirect("/group/"+req.params.groupID);
+            });
+        }
     });
 });
 
