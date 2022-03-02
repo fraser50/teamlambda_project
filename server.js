@@ -253,20 +253,9 @@ app.post("/creategroup", util.authenticateUser, function(req, res) {
 });
 
 app.get("/groups", util.authenticateUser, function(req, res) {
-    conn.query("SELECT * FROM groups", function(err, results, fields) {
-        // TODO: Find a more sane way of doing this
-        var groupToFav = {};
-        conn.query("SELECT groupID,favourite FROM groupMembership WHERE userID=?", [req.user.userID], function(err, resultsb) {
-            resultsb.forEach(function (f, i) {
-                groupToFav[f.groupID] = f.favourite;
-            });
-
-            results.forEach(function (r, i) {
-                r.favourite = groupToFav[r.groupID];
-            });
-    
-            res.render("groups", {username: req.user.name, groups: results});
-        });
+    conn.query("SELECT groups.*, (SELECT favourite FROM groupMembership WHERE userID=? AND groupMembership.groupID=groups.groupID) AS favourite FROM groups",
+    [req.user.userID], function(err, results) {
+        res.render("groups", {username: req.user.name, groups: results});
     });
     
 });
