@@ -74,8 +74,21 @@ function authenticateUserOptional(req, res, next) {
     });
 }
 
+function filter(lst, func) {
+    var retlist = [];
+
+    lst.forEach(function(v, i) {
+        if (func(v)) {
+            retlist.push(v);
+        }
+    });
+
+    return retlist;
+}
+
 exports.setConnection = setConnection;
 exports.createSession = createSession;
 exports.parseCookies = parseCookies;
 exports.authenticateUser = authenticateUser;
 exports.authenticateUserOptional = authenticateUserOptional;
+exports.filter = filter;

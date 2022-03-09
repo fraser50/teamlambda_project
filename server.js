@@ -105,8 +105,15 @@ app.get("/logout", function(req, res) {
 });
 
 app.get("/upload", util.authenticateUser, function(req, res) {
-    conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
-        res.render("upload", {username: req.user.name, alert: undefined, groups: results});
+    conn.query("SELECT groups.groupID AS groupID,groupName,groupRank FROM groups INNER JOIN groupMembership ON userID=? AND groupMembership.groupID=groups.groupID", [req.user.userID], function(err, results) {
+        if (err) throw err;
+        var groups = util.filter(results, function(v) {
+            // TODO: Check for other group ranks (might want to move this into util)
+            return v.groupRank == 'o';
+        });
+
+        console.log(results);
+        res.render("upload", {username: req.user.name, alert: undefined, groups: groups});
     });
     
 });
