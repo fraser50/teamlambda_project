@@ -15,7 +15,7 @@ nav {
     overflow: hidden;
 }
 /* effects username*/
-nav  p {
+nav p {
   float: right;
   color: #f2f2f2;
   text-align: center;
@@ -40,12 +40,12 @@ nav a.icon {
   top: 0;
 }
 /* Change the color of links on hover */
-nav #links a:hover {
+nav.links a:hover {
   background-color: lightGray;
   color: white;
 }
 /* Add a color to the active/current link */
-nav #links a.active {
+nav.links a.active {
   background-color: cornflowerblue;
   color: white;
 }
@@ -114,7 +114,7 @@ nav  p {
 }
 
 /* Dropdown Content (Hidden by Default) */
-nav #links {
+nav.links {
   display: none;
 }
 
