@@ -94,6 +94,7 @@ nav {
   position: relative;
   background-color: silver;
   height: auto;
+  margin:auto;
 }
 nav a {
   float: left;
@@ -102,7 +103,7 @@ nav a {
   text-decoration: none;
   font-size: 17px;
   display: block;
-  margin:auto;
+
 }
 /* effects username in navbar*/
 nav p {
@@ -125,8 +126,6 @@ nav .links {
 nav a .icon {
   display: block;
   position: absolute;
-  right: 0;
-  top: 0;
 }
 
 }
