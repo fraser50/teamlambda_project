@@ -40,7 +40,7 @@ nav a.icon {
   top: 0;
 }
 /* Change the color of links on hover */
-nav.links a:hover {
+nav a:hover {
   background-color: lightGray;
   color: white;
 }
