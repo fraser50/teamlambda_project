@@ -25,9 +25,9 @@ nav  * {
 /* Style the waveybook icon */
 nav a.icon {
   display: block;
-  height: 48px;
-  right: 0;
-  top: 0;
+  height: 40px;
+  right: -20;
+  top: -20;
 }
 /* Change the color of links on hover */
 nav ul a:hover {
