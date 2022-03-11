@@ -108,17 +108,15 @@ nav a {
   display: none;
   position: absolute;
   background-color: silver;
-  min-width: 160px;
+  min-width: 50px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 /* Style the dropdown menu for mobile */
 nav a.icon {
-  background: black;
   display: block;
-  position: absolute;
-  height: 48px;
+  height: 40px;
   right: 0;
   top: 0;
 }
