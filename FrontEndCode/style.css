@@ -104,19 +104,15 @@ nav  a {
   margin:auto;
 }
 /* effects username*/
-nav  p {
+nav .links p {
   float: right;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+  position: absolute;
 }
 
 /* Dropdown Content (Hidden by Default) */
 nav .links {
   display: none;
-  width:100%;
+  width:80%;
   text-align:left;
 }
 
