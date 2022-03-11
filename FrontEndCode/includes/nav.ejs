@@ -6,19 +6,20 @@ authors: Fraser, Leah, Emily -->
   <a href="javascript:void(0);" class="icon" onclick="displayMenu()">
     <img src="/static/waveybook_icon.png" style="height:100%; padding-top:0px">
   </a>
-
-    <a href="/">Home</a>
-    <a href="/groups">Groups</a>
-    <a href="/support">Help</a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/groups">Groups</a></li>
+    <li><a href="/support">Help</a></li>
     <% if (username) { %>
     <p style="float:right"><%= username %></p>
-    <a style="float:right" href="/logout">Logout</a>
-    <a style="float:right" href="/upload">Upload</a>
+    <li><a style="float:right" href="/logout">Logout</a></li>
+    <li><a style="float:right" href="/upload">Upload</a></li>
     <!-- Might want to replace this with a link on the left to all the groups, then a create group button there when logged in -->
-    <a style="float:right" href="/creategroup">Create Group</a>
+    <li><a style="float:right" href="/creategroup">Create Group</a></li>
     <% } else { %>
-      <a href="/login">Log In</a>
+      <li><a href="/login">Log In</a></li>
     <% } %>
+    </ul>
   <script>
     var elements = document.getElementsByTagName("a");
     for (i=0; i<elements.length; i++) {
@@ -29,7 +30,7 @@ authors: Fraser, Leah, Emily -->
     }
     //this function is used to display the dropdown navbar in mobile version
     function displayMenu(){
-      var x = document.querySelector("nav a");
+      var x = document.querySelector("nav ul a");
       if (x.style.display === "block") {
         x.style.display = "none";
       } else {

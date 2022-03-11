@@ -103,7 +103,7 @@ nav ul {
 */
 
 /* Dropdown Content (Hidden by Default) */
-nav a {
+nav ul a {
   right: 0;
   display: none;
   position: absolute;
@@ -122,7 +122,7 @@ nav a.icon {
 }
 
 /* Change color of dropdown links on hover */
-nav a:hover  {
+nav ul a:hover  {
   background-color: lightGray;
   color: white;
 }
