@@ -96,7 +96,6 @@ nav {
   height:100px;
 }
 nav  a {
-  position: absolute;
   float: left;
   color: #f2f2f2;
   text-align: center;
@@ -116,6 +115,7 @@ nav  p {
 
 /* Dropdown Content (Hidden by Default) */
 nav .links {
+  position: absolute;
   display: none;
 }
 
