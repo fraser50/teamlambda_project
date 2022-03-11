@@ -7,37 +7,35 @@ authors: Fraser, Leah, Emily -->
     <img src="/static/waveybook_icon.png" style="height:100%; padding-top:0px">
   </a>
 
-    <ul>
-      <a href="/">Home</a>
-      <a href="/groups">Groups</a>
-      <a href="/support">Help</a>
-      <% if (username) { %>
-      <p style="float:right"><%= username %></p>
-      <a style="float:right" href="/logout">Logout</a>
-      <a style="float:right" href="/upload">Upload</a>
-      <!-- Might want to replace this with a link on the left to all the groups, then a create group button there when logged in -->
-      <a style="float:right" href="/creategroup">Create Group</a>
-      <% } else { %>
-        <a href="/login">Log In</a>
-      <% } %>
-    </ul>
-    <script>
-      var elements = document.getElementsByTagName("a");
-      for (i=0; i<elements.length; i++) {
-        element = elements[i];
-        if (element.href.endsWith(document.location.pathname)) {
-          element.className = "active";
-        }
+    <a href="/">Home</a>
+    <a href="/groups">Groups</a>
+    <a href="/support">Help</a>
+    <% if (username) { %>
+    <p style="float:right"><%= username %></p>
+    <a style="float:right" href="/logout">Logout</a>
+    <a style="float:right" href="/upload">Upload</a>
+    <!-- Might want to replace this with a link on the left to all the groups, then a create group button there when logged in -->
+    <a style="float:right" href="/creategroup">Create Group</a>
+    <% } else { %>
+      <a href="/login">Log In</a>
+    <% } %>
+  <script>
+    var elements = document.getElementsByTagName("a");
+    for (i=0; i<elements.length; i++) {
+      element = elements[i];
+      if (element.href.endsWith(document.location.pathname)) {
+        element.className = "active";
       }
-      //this function is used to display the dropdown navbar in mobile version
-      function displayMenu(){
-        var x = document.querySelector("nav ul a");
-        if (x.style.display === "block") {
-          x.style.display = "none";
-        } else {
-          x.style.display = "block";
-        }
+    }
+    //this function is used to display the dropdown navbar in mobile version
+    function displayMenu(){
+      var x = document.querySelector("nav ul a");
+      if (x.style.display === "block") {
+        x.style.display = "none";
+      } else {
+        x.style.display = "block";
       }
-    </script>
+    }
+  </script>
 
 </nav>
