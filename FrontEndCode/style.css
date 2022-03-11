@@ -97,6 +97,7 @@ nav {
   margin:auto;
 }
 nav a {
+  position: relative;
   float: left;
   color: #f2f2f2;
   padding: 14px 16px;
