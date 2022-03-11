@@ -2,7 +2,11 @@
 authors: Fraser, Leah, Emily -->
 <nav>
   <!-- this will contain the buttons at the top of the screen for navigation -->
+  <!-- waveybook icon to toggle the navigation links -->
+  <a href="javascript:void(0);" class="icon" onclick="displayMenu()">
     <img src="/static/waveybook_icon.png" style="height:100%; padding-top:0px">
+  </a>
+
     <ul>
       <a href="/">Home</a>
       <a href="/groups">Groups</a>
@@ -25,5 +29,15 @@ authors: Fraser, Leah, Emily -->
           element.className = "active";
         }
       }
+      //this function is used to display the dropdown navbar in mobile version
+      function displayMenu(){
+        var x = document.querySelector("nav ul a");
+        if (x.style.display === "block") {
+          x.style.display = "none";
+        } else {
+          x.style.display = "block";
+        }
+      }
     </script>
-  </nav>
+
+</nav>
