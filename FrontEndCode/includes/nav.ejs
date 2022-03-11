@@ -11,7 +11,6 @@ authors: Fraser, Leah, Emily -->
     <a href="/groups">Groups</a>
     <a href="/support">Help</a>
     <% if (username) { %>
-    <p style="float:right"><%= username %></p>
     <a style="float:right" href="/logout">Logout</a>
     <a style="float:right" href="/upload">Upload</a>
     <!-- Might want to replace this with a link on the left to all the groups, then a create group button there when logged in -->
@@ -20,6 +19,9 @@ authors: Fraser, Leah, Emily -->
       <a href="/login">Log In</a>
     <% } %>
   </div>
+  <% if (username) { %>
+  <p style="float:right"><%= username %></p>
+  <% } %>
   <script>
     var elements = document.getElementsByTagName("a");
     for (i=0; i<elements.length; i++) {
