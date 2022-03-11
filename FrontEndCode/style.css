@@ -102,7 +102,7 @@ nav  a {
   font-size: 17px;
   display: block;
   margin:auto;
-  position: relative;
+  width:80%;
 }
 /* effects username*/
 nav  p {
