@@ -106,7 +106,7 @@ nav a {
 }
 /* effects username in navbar*/
 nav p {
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0;
   color: #f2f2f2;
