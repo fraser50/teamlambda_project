@@ -115,13 +115,7 @@ nav  p {
 
 /* Dropdown Content (Hidden by Default) */
 nav.links {
-  float:left;
   display: none;
-  position: absolute;
-  background-color: silver;
-  min-width: 50px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
 }
 
 /* Style the dropdown menu for mobile */
@@ -132,13 +126,6 @@ nav a.icon {
   left: 0;
   top: 0;
 }
-
-/* Change color of dropdown links on hover */
-nav.links a:hover  {
-  background-color: lightGray;
-  color: white;
-}
-
 
 }
 /* style for the Login page/ signup*/
