@@ -93,7 +93,7 @@ nav {
   overflow: hidden;
   position: relative;
   background-color: silver;
-  height:auto;
+  height:max-content;
 }
 nav  a {
   position: absolute;
