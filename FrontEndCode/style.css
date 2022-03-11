@@ -98,8 +98,7 @@ nav {
 }
 /*links styles for mobile*/
 nav a {
-  position:fixed;
-  float: left;
+  position:relative;
   color: #f2f2f2;
   padding: 14px 16px;
   text-decoration: none;
