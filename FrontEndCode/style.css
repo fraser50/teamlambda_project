@@ -126,7 +126,7 @@ nav .links {
 nav a .icon {
   display: block;
   position: absolute;
-  width:80%;
+  width: auto;
 }
 
 }
