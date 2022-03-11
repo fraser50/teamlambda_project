@@ -6,6 +6,9 @@ authors: Fraser, Leah, Emily -->
   <a href="javascript:void(0);" class="icon" onclick="displayMenu()">
     <img src="/static/waveybook_icon.png" style="height:100%; padding-top:0px">
   </a>
+  <% if (username) { %>
+  <p style="float:right"><%= username %></p>
+  <% } %>
   <div class="links">
     <a href="/">Home</a>
     <a href="/groups">Groups</a>
@@ -19,9 +22,7 @@ authors: Fraser, Leah, Emily -->
       <a href="/login">Log In</a>
     <% } %>
   </div>
-  <% if (username) { %>
-  <p style="float:right"><%= username %></p>
-  <% } %>
+
   <script>
     var elements = document.getElementsByTagName("a");
     for (i=0; i<elements.length; i++) {

@@ -96,6 +96,7 @@ nav {
   height: auto;
   margin:auto;
 }
+/*links styles for mobile*/
 nav a {
   position: relative;
   float: left;
@@ -118,12 +119,12 @@ nav p {
   font-size: 17px;
 }
 
-/* Dropdown Content (Hidden by Default) */
+/* links (Hidden by Default) */
 nav .links {
   display: none;
 }
 
-/* Style the dropdown menu for mobile */
+/* the wavey book icon  */
 nav a .icon {
   display: block;
   position: absolute;
