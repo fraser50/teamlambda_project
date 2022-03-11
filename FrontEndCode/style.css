@@ -102,7 +102,6 @@ nav  a {
   font-size: 17px;
   display: block;
   margin:auto;
-  width:80%;
 }
 /* effects username*/
 nav  p {
@@ -117,6 +116,8 @@ nav  p {
 /* Dropdown Content (Hidden by Default) */
 nav .links {
   display: none;
+  width:100%;
+  text-align:left;
 }
 
 /* Style the dropdown menu for mobile */
