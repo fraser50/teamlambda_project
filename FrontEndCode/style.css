@@ -95,37 +95,12 @@ nav {
   background-color: silver;
 
 }
-nav  a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-/* effects username*/
-nav  p {
-  float: right;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
 
 /* Dropdown Content (Hidden by Default) */
-nav.links {
+nav .links {
   display: none;
 }
 
-/* Style the dropdown menu for mobile */
-nav a.icon {
-  display: block;
-  height: 48px;
-  padding: 0px 0px;
-  left: 0;
-  top: 0;
-}
 
 }
 /* style for the Login page/ signup*/
