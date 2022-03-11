@@ -104,8 +104,9 @@ nav a {
   display: block;
   margin:auto;
 }
-/* effects username*/
+/* effects username in navbar*/
 nav p {
+  position: absolute;
   float: right;
   color: #f2f2f2;
   text-align: center;
