@@ -101,6 +101,7 @@ nav  a {
   text-decoration: none;
   font-size: 17px;
   display: block;
+  margin:auto;
 }
 /* effects username*/
 nav  p {
@@ -120,8 +121,10 @@ nav .links {
 
 /* Style the dropdown menu for mobile */
 nav a .icon {
-  position: absolute;
   display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 }
