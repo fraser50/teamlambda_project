@@ -3,7 +3,7 @@ authors: Fraser, Leah, Emily, Kath
 */
 * {
     margin: 0px;
-    padding: 0; 
+    padding: 0;
 }
 body {
     background-color: DimGray;
@@ -23,12 +23,12 @@ nav  * {
   font-size: 17px;
 }
 /* Change the color of links on hover */
-nav a:hover {
+nav ul a:hover {
   background-color: lightGray;
   color: white;
 }
 /* Add a color to the active/current link */
-nav a.active {
+nav ul a.active {
   background-color: cornflowerblue;
   color: white;
 }
@@ -69,6 +69,55 @@ main {
     margin-left: 0%;
     margin-right: 0%;
   }
+
+  /* nav bar turns into dropdown menue */
+  /* Style The Dropdown Button */
+nav {
+  background-color: silver;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+navdropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+navdropdown-content {
+  right: 0;
+  display: none;
+  position: absolute;
+  background-color: silver;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+nav a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+nav a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+navdropdown:hover navdropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
 }
 /* style for the Login page/ signup*/
 #user {
@@ -122,7 +171,7 @@ main {
   display: grid;
     grid-column-gap: 50px;
     grid-row-gap:50px;
-}  
+}
 
 .comment {
   background-color: white;
