@@ -24,9 +24,7 @@ nav  * {
 }
 /* Style the waveybook icon */
 nav a.icon {
-  background: black;
   display: block;
-  position: absolute;
   height: 48px;
   right: 0;
   top: 0;
