@@ -30,12 +30,12 @@ nav a.icon {
   top: -20;
 }
 /* Change the color of links on hover */
-nav ul a:hover {
+nav.links a:hover {
   background-color: lightGray;
   color: white;
 }
 /* Add a color to the active/current link */
-nav ul a.active {
+nav.links a.active {
   background-color: cornflowerblue;
   color: white;
 }
@@ -103,7 +103,7 @@ nav ul {
 */
 
 /* Dropdown Content (Hidden by Default) */
-nav ul a {
+nav.links {
   right: 0;
   display: none;
   position: absolute;
@@ -122,7 +122,7 @@ nav a.icon {
 }
 
 /* Change color of dropdown links on hover */
-nav ul a:hover  {
+nav.links a:hover  {
   background-color: lightGray;
   color: white;
 }
