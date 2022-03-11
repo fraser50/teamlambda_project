@@ -11,10 +11,10 @@ authors: Fraser, Leah, Emily -->
     <a href="/groups">Groups</a>
     <a href="/support">Help</a>
     <% if (username) { %>
-    <a style="float:right" href="/logout">Logout</a>
-    <a style="float:right" href="/upload">Upload</a>
+    <a href="/upload">Upload</a>
     <!-- Might want to replace this with a link on the left to all the groups, then a create group button there when logged in -->
-    <a style="float:right" href="/creategroup">Create Group</a>
+    <a href="/creategroup">Create Group</a>
+    <a href="/logout">Logout</a>
     <% } else { %>
       <a href="/login">Log In</a>
     <% } %>
