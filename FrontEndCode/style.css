@@ -22,6 +22,15 @@ nav  * {
   text-decoration: none;
   font-size: 17px;
 }
+/* Style the waveybook icon */
+nav a.icon {
+  background: black;
+  display: block;
+  position: absolute;
+  height: 48px;
+  right: 0;
+  top: 0;
+}
 /* Change the color of links on hover */
 nav ul a:hover {
   background-color: lightGray;
@@ -111,6 +120,7 @@ nav a.icon {
   background: black;
   display: block;
   position: absolute;
+  height: 48px;
   right: 0;
   top: 0;
 }
