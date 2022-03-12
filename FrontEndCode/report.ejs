@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- This is the page for the comment report form Authors:
+authors: Fraser-->
+<html>
+    <head>
+        <link rel="stylesheet" href="/style.css">
+        <!-- meta tag used to help css respond to mobile screens better  -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Report Comment</title>
+    </head>
+
+    <body>
+        <main>
+            <center>
+                <h1>Report Comment</h1><br<br><br>
+
+                TODO: Put comment to be reported here<br><br>
+
+                <form action="/report/<%= commentID %>" method="post">
+                    Reason: <select name="simplereason">
+                        <option>Please specify</option>
+                        <option>Spam</option>
+                        <option>Harassment/Bullying</option>
+                        <option>Inappropriate/illegal</option>
+                        <option>Other</option>
+                    </select><br><br>
+
+                    Extra information (optional):<br>
+                    <textarea name="extra"></textarea><br><br>
+                    <input type="submit" value="Send Report">
+                </form>
+            </center>
+        </main>
+    </body>
+    
+</html>

@@ -348,6 +348,15 @@ app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
     });
 });
 
+app.get("/report/:commentID", util.authenticateUser, function (req, res) {
+    res.render("report", {username: req.user.name, commentID: req.params.commentID});
+});
+
+app.post("/report/:commentID", util.authenticateUser, function (req, res) {
+    // TODO: Save report into the database
+    return res.send("<html><body><h1>TODO</h1></body></html>");
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));

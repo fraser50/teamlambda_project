@@ -37,8 +37,10 @@ authors: Fraser, Leah -->
             <% } %>
             <% comments.forEach(function(c) { %>
               <div class="comment">
-                <!-- TODO: Get comment reports working (stage 3?) -->
-                <input type="submit" value="Report" style="float:right" disabled><br>
+                <!-- TODO: Get comment reports working (stage 3?) (Also change report link to button when done) -->
+
+                <!--<input type="submit" value="Report" style="float:right" disabled><br> -->
+                <a href="/report/<%= c.commentID %>" style="float:right">Report</a>
                 <h2><%= c.name %></h2><br><br>
                 <p><%= c.content %></p>
               </div><br>
