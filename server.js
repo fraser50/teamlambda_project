@@ -14,7 +14,8 @@ var conn = mysql.createPool({
     host: process.env['MYSQL_HOST'],
     user: process.env['MYSQL_USER'],
     password: process.env['MYSQL_PASS'],
-    database: process.env["MYSQL_DB"]
+    database: process.env["MYSQL_DB"],
+    multipleStatements: true
 });
 
 util.setConnection(conn);
@@ -362,6 +363,13 @@ app.post("/report/:commentID", util.authenticateUser, function (req, res) {
 app.get("/groupsettings", util.authenticateUser, function(req, res) {
     // TODO: change this to /group/:groupID/settings
     res.render("groupsettings.ejs", {username: req.user.name});
+});
+
+app.get("/admin", util.authenticateUser, function(req, res) {
+    // SELECT COUNT(upload.*),SELECT COUNT(users.*),SELECT COUNT(groups.*),SELECT COUNT(uploadComments.*) FROM upload,users,groups,uploadComments
+    conn.query("SELECT COUNT(*) AS C FROM upload; SELECT COUNT(*) AS C FROM users; SELECT COUNT(*) AS C FROM groups; SELECT COUNT(*) AS C FROM uploadComments;", [], function(err, results) {
+        res.render("admin.ejs", {username: req.user.name, basicstats: results});
+    });
 });
 
 // TODO: Use a static directory for things like stylesheets, images, etc

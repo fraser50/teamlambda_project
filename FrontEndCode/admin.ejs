@@ -19,7 +19,11 @@ authors: Emily -->
       <%- include('includes/nav.ejs'); %>
       <div class="row">
          <div class="column">
-              <p> this is where the administration info is displayed </p>
+              <p>Site statistics below:</p><br>
+              Uploads:  <%=  basicstats[0][0].C %><br>
+              Users:    <%=  basicstats[1][0].C %><br>
+              Groups:   <%=  basicstats[2][0].C %><br>
+              Comments: <%=  basicstats[3][0].C %><br>
          </div>
          <div class="column">
               <p> this is where the websites statistics are displayed </p>
