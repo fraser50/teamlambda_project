@@ -112,7 +112,6 @@ app.get("/upload", util.authenticateUser, function(req, res) {
             return v.groupRank == 'o';
         });
 
-        console.log(results);
         res.render("upload", {username: req.user.name, alert: undefined, groups: groups});
     });
     
