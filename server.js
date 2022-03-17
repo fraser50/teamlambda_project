@@ -357,6 +357,11 @@ app.post("/report/:commentID", util.authenticateUser, function (req, res) {
     return res.send("<html><body><h1>TODO</h1></body></html>");
 });
 
+app.get("/groupsettings", util.authenticateUser, function(req, res) {
+    // TODO: change this to /group/:groupID/settings
+    res.render("groupsettings.ejs", {username: req.user.name});
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));

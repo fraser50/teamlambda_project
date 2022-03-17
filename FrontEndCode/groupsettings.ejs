@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <!-- meta tag used to help css respond to mobile screens better  -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Upload</title>
+    </head>>
+
+    <body>
+        <%- include("includes/nav.ejs"); %>
+        <main>
+            <div id="leftoptions" style="float:left">
+                <img src="/placeholder.png" style="width:50px;height:50px;">
+                <h1 style="float:right">GroupName</h1><br>
+                <input type="button" value="Save Group" class="inputbutton">
+                <input type="button" value="Delete Group" class="inputbutton"><br>
+            </div>
+
+            <div id="rightoptions" style="float:right">
+                <input type="button" value="Invite User" class="inputbutton"><br>
+            </div>
+
+            <div id="inviteuser" style="position: absolute">
+                
+            </div>
+        </main>
+    </body>
+</html>
