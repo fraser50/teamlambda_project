@@ -2,7 +2,6 @@
 This file will be used for creating all the tables and foreign keys needed by the website.
 
 TODO:
-  - Add foreign keys
   - Add scrapbook table (each item uploaded should be initially flagged as hidden to allow moderation)
         --> scrapbooks should store license information (https://creativecommons.org/)
         --> should scrapbooks support being owned by multiple people?
@@ -54,18 +53,22 @@ CREATE TABLE IF NOT EXISTS groupMembership(
     FOREIGN KEY (groupID) REFERENCES groups(groupID) ON DELETE CASCADE
 );
 
-/*
-Still needs image storing
-*/
+CREATE TABLE IF NOT EXISTS groupImageMembership(
+    groupID INTEGER NOT NULL,
+    uploadID INTEGER NOT NULL,
+    dateAdded DATE,
+    PRIMARY KEY (groupID, uploadID),
+    FOREIGN KEY (uploadID) REFERENCES upload(uploadID) ON DELETE CASCADE,
+    FOREIGN KEY (groupID) REFERENCES groups(groupID) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS upload( 
     uploadID INTEGER PRIMARY KEY AUTO_INCREMENT,
     userID INTEGER NOT NULL,
-    groupID INTEGER,
     licenseType VARCHAR(150) NOT NULL,
     datePosted DATE,
     caption VARCHAR(500) NOT NULL,
     fName VARCHAR(64) NOT NULL,
-    FOREIGN KEY (groupID) REFERENCES groups(groupID) ON DELETE SET NULL,
     FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
 );
 

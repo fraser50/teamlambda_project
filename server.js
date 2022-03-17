@@ -162,7 +162,7 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
 
     var selectedgroup = req.body.selectedgroup == "none" ? null : parseInt(req.body.selectedgroup);
 
-    conn.query("INSERT INTO upload (userID,licenseType,caption,fName,groupID) VALUES (?,?,?,?,?)", [req.user.userID, license, caption, fName, selectedgroup], function (err, results) {
+    conn.query("INSERT INTO upload (userID,licenseType,caption,fName,datePosted) VALUES (?,?,?,?,?)", [req.user.userID, license, caption, fName, new Date()], function (err, results) {
         if(err) {
             conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
                 res.render("upload", {username: req.user.name, alert: "There was a problem with your upload please try again", groups: results});
@@ -171,7 +171,10 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
             return;
         }
 
-        return res.redirect("/image/"+results.insertId);
+        conn.query("INSERT INTO groupImageMembership (groupID,uploadID,dateAdded) VALUES (?,?,?)", [selectedgroup, results.insertId, new Date()], function(err, results2) {
+            return res.redirect("/image/"+results.insertId);
+        });
+
     });
 });
 
@@ -316,7 +319,7 @@ app.get("/group/:groupID", util.authenticateUser, function(req, res) {
             fav = results[0].favourite;
         }
 
-        conn.query("SELECT * FROM upload WHERE groupID=?", [req.params.groupID],function(err, results, fields) {
+        conn.query("SELECT upload.* FROM upload INNER JOIN groupImageMembership ON groupImageMembership.uploadID=upload.uploadID AND groupImageMembership.groupID=?", [req.params.groupID],function(err, results, fields) {
             res.render("group", {username: req.user.name, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png"});
         });
     });
