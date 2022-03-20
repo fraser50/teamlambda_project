@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS report(
     commentID INTEGER NOT NULL,
     reporterID INTEGER NOT NULL,
     reason VARCHAR(30),
-    adINfo VARCHAR(500),
+    adInfo VARCHAR(500),
     dateReported DATE,
     resolutionStatus VARCHAR(50),
     FOREIGN KEY (commentID) REFERENCES uploadComments(commentID) ON DELETE CASCADE,
