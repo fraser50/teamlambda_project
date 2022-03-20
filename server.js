@@ -357,7 +357,20 @@ app.get("/report/:commentID", util.authenticateUser, function (req, res) {
 
 app.post("/report/:commentID", util.authenticateUser, function (req, res) {
     // TODO: Save report into the database
-    return res.send("<html><body><h1>TODO</h1></body></html>");
+    commID = req.params.commentID;
+    user = req.user.userID;
+    reason = req.body.simplereason;
+    adInfo = req.body.extra;
+    dateRep = new Date();
+    resolution = "unresolved";
+
+    conn.query("INSERT INTO report (commentID,reporterID,reason,adInfo,dateReported,resolutionStatus) VALUES (?,?,?,?,?,?)", [commID,user,reason,adInfo,dateRep,resolution], function (err, results) {
+        if(err) {
+            // If there is an error, this most likely means a user has not filled in all marked fields
+            res.render("report", {alert: "Please fill out all marked fields", username: req.user.name});
+            return;
+        }
+    });
 });
 
 app.get("/groupsettings", util.authenticateUser, function(req, res) {
