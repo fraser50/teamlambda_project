@@ -18,11 +18,11 @@ authors: Fraser-->
 
                 <form action="/report/<%= commentID %>" method="post">
                     Reason: <select name="simplereason">
-                        <option>Please specify</option>
-                        <option>Spam</option>
-                        <option>Harassment/Bullying</option>
-                        <option>Inappropriate/illegal</option>
-                        <option>Other</option>
+                        <option value="?">Please specify</option>
+                        <option value="spam">Spam</option>
+                        <option value="bullying">Harassment/Bullying</option>
+                        <option value="illegal">Inappropriate/illegal</option>
+                        <option value="other">Other</option>
                     </select><br><br>
 
                     Extra information (optional):<br>
