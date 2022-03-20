@@ -370,6 +370,8 @@ app.post("/report/:commentID", util.authenticateUser, function (req, res) {
             res.render("report", {alert: "Please fill out all marked fields", username: req.user.name});
             return;
         }
+
+        return res.redirect("/");
     });
 });
 
