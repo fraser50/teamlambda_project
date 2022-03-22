@@ -352,7 +352,7 @@ app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
 });
 
 app.get("/report/:commentID", util.authenticateUser, function (req, res) {
-    conn.query("SELECT uploadComments.*,users.name FROM uploadComments INNER JOIN users ON uploadcomments.userID=users.userID WHERE commentID=?", [req.params.commentID], function (err, results) {
+    conn.query("SELECT uploadComments.*,users.name FROM uploadComments INNER JOIN users ON uploadComments.userID=users.userID WHERE commentID=?", [req.params.commentID], function (err, results) {
         if (results.length != 1) {
             return res.send("<html><body><h1>You can't report a non-existant comment!</h1></body></html>");
         }
