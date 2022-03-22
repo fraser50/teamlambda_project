@@ -387,6 +387,14 @@ app.get("/admin", util.authenticateUser, function(req, res) {
     });
 });
 
+app.get("/admin/reports", util.authenticateUser, function(req, res) {
+    conn.query("SELECT report.*,commentContent FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID;",
+    [req.user.userID], function(err, results) {
+        res.render("reports", {username: req.user.name, reports: results});
+    });
+    
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));
