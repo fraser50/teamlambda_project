@@ -208,7 +208,7 @@ nav a .icon {
   padding: 25px;
 }
 
-.group, .upload {
+.upload {
   background-color: white;
   border-width: 5px;
   border-style: solid;
@@ -218,6 +218,17 @@ nav a .icon {
   display: grid;
     grid-column-gap: 50px;
     grid-row-gap:50px;
+}
+
+.group {
+  background-color: white;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  width: 25%;
+  height: 25%;
+  display: grid;
+    grid-template-columns: 50px 50px;
 }
 
 .comment {
@@ -233,17 +244,4 @@ nav a .icon {
 .group_image {
   width: 250px;
   height: 250px;
-}
-
-.grid_container {
-  display: grid;
-  grid-template-columns: auto auto;
-  background-color: white;
-  border: 10px solid blue;
-}
-.grid_item {
-  background-color: white;
-  border-right: 1px solid black;
-  padding: 60px;
-  text-align: center;
 }
