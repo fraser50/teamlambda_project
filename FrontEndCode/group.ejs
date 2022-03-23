@@ -14,10 +14,10 @@
                 <img src="/static/<%= favstar %>" style="width:64px; height:64px"><br>
                 <input type="submit" value="<%= fav %>">
             </form>
-            <div class="grid-container">
             <% if (group.length == 0) { %>
                 <br><h1>This group is currently empty!</h1><br>
             <% } %>
+            <div class="grid-container">
             <% group.forEach(function(u) { %>
                 <a href="/image/<%= u.uploadID %>" style="color: black; text-decoration: none;">        
                     <div class="grid_item">
