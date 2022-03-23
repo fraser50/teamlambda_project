@@ -406,7 +406,7 @@ app.get("/group/:groupID/settings", util.authenticateUser, function(req, res) {
             results2.forEach(function (v) {
                 v.mappedRank = rankMappings[v.groupRank];
             });
-            
+
             res.render("groupsettings.ejs", {username: req.user.name, group: results[0], users: results2});
         });
     });
@@ -420,7 +420,7 @@ app.get("/admin", util.authenticateUser, function(req, res) {
 });
 
 app.get("/admin/reports", util.authenticateUser, function(req, res) {
-    conn.query("SELECT report.*,commentContent FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID;",
+    conn.query("SELECT report.*,users.name,commentContent,(SELECT name FROM users INNER JOIN uploadComments ON uploadComments.userID=users.userID AND uploadComments.commentID=report.commentID) AS rid FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID INNER JOIN users ON users.userID=report.reporterID",
     [req.user.userID], function(err, results) {
         res.render("adminreports", {username: req.user.name, reports: results});
     });

@@ -17,14 +17,14 @@
             <center>
                 <% reports.forEach(function(c) { %>
                     <div class="report">
-                        Reported by: TODO<br>
+                        Reported by: <%= c.rid %> <br>
                         <div class="comment">
-                            <a href="/report/" style="float:right">Report</a>
-                            <h2>Test</h2><br><br>
+                            <h2><%= c.name %> </h2><br><br>
                             <p><%= c.commentContent %></p>
                           </div>
-                          Short Reason: TODO<br><br>
+                          Short Reason: <%= c.reason %> <br><br>
                           Long Reason:<br>
+                          <%= c.adInfo %> 
                           <form>
                               <center>
                                   <input type="submit" value="Reject" class="inputbutton" style="background-color: rgb(200, 0, 0);width: 45%">
@@ -32,8 +32,7 @@
                                 </center>
                           </form>
                           
-                          
-                    </div>
+                    </div><br><br>
                 <% }); %>
             </center>
         </main>
