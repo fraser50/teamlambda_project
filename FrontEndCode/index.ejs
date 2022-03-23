@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <!-- this is a login page
-authors: Leah -->
+authors: Ryan, Leah -->
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+      
         <!-- meta tag used to help css respond to mobile screens better  -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home Page</title>
+
+        <style>
+         @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&family=Roboto&display=swap');
+         </style>
     </head>
 
     <body>
@@ -16,18 +21,66 @@ authors: Leah -->
        and a section at the bottom to show the teams contact information and any legal stuff
       -->
       <%- include('includes/nav.ejs'); %>
-      <div class="row">
-         <div class="column">
-            <h3>Most popular content</h3>
-              <p> this is where the most popular content goes</p>
+
+      <div class="main">
+         <div class="main_container">
+            <div class="title">
+            <h1>WaveyBook</h1><br>
+            <h2>Display your passion</h2><br>
+            <p>ondsoinnnonvnnojsjnnnvojnoh</p><br>
+            <p>ibibbibibibibbib</p>
          </div>
-         <div class="column">
-            <h3>Most recent content</h3>
-            <p> this is where the most recent content goes</p>
+            <!--image slider with auto movement-->
+            <div class="slider-frame">
+               <div class="slider-images">
+                  <div class="img-container">
+                     <img src="/static/slide1.png">
+                  </div>
+                  <div class="img-container">
+                     <img src="/static/slide2.png">
+                  </div>
+                  <div class="img-container">
+                     <img src="/static/slide3.png">
+                  </div>
+               </div>
+               
+            </div>
+            
+         
          </div>
-      </div>
-      <div class="contact">
-         <p> Contact info and legal stuff here! </p>
+         
+         <div class="sub_container">
+            
+            <div class="col_1">
+               <h1>Left</h1>
+               <p>this will be the left column</p>
+
+
+            </div>
+            <div class="col_2">
+               <h1>Centre</h1>
+               <p>this will be the centre column</p>
+
+               
+            </div>
+            <div class="col_3">
+               <h1>Right</h1>
+               <p>this will be the right column</p>
+               
+            </div>
+
+            
+         </div>
+
+
+         
+            
+
+         </div>
+
+         <div class="footer">
+            &copy; All Rights Reserved.
+         </div>
       </div>
 
     </body>
