@@ -15,14 +15,13 @@
                 <img src="/static/<%= favstar %>" style="width:64px; height:64px"><br>
                 <input type="submit" value="<%= fav %>">
             </form>
-            </center>
-            <div class="grid_container">
             <% if (group.length == 0) { %>
                 <br><h1>This group is currently empty!</h1><br>
             <% } %>
             <% group.forEach(function(u) { %>
                 <a href="/image/<%= u.uploadID %>" style="color: black; text-decoration: none;">
-                    <div class="grid_item">
+                <div class="upload">                  
+                    <div class="upload_column">
                         <figure class="upload_thumb">
                             <img src="/uploads/<%= u.fName %>" style="width:50%;height:50%;" class="group_image"><br>
                             <figcaption class="upload_caption"
@@ -32,7 +31,7 @@
                 </div><br>
             </div>
             <% }); %>
-            
+            </center>
         </main>
     </body>
     </main>
