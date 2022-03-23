@@ -352,7 +352,13 @@ app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
 });
 
 app.get("/report/:commentID", util.authenticateUser, function (req, res) {
-    res.render("report", {username: req.user.name, commentID: req.params.commentID});
+    conn.query("SELECT uploadComments.*,users.name FROM uploadComments INNER JOIN users ON uploadComments.userID=users.userID WHERE commentID=?", [req.params.commentID], function (err, results) {
+        if (results.length != 1) {
+            return res.send("<html><body><h1>You can't report a non-existant comment!</h1></body></html>");
+        }
+
+        res.render("report", {username: req.user.name, commentID: req.params.commentID, c: results[0]});
+    });
 });
 
 app.post("/report/:commentID", util.authenticateUser, function (req, res) {
@@ -364,14 +370,20 @@ app.post("/report/:commentID", util.authenticateUser, function (req, res) {
     dateRep = new Date();
     resolution = "unresolved";
 
-    conn.query("INSERT INTO report (commentID,reporterID,reason,adInfo,dateReported,resolutionStatus) VALUES (?,?,?,?,?,?)", [commID,user,reason,adInfo,dateRep,resolution], function (err, results) {
-        if(err) {
-            // If there is an error, this most likely means a user has not filled in all marked fields
-            res.render("report", {alert: "Please fill out all marked fields", username: req.user.name});
-            return;
+    conn.query("SELECT uploadComments.*,users.name FROM uploadComments INNER JOIN users ON uploadComments.userID=users.userID WHERE commentID=?", [req.params.commentID], function (err, results) {
+        if (results.length != 1) {
+            return res.send("<html><body><h1>You can't report a non-existant comment!</h1></body></html>");
         }
 
-        return res.redirect("/");
+        conn.query("INSERT INTO report (commentID,reporterID,reason,adInfo,dateReported,resolutionStatus) VALUES (?,?,?,?,?,?)", [commID,user,reason,adInfo,dateRep,resolution], function (err, results) {
+            if(err) {
+                // If there is an error, this most likely means a user has not filled in all marked fields
+                res.render("report", {alert: "Please fill out all marked fields", username: req.user.name});
+                return;
+            }
+
+            return res.redirect("/");
+        });
     });
 });
 
@@ -385,6 +397,14 @@ app.get("/admin", util.authenticateUser, function(req, res) {
     conn.query("SELECT COUNT(*) AS C FROM upload; SELECT COUNT(*) AS C FROM users; SELECT COUNT(*) AS C FROM groups; SELECT COUNT(*) AS C FROM uploadComments;", [], function(err, results) {
         res.render("admin.ejs", {username: req.user.name, basicstats: results});
     });
+});
+
+app.get("/admin/reports", util.authenticateUser, function(req, res) {
+    conn.query("SELECT report.*,commentContent FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID;",
+    [req.user.userID], function(err, results) {
+        res.render("adminreports", {username: req.user.name, reports: results});
+    });
+    
 });
 
 // TODO: Use a static directory for things like stylesheets, images, etc

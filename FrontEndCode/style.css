@@ -50,6 +50,40 @@ nav a.active {
   background-color: cornflowerblue;
   color: white;
 }
+
+#navadmin {
+  background-color: darkgrey;
+  overflow: hidden;
+}
+/* effects username*/
+#navadmin p {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 16px 14px;
+  text-decoration: none;
+  font-size: 17px;
+}
+#navadmin a {
+  display: block;
+  float: bottom;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 16px 14px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navadmin a:hover {
+  background-color: lightGray;
+  color: white;
+}
+/* Add a color to the active/current link */
+#navadmin a.active {
+  background-color: cornflowerblue;
+  color: white;
+}
+
 .contact {
   position: fixed;
   bottom: 0px;
@@ -175,7 +209,7 @@ nav a .icon {
   padding: 25px;
 }
 
-.group, .upload {
+.upload {
   background-color: white;
   border-width: 5px;
   border-style: solid;
@@ -185,6 +219,15 @@ nav a .icon {
   display: grid;
     grid-column-gap: 50px;
     grid-row-gap:50px;
+}
+
+.group {
+  background-color: white;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  width: 25%;
+  height: 25%;
 }
 
 .comment {
@@ -202,6 +245,7 @@ nav a .icon {
   height: 250px;
 }
 
+<<<<<<< HEAD
 /* style for the home page */
 .main{
   background-color:seashell
@@ -388,3 +432,18 @@ padding-right: 100px;
 }
 
 }
+=======
+.grid-container {
+  display: grid;
+    grid-template-columns: 315px 315px;
+    background-color: white;
+    border: 5px solid black;
+}
+
+.grid-item {
+  background-color: white;
+  border-right: 1px solid black;
+  text-align: center;
+  padding 50px 50px;
+}
+>>>>>>> 7ba6ceb372efcbffc336dc2b14cc6ee734bf50b1

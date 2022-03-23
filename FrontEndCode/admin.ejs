@@ -17,7 +17,10 @@ authors: Emily -->
       -->
       
       <%- include('includes/nav.ejs'); %>
-      <div class="row">
+      <div style="width: 10%; float: left">
+        <%- include('includes/navadmin.ejs'); %>
+      </div>
+      <div class="row" style="float: right; width: 90%">
          <div class="column">
               <p>Site statistics below:</p><br>
               Uploads:  <%=  basicstats[0][0].C %><br>
