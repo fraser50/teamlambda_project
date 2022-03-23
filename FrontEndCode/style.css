@@ -228,7 +228,9 @@ nav a .icon {
   width: 25%;
   height: 25%;
   display: grid;
-    grid-template-columns: 50px 50px;
+    grid-template-columns: 100px 100px;
+    background-color: white;
+    border: 10px solid black;
 }
 
 .comment {
@@ -244,4 +246,10 @@ nav a .icon {
 .group_image {
   width: 250px;
   height: 250px;
+}
+
+.grid-item {
+  background-color: white;
+  border-right: 1px solid black;
+  padding: 60px;
 }
