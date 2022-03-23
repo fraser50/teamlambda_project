@@ -15,8 +15,25 @@
       </div>
         <main>
             <center>
-                <% reports.forEach(function(r) { %>
-
+                <% reports.forEach(function(c) { %>
+                    <div class="report">
+                        Reported by: TODO<br>
+                        <div class="comment">
+                            <a href="/report/" style="float:right">Report</a>
+                            <h2>Test</h2><br><br>
+                            <p><%= c.commentContent %></p>
+                          </div>
+                          Short Reason: TODO<br><br>
+                          Long Reason:<br>
+                          <form>
+                              <center>
+                                  <input type="submit" value="Reject" class="inputbutton" style="background-color: rgb(200, 0, 0);width: 45%">
+                                  <input type="submit" value="Accept" class="inputbutton" style="background-color: rgb(0, 200, 0);width: 45%">
+                                </center>
+                          </form>
+                          
+                          
+                    </div>
                 <% }); %>
             </center>
         </main>

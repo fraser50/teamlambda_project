@@ -240,6 +240,16 @@ nav a .icon {
   text-align: left;
 }
 
+.report {
+  background-color: bisque;
+  width: 80%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  word-wrap: break-word;
+  text-align: left;
+}
+
 .group_image {
   width: 250px;
   height: 250px;
