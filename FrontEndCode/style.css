@@ -244,7 +244,7 @@ nav a .icon {
   height: 250px;
 }
 
-.grid-item {
+.grid-container {
   display: grid;
     grid-template-columns: 100px 100px;
     background-color: white;
