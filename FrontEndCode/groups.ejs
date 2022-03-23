@@ -14,18 +14,19 @@
             <% groups.forEach(function(g) { %>
                 <div class="group">
                     <a href="/group/<%= g.groupID %>" style="color: black; text-decoration: none;">
-                    <div class="group_column">
+                      <div class="group_column">
                         <h2><%= g.groupName %></h2>
-                        <% if (g.favourite == 'y') { %> 
-                            <img src="/static/star_on.png" style="width:32px; height:32px"><br>
-                        <% } %> 
-                        <br>
                         <figure class="group_thumb">
-                            <img src="/uploads/<%= g.groupAvatar %>" style="width:50%;height:50%;" class="group_image"><br>
+                            <img src="/uploads/<%= g.groupAvatar %>" style="width:50%;height:50%;" class="group_image">
                             <figcaption class="group_description"
                                 <p><%= g.groupDesc %></p></figcaption>
-                        </figure></div></a>
-                        </div>
+                        </figure>
+                      </div>
+                      <% if (g.favourite == 'y') { %>
+                          <img src="/static/star_on.png" style="width:32px; height:32px">
+                      <% } %>
+                    </a>
+                  </div>
                 </div><br>
             <% }); %>
             </center>
