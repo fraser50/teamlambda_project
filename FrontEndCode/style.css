@@ -249,11 +249,9 @@ nav a .icon {
     grid-template-columns: 250px 250px;
     background-color: white;
     border: 5px solid black;
-    grid-auto-flow: row;
 }
 
 .grid-item {
   background-color: white;
   border-right: 1px solid black;
-  padding: 60px;
 }
