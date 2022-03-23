@@ -227,10 +227,6 @@ nav a .icon {
   border-color: black;
   width: 25%;
   height: 25%;
-  display: grid;
-    grid-template-columns: 100px 100px;
-    background-color: white;
-    border: 10px solid black;
 }
 
 .comment {
@@ -246,6 +242,13 @@ nav a .icon {
 .group_image {
   width: 250px;
   height: 250px;
+}
+
+.grid-item {
+  display: grid;
+    grid-template-columns: 100px 100px;
+    background-color: white;
+    border: 10px solid black;
 }
 
 .grid-item {
