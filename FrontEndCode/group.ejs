@@ -10,18 +10,17 @@
     <%- include('includes/nav.ejs'); %>
     <body>
         <main>
-            <center>
             <br><form action="/group/<%= gid %>/fav" method="post">
                 <img src="/static/<%= favstar %>" style="width:64px; height:64px"><br>
                 <input type="submit" value="<%= fav %>">
             </form>
+            <div class="grid-container">
             <% if (group.length == 0) { %>
                 <br><h1>This group is currently empty!</h1><br>
             <% } %>
             <% group.forEach(function(u) { %>
-                <a href="/image/<%= u.uploadID %>" style="color: black; text-decoration: none;">
-                <div class="group">                  
-                    <div class="upload_column">
+                <a href="/image/<%= u.uploadID %>" style="color: black; text-decoration: none;">        
+                    <div class="grid_item">
                         <figure class="upload_thumb">
                             <img src="/uploads/<%= u.fName %>" style="width:50%;height:50%;" class="group_image"><br>
                             <figcaption class="upload_caption"
@@ -31,7 +30,6 @@
                 </div><br>
             </div>
             <% }); %>
-            </center>
         </main>
     </body>
     </main>
