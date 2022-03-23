@@ -234,3 +234,16 @@ nav a .icon {
   width: 250px;
   height: 250px;
 }
+
+.grid_container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: white;
+  border: 10px solid blue;
+}
+.grid_item {
+  background-color: white;
+  border-right: 1px solid black;
+  padding: 60px;
+  text-align: center;
+}
