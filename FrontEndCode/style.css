@@ -249,6 +249,8 @@ nav a .icon {
     grid-template-columns: 200px 200px;
     background-color: white;
     border: 5px solid black;
+    grid-column-gap: 50px;
+    grid-row-gap:50px;
 }
 
 .grid-item {
