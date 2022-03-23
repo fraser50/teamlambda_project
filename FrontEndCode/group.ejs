@@ -18,9 +18,9 @@
             <% if (group.length == 0) { %>
                 <br><h1>This group is currently empty!</h1><br>
             <% } %>
+            <div class="grid_container">
             <% group.forEach(function(u) { %>
                 <a href="/image/<%= u.uploadID %>" style="color: black; text-decoration: none;">
-                <div class="grid_container">
                     <div class="grid_item">
                         <figure class="upload_thumb">
                             <img src="/uploads/<%= u.fName %>" style="width:50%;height:50%;" class="group_image"><br>
