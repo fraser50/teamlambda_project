@@ -463,4 +463,13 @@ app.get("/support", util.authenticateUserOptional, function(req, res) {
     }
 });
 
+app.get("/tc", util.authenticateUserOptional, function (req, res) {
+    if (req.user) {
+        res.render("tc", {username: req.user.name});
+        
+    } else {
+        res.render("tc", {username: undefined});
+    }
+});
+
 app.listen(8080);
