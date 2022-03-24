@@ -420,9 +420,18 @@ app.get("/admin", util.authenticateUser, function(req, res) {
 });
 
 app.get("/admin/reports", util.authenticateUser, function(req, res) {
-    conn.query("SELECT report.*,users.name,commentContent,(SELECT name FROM users INNER JOIN uploadComments ON uploadComments.userID=users.userID AND uploadComments.commentID=report.commentID) AS rid FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID INNER JOIN users ON users.userID=report.reporterID",
+    conn.query("SELECT report.*,users.name,commentContent,(SELECT name FROM users INNER JOIN uploadComments ON uploadComments.userID=users.userID AND uploadComments.commentID=report.commentID) AS rid FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID INNER JOIN users ON users.userID=report.reporterID WHERE resolutionStatus='unresolved'",
     [req.user.userID], function(err, results) {
         res.render("adminreports", {username: req.user.name, reports: results});
+    });
+    
+});
+
+app.post("/admin/reports/respond/:reportID", util.authenticateUser, function(req, res) {
+    // TODO: different handling in the event of a report being accepted (delete/hide comment and ban/warn commenting user)
+    conn.query("UPDATE report SET resolutionStatus=? WHERE reportID=?", [req.body.reject ? "rejected" : "accepted", req.params.reportID], function(err, results) {
+        if (err) throw err;
+        return res.redirect("/admin/reports");
     });
     
 });
