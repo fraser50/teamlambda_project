@@ -437,8 +437,7 @@ app.post("/admin/reports/respond/:reportID", util.authenticateUser, function(req
 });
 
 app.get("/admin/users", util.authenticateUser, function(req, res) {
-    conn.query("SELECT * FROM users",
-    [req.user.userID], function(err, results){
+    conn.query("SELECT * FROM users", [req.user.userID], function(err, results){
         res.render("userlist", {username:req.user.name, users: results});
     });
 });
