@@ -255,6 +255,13 @@ nav a .icon {
   height: 250px;
 }
 
+
+/* .container {
+    position: relative;
+    width: 90%;
+    max-width: 1024px;
+    margin: 0 auto;
+} */
 /* style for the home page */
 .main{
   background-color:seashell
@@ -281,11 +288,11 @@ nav a .icon {
   -webkit-background-clip: text;
   -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;  
+  -moz-text-fill-color: transparent;
   font-size: 100px;
   text-align: left;
   padding-top: 70px;
- 
+
 
 }
 .main_container h2 {
@@ -295,11 +302,11 @@ nav a .icon {
   -webkit-background-clip: text;
   -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;  
+  -moz-text-fill-color: transparent;
   font-size: 50px;
   text-align: left;
-  
- 
+
+
 
 }
 
@@ -307,7 +314,7 @@ nav a .icon {
   float: left;
 }
 .main_container p {
-  
+
   margin-top: 16px;
   font-size: 32px;
   font-weight: 700;
@@ -364,7 +371,7 @@ padding-right: 100px;
   width: 1200px;
   position: relative;
   float: left;
-  
+
 }
 
 .sub_container{
@@ -377,7 +384,7 @@ padding-right: 100px;
   width: 100%;
   max-width: 1400px;
   padding: 0 50px;
-  
+
 
 }
 
@@ -390,7 +397,7 @@ padding-right: 100px;
 .sub_container p{
   padding: 10px 20px;
   font-size: 20px;
-  
+
 }
 
 
