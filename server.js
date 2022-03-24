@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
@@ -124,7 +125,7 @@ app.get("/upload", util.authenticateUser, function(req, res) {
 
         res.render("upload", {username: req.user.name, alert: undefined, groups: groups});
     });
-    
+
 });
 
 permittedExtensions = ["png", "jpg", "jpeg"];
@@ -176,7 +177,7 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
             conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
                 res.render("upload", {username: req.user.name, alert: "There was a problem with your upload please try again", groups: results});
             });
-            
+
             return;
         }
 
@@ -276,7 +277,7 @@ app.get("/groups", util.authenticateUser, function(req, res) {
     [req.user.userID], function(err, results) {
         res.render("groups", {username: req.user.name, groups: results});
     });
-    
+
 });
 
 app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
@@ -332,7 +333,7 @@ app.get("/group/:groupID", util.authenticateUser, function(req, res) {
             res.render("group", {username: req.user.name, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png"});
         });
     });
-    
+
 });
 
 app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
@@ -347,9 +348,9 @@ app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
         if (results.length == 0) {
             conn.query("INSERT INTO groupMembership (userID, groupID, groupRank, dateJoined, favourite) VALUES (?, ?, ?, ?, ?)",
             [req.user.userID, groupID, "g", new Date(), fav], function(err, results) {
-                
+
                 return res.redirect("/group/"+req.params.groupID);
-                
+
         });
 
         } else {
@@ -420,11 +421,26 @@ app.get("/admin", util.authenticateUser, function(req, res) {
 });
 
 app.get("/admin/reports", util.authenticateUser, function(req, res) {
-    conn.query("SELECT report.*,users.name,commentContent,(SELECT name FROM users INNER JOIN uploadComments ON uploadComments.userID=users.userID AND uploadComments.commentID=report.commentID) AS rid FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID INNER JOIN users ON users.userID=report.reporterID",
+    conn.query("SELECT report.*,users.name,commentContent,(SELECT name FROM users INNER JOIN uploadComments ON uploadComments.userID=users.userID AND uploadComments.commentID=report.commentID) AS rid FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID INNER JOIN users ON users.userID=report.reporterID WHERE resolutionStatus='unresolved'",
     [req.user.userID], function(err, results) {
         res.render("adminreports", {username: req.user.name, reports: results});
     });
     
+});
+
+app.post("/admin/reports/respond/:reportID", util.authenticateUser, function(req, res) {
+    // TODO: different handling in the event of a report being accepted (delete/hide comment and ban/warn commenting user)
+    conn.query("UPDATE report SET resolutionStatus=? WHERE reportID=?", [req.body.reject ? "rejected" : "accepted", req.params.reportID], function(err, results) {
+        if (err) throw err;
+        return res.redirect("/admin/reports");
+    });
+
+});
+
+app.get("/admin/users", util.authenticateUser, function(req, res) {
+    conn.query("SELECT * FROM users", [req.user.userID], function(err, results){
+        res.render("userlist.ejs", {username: req.user.name, users: results});
+    });
 });
 
 // TODO: Use a static directory for things like stylesheets, images, etc
@@ -442,9 +458,18 @@ app.use("/static", express.static("static", {dotfiles: 'ignore'}));
 app.get("/support", util.authenticateUserOptional, function(req, res) {
     if (req.user) {
         res.render("support", {username: req.user.name});
-        
+
     } else {
         res.render("support", {username: undefined});
+    }
+});
+
+app.get("/tc", util.authenticateUserOptional, function (req, res) {
+    if (req.user) {
+        res.render("tc", {username: req.user.name});
+        
+    } else {
+        res.render("tc", {username: undefined});
     }
 });
 
