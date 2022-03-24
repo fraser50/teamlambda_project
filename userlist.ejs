@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- this is the user list page -->
+<html>
+    <head>
+        <link rel="stylesheet" href="/style.css">
+        <!-- meta tag used to help css respond to mobile screens better -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin</title>
+    </head>
+
+    <body>   
+      <%- include('includes/nav.ejs'); %>
+      <div style="width: 10%; float: left">
+        <%- include('includes/navadmin.ejs'); %>
+      </div>
+        <main>
+            <center>
+                <% users.forEach(function(u) { %>
+                    <div class="user">
+                        User ID: <%= u.userID %> <br>
+                        <div class="comment">
+                            <p><%= u.name %> </p><br><br>
+                            <p><%= u.email %></p>
+                          </div>
+                          Admin Status: <%= u.admin %> <br><br>                        
+                    </div><br><br>
+                <% }); %>
+            </center>
+        </main>
+    </body>
+</html>

@@ -436,6 +436,13 @@ app.post("/admin/reports/respond/:reportID", util.authenticateUser, function(req
     
 });
 
+app.post("/admin/users", util.authenticateUser, function(req, res) {
+    conn.query("SELECT * FROM users",
+    [req.user.userID], function(err, results){
+        res.render("userlist", {username:req.user.name, users: results});
+    });
+});
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));
