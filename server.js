@@ -27,6 +27,15 @@ app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
 
+var rankMappings = {
+    //owner: o, admin: a, moderator: m, normal: n, guest: g
+    o: "Owner",
+    a: "Admin",
+    m: "Moderator",
+    n: "Normal"
+    
+}
+
 app.get("/", util.authenticateUserOptional, function(req, res) {
     if (req.user) {
         res.render("index", {username: req.user.name});
@@ -387,9 +396,20 @@ app.post("/report/:commentID", util.authenticateUser, function (req, res) {
     });
 });
 
-app.get("/groupsettings", util.authenticateUser, function(req, res) {
-    // TODO: change this to /group/:groupID/settings
-    res.render("groupsettings.ejs", {username: req.user.name});
+app.get("/group/:groupID/settings", util.authenticateUser, function(req, res) {
+    conn.query("SELECT groups.* FROM groups INNER JOIN groupMembership ON groups.groupID=groupMembership.groupID AND groupMembership.userID=? WHERE groups.groupID=?", [req.user.userID, req.params.groupID], function(err, results) {
+        if (results.length != 1) {
+            return res.redirect("/groups");
+        }
+
+        conn.query("SELECT users.name,users.userID,groupRank FROM users INNER JOIN groupMembership ON users.userID=groupMembership.userID AND groupMembership.groupRank!='g' AND groupMembership.groupID=?", [req.params.groupID], function(err, results2) {
+            results2.forEach(function (v) {
+                v.mappedRank = rankMappings[v.groupRank];
+            });
+
+            res.render("groupsettings.ejs", {username: req.user.name, group: results[0], users: results2});
+        });
+    });
 });
 
 app.get("/admin", util.authenticateUser, function(req, res) {
@@ -400,7 +420,7 @@ app.get("/admin", util.authenticateUser, function(req, res) {
 });
 
 app.get("/admin/reports", util.authenticateUser, function(req, res) {
-    conn.query("SELECT report.*,commentContent FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID;",
+    conn.query("SELECT report.*,users.name,commentContent,(SELECT name FROM users INNER JOIN uploadComments ON uploadComments.userID=users.userID AND uploadComments.commentID=report.commentID) AS rid FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID INNER JOIN users ON users.userID=report.reporterID",
     [req.user.userID], function(err, results) {
         res.render("adminreports", {username: req.user.name, reports: results});
     });
