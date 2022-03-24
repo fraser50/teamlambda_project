@@ -433,10 +433,10 @@ app.post("/admin/reports/respond/:reportID", util.authenticateUser, function(req
         if (err) throw err;
         return res.redirect("/admin/reports");
     });
-    
+
 });
 
-app.post("/admin/users", util.authenticateUser, function(req, res) {
+app.get("/admin/users", util.authenticateUser, function(req, res) {
     conn.query("SELECT * FROM users",
     [req.user.userID], function(err, results){
         res.render("userlist", {username:req.user.name, users: results});
