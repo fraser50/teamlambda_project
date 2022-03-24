@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
@@ -115,7 +116,7 @@ app.get("/upload", util.authenticateUser, function(req, res) {
 
         res.render("upload", {username: req.user.name, alert: undefined, groups: groups});
     });
-    
+
 });
 
 permittedExtensions = ["png", "jpg", "jpeg"];
@@ -167,7 +168,7 @@ app.post("/upload", util.authenticateUser, upload.single("imgfile"), function(re
             conn.query("SELECT groupID,groupName FROM groups", [], function(err, results) {
                 res.render("upload", {username: req.user.name, alert: "There was a problem with your upload please try again", groups: results});
             });
-            
+
             return;
         }
 
@@ -267,7 +268,7 @@ app.get("/groups", util.authenticateUser, function(req, res) {
     [req.user.userID], function(err, results) {
         res.render("groups", {username: req.user.name, groups: results});
     });
-    
+
 });
 
 app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
@@ -323,7 +324,7 @@ app.get("/group/:groupID", util.authenticateUser, function(req, res) {
             res.render("group", {username: req.user.name, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png"});
         });
     });
-    
+
 });
 
 app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
@@ -338,9 +339,9 @@ app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
         if (results.length == 0) {
             conn.query("INSERT INTO groupMembership (userID, groupID, groupRank, dateJoined, favourite) VALUES (?, ?, ?, ?, ?)",
             [req.user.userID, groupID, "g", new Date(), fav], function(err, results) {
-                
+
                 return res.redirect("/group/"+req.params.groupID);
-                
+
         });
 
         } else {
@@ -387,7 +388,7 @@ app.use("/static", express.static("static", {dotfiles: 'ignore'}));
 app.get("/support", util.authenticateUserOptional, function(req, res) {
     if (req.user) {
         res.render("support", {username: req.user.name});
-        
+
     } else {
         res.render("support", {username: undefined});
     }
