@@ -1,9 +1,10 @@
 /* here will be where all the CSS code goes for all the pages
-authors: Fraser, Leah, Emily, Kath
+authors: Fraser, Leah, Emily, Kath, Ryan
 */
 * {
-    margin: 0px;
+    margin: 0;
     padding: 0;
+    font-family: 'Kumbh Sana', sans-serif ;
 }
 body {
     background-color: DimGray;
@@ -49,6 +50,40 @@ nav a.active {
   background-color: cornflowerblue;
   color: white;
 }
+
+#navadmin {
+  background-color: darkgrey;
+  overflow: hidden;
+}
+/* effects username*/
+#navadmin p {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 16px 14px;
+  text-decoration: none;
+  font-size: 17px;
+}
+#navadmin a {
+  display: block;
+  float: bottom;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 16px 14px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navadmin a:hover {
+  background-color: lightGray;
+  color: white;
+}
+/* Add a color to the active/current link */
+#navadmin a.active {
+  background-color: cornflowerblue;
+  color: white;
+}
+
 .contact {
   position: fixed;
   bottom: 0px;
@@ -174,7 +209,7 @@ nav a .icon {
   padding: 25px;
 }
 
-.group, .upload {
+.upload {
   background-color: white;
   border-width: 5px;
   border-style: solid;
@@ -186,8 +221,27 @@ nav a .icon {
     grid-row-gap:50px;
 }
 
+.group {
+  background-color: white;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  width: 25%;
+  height: 25%;
+}
+
 .comment {
   background-color: white;
+  width: 80%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+.report {
+  background-color: bisque;
   width: 80%;
   border-width: 1px;
   border-style: solid;
@@ -208,3 +262,201 @@ nav a .icon {
     max-width: 1024px;
     margin: 0 auto;
 } */
+/* style for the home page */
+.main{
+  background-color:seashell
+}
+
+.main_container {
+  /*display: grid;
+  grid-template-columns: 1fr 1fr;*/
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  height: 75vh;
+  background-color: Azure;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 50px;
+}
+
+.main_container h1 {
+  background-color: cornflowerblue;
+  background-image: linear-gradient(to top, blue 0%, rgb(165, 181, 255) 80%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  font-size: 100px;
+  text-align: left;
+  padding-top: 70px;
+
+
+}
+.main_container h2 {
+  background-color: cornflowerblue;
+  background-image: linear-gradient(to top, blue 0%, rgb(165, 181, 255) 80%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  font-size: 50px;
+  text-align: left;
+
+
+
+}
+
+.title{
+  float: left;
+}
+.main_container p {
+
+  margin-top: 16px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.main_img_container {
+float: right;
+padding-right: 100px;
+}
+
+.slider-frame {
+  overflow: hidden;
+  height: 500px;
+  width: 650px;
+  float: right;
+  margin-right: 100px;
+  margin-top: 100px;
+  border: 10px;
+  border-color: #f2f2f2;
+  border-radius: 80px;
+
+}
+
+/*-------------SLIDE ANIMATION------------------*/
+
+@-webkit-keyframes slide_animation{
+  0% {left: 0px;}
+  10% {left: 0px;}
+  20% {left: 1200px;}
+  30% {left: 1200px;}
+  40% {left: 2400px;}
+  50% {left: 2400px;}
+  60% {left: 1200px;}
+  70% {left: 1200px;}
+  80% {left: 0px;}
+  90% {left: 0px;}
+  100% {left: 0px;}
+
+}
+
+.slider-images{
+  width: 2600px;
+  height: 800px;
+  margin: 0 0 0 -2600px;
+  position: relative;
+  -webkit-animation-name: slide_animation;
+  -webkit-animation-duration: 30s;
+  -webkit-animation-direction: left;
+  -webkit-animation-play-state: running;
+}
+
+.img-container{
+  height: 800px;
+  width: 1200px;
+  position: relative;
+  float: left;
+
+}
+
+.sub_container{
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  height: 90vh;
+  background-color: Azure;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 50px;
+
+
+}
+
+.sub_container h1{
+  padding: 10px 20px;
+  font-size: 50px;
+
+}
+
+.sub_container p{
+  padding: 10px 20px;
+  font-size: 20px;
+
+}
+
+
+
+.col_1{
+  background-color: rgb(180, 221, 255);
+  background-image: linear-gradient(to top, rgb(75, 75, 253) 0%, rgb(180, 221, 255) 100%);
+  width: 32%;
+  float: left;
+  height: 100%;
+  margin: 5px;
+  text-align: center;
+  padding: 40px, 10px;
+  border-radius: 25px;
+}
+
+
+
+.col_2{
+  background-color: rgb(180, 221, 255);
+  background-image: linear-gradient(to top, rgb(180, 221, 255) 0%, rgb(75, 75, 253) 100%);
+  float: left;
+  width: 32%;
+  height: 100%;
+  margin: 5px;
+  text-align: center;
+  padding: 20px, 10px;
+  border-radius: 25px;
+
+}
+
+.col_3{
+  background-color: rgb(180, 221, 255);
+  background-image: linear-gradient(to top, rgb(75, 75, 253) 0%, rgb(180, 221, 255) 100%);
+  width: 32%;
+  float: left;
+  height: 100%;
+  margin: 5px;
+  text-align: center;
+  padding: 20px, 10px;
+  border-radius: 25px;
+
+}
+
+.footer{
+  max-height: 30px;
+  width: 100%;
+}
+
+.grid-container {
+  display: grid;
+    grid-template-columns: 315px 315px;
+    background-color: white;
+    border: 5px solid black;
+}
+
+.grid-item {
+  background-color: white;
+  border-right: 1px solid black;
+  text-align: center;
+  padding: 50px 50px;
+}

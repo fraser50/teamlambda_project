@@ -14,6 +14,7 @@ TODO:
 
 */
 
+
 CREATE TABLE IF NOT EXISTS users(
     userID INTEGER PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(32) NOT NULL UNIQUE,
@@ -80,4 +81,16 @@ CREATE TABLE IF NOT EXISTS uploadComments(
     commentContent VARCHAR(500) NOT NULL,
     FOREIGN KEY (uploadID) REFERENCES upload(uploadID) ON DELETE CASCADE,
     FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS report(
+    reportID INTEGER PRIMARY KEY AUTO_INCREMENT,
+    commentID INTEGER NOT NULL,
+    reporterID INTEGER NOT NULL,
+    reason VARCHAR(30),
+    adInfo VARCHAR(500),
+    dateReported DATE,
+    resolutionStatus VARCHAR(50),
+    FOREIGN KEY (commentID) REFERENCES uploadComments(commentID) ON DELETE CASCADE,
+    FOREIGN KEY (reporterID) REFERENCES users(userID) ON DELETE CASCADE
 );

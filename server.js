@@ -28,6 +28,15 @@ app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
 
+var rankMappings = {
+    //owner: o, admin: a, moderator: m, normal: n, guest: g
+    o: "Owner",
+    a: "Admin",
+    m: "Moderator",
+    n: "Normal"
+    
+}
+
 app.get("/", util.authenticateUserOptional, function(req, res) {
     if (req.user) {
         res.render("index", {username: req.user.name});
@@ -353,23 +362,84 @@ app.post("/group/:groupID/fav", util.authenticateUser, function (req, res) {
 });
 
 app.get("/report/:commentID", util.authenticateUser, function (req, res) {
-    res.render("report", {username: req.user.name, commentID: req.params.commentID});
+    conn.query("SELECT uploadComments.*,users.name FROM uploadComments INNER JOIN users ON uploadComments.userID=users.userID WHERE commentID=?", [req.params.commentID], function (err, results) {
+        if (results.length != 1) {
+            return res.send("<html><body><h1>You can't report a non-existant comment!</h1></body></html>");
+        }
+
+        res.render("report", {username: req.user.name, commentID: req.params.commentID, c: results[0]});
+    });
 });
 
 app.post("/report/:commentID", util.authenticateUser, function (req, res) {
     // TODO: Save report into the database
-    return res.send("<html><body><h1>TODO</h1></body></html>");
+    commID = req.params.commentID;
+    user = req.user.userID;
+    reason = req.body.simplereason;
+    adInfo = req.body.extra;
+    dateRep = new Date();
+    resolution = "unresolved";
+
+    conn.query("SELECT uploadComments.*,users.name FROM uploadComments INNER JOIN users ON uploadComments.userID=users.userID WHERE commentID=?", [req.params.commentID], function (err, results) {
+        if (results.length != 1) {
+            return res.send("<html><body><h1>You can't report a non-existant comment!</h1></body></html>");
+        }
+
+        conn.query("INSERT INTO report (commentID,reporterID,reason,adInfo,dateReported,resolutionStatus) VALUES (?,?,?,?,?,?)", [commID,user,reason,adInfo,dateRep,resolution], function (err, results) {
+            if(err) {
+                // If there is an error, this most likely means a user has not filled in all marked fields
+                res.render("report", {alert: "Please fill out all marked fields", username: req.user.name});
+                return;
+            }
+
+            return res.redirect("/");
+        });
+    });
 });
 
-app.get("/groupsettings", util.authenticateUser, function(req, res) {
-    // TODO: change this to /group/:groupID/settings
-    res.render("groupsettings.ejs", {username: req.user.name});
+app.get("/group/:groupID/settings", util.authenticateUser, function(req, res) {
+    conn.query("SELECT groups.* FROM groups INNER JOIN groupMembership ON groups.groupID=groupMembership.groupID AND groupMembership.userID=? WHERE groups.groupID=?", [req.user.userID, req.params.groupID], function(err, results) {
+        if (results.length != 1) {
+            return res.redirect("/groups");
+        }
+
+        conn.query("SELECT users.name,users.userID,groupRank FROM users INNER JOIN groupMembership ON users.userID=groupMembership.userID AND groupMembership.groupRank!='g' AND groupMembership.groupID=?", [req.params.groupID], function(err, results2) {
+            results2.forEach(function (v) {
+                v.mappedRank = rankMappings[v.groupRank];
+            });
+
+            res.render("groupsettings.ejs", {username: req.user.name, group: results[0], users: results2});
+        });
+    });
 });
 
 app.get("/admin", util.authenticateUser, function(req, res) {
     // SELECT COUNT(upload.*),SELECT COUNT(users.*),SELECT COUNT(groups.*),SELECT COUNT(uploadComments.*) FROM upload,users,groups,uploadComments
     conn.query("SELECT COUNT(*) AS C FROM upload; SELECT COUNT(*) AS C FROM users; SELECT COUNT(*) AS C FROM groups; SELECT COUNT(*) AS C FROM uploadComments;", [], function(err, results) {
         res.render("admin.ejs", {username: req.user.name, basicstats: results});
+    });
+});
+
+app.get("/admin/reports", util.authenticateUser, function(req, res) {
+    conn.query("SELECT report.*,users.name,commentContent,(SELECT name FROM users INNER JOIN uploadComments ON uploadComments.userID=users.userID AND uploadComments.commentID=report.commentID) AS rid FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID INNER JOIN users ON users.userID=report.reporterID WHERE resolutionStatus='unresolved'",
+    [req.user.userID], function(err, results) {
+        res.render("adminreports", {username: req.user.name, reports: results});
+    });
+    
+});
+
+app.post("/admin/reports/respond/:reportID", util.authenticateUser, function(req, res) {
+    // TODO: different handling in the event of a report being accepted (delete/hide comment and ban/warn commenting user)
+    conn.query("UPDATE report SET resolutionStatus=? WHERE reportID=?", [req.body.reject ? "rejected" : "accepted", req.params.reportID], function(err, results) {
+        if (err) throw err;
+        return res.redirect("/admin/reports");
+    });
+
+});
+
+app.get("/admin/users", util.authenticateUser, function(req, res) {
+    conn.query("SELECT * FROM users", [req.user.userID], function(err, results){
+        res.render("userlist.ejs", {username: req.user.name, users: results});
     });
 });
 
@@ -391,6 +461,15 @@ app.get("/support", util.authenticateUserOptional, function(req, res) {
 
     } else {
         res.render("support", {username: undefined});
+    }
+});
+
+app.get("/tc", util.authenticateUserOptional, function (req, res) {
+    if (req.user) {
+        res.render("tc", {username: req.user.name});
+        
+    } else {
+        res.render("tc", {username: undefined});
     }
 });
 

@@ -14,15 +14,18 @@ authors: Fraser-->
             <center>
                 <h1>Report Comment</h1><br<br><br>
 
-                TODO: Put comment to be reported here<br><br>
+                <div class="comment">
+                    <h2><%= c.name %></h2><br><br>
+                    <p><%= c.commentContent %></p>
+                  </div><br><br>
 
                 <form action="/report/<%= commentID %>" method="post">
                     Reason: <select name="simplereason">
-                        <option>Please specify</option>
-                        <option>Spam</option>
-                        <option>Harassment/Bullying</option>
-                        <option>Inappropriate/illegal</option>
-                        <option>Other</option>
+                        <option value="?">Please specify</option>
+                        <option value="spam">Spam</option>
+                        <option value="bullying">Harassment/Bullying</option>
+                        <option value="illegal">Inappropriate/illegal</option>
+                        <option value="other">Other</option>
                     </select><br><br>
 
                     Extra information (optional):<br>
