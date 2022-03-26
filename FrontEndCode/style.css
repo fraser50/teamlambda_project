@@ -461,3 +461,15 @@ padding-right: 100px;
   text-align: center;
   padding: 50px 50px;
 }
+
+.useroption {
+  background-color: grey;
+}
+
+.useroption:hover {
+  background-color: lightgrey;
+}
+
+.useroption_selected {
+  background-color: greenyellow;
+}

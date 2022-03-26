@@ -4,6 +4,25 @@
         <!-- meta tag used to help css respond to mobile screens better  -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Upload</title>
+        <script>
+            var previousSelected = null;
+
+            function selectUser(e) {
+                if (previousSelected != null) {
+                    previousSelected.className = "useroption";
+
+                } else {
+                    document.getElementById("removeuser").toggleAttribute("disabled");
+                    document.getElementById("promoteuser").toggleAttribute("disabled");
+                }
+
+                e.className = "useroption_selected";
+                var au = document.getElementById("au");
+                au.value = e.id;
+
+                previousSelected = e;
+            }
+        </script>
     </head>
 
     <body>
@@ -21,7 +40,7 @@
                 <table>
                     <tbody>
                         <% users.forEach(function(user) { %>
-                            <div>
+                            <div onclick="selectUser(this)" class="useroption" id="<%= user.userID %>">
                             <p style="float:left"><%= user.name %> </p>
                             <p style="float:right"><%= user.mappedRank %> </p><br>
                             </div>
@@ -32,8 +51,9 @@
 
             <div id="rightoptions" style="float:right">
                 <input type="button" value="Invite User" class="inputbutton"><br>
-                <input type="button" value="Remove User" class="inputbutton"><br>
-                <input type="button" value="Promote User" class="inputbutton">
+                <input type="button" value="Remove User" class="inputbutton" id="removeuser" disabled><br>
+                <input type="button" value="Promote User" class="inputbutton" id="promoteuser" disabled>
+                <input type="text" name="affecteduser" id="au" style="display:none">
             </div>
 
             <div id="inviteuser" style="position: absolute">
