@@ -389,17 +389,28 @@ app.post("/report/:commentID", util.authenticateUser, function (req, res) {
 });
 
 app.get("/group/:groupID/settings", util.authenticateUser, function(req, res) {
-    conn.query("SELECT groups.* FROM groups INNER JOIN groupMembership ON groups.groupID=groupMembership.groupID AND groupMembership.userID=? WHERE groups.groupID=?", [req.user.userID, req.params.groupID], function(err, results) {
-        if (results.length != 1) {
-            return res.redirect("/groups");
+    conn.query("SELECT groupRank FROM groupMembership WHERE groupID=? AND userID=?", [req.params.groupID, req.user.userID], function(err, results_user) {
+        if (results_user.length != 1) {
+            return res.redirect("/");
         }
 
-        conn.query("SELECT users.name,users.userID,groupRank FROM users INNER JOIN groupMembership ON users.userID=groupMembership.userID AND groupMembership.groupRank!='g' AND groupMembership.groupID=?", [req.params.groupID], function(err, results2) {
-            results2.forEach(function (v) {
-                v.mappedRank = util.rankMappings[v.groupRank];
-            });
+        if (!util.canAccessGroupSettings(results_user[0].groupRank)) {
+            return res.redirect("/");
+        }
+    
 
-            res.render("groupsettings.ejs", {username: req.user.name, group: results[0], users: results2});
+        conn.query("SELECT groups.* FROM groups INNER JOIN groupMembership ON groups.groupID=groupMembership.groupID AND groupMembership.userID=? WHERE groups.groupID=?", [req.user.userID, req.params.groupID], function(err, results) {
+            if (results.length != 1) {
+                return res.redirect("/groups");
+            }
+
+            conn.query("SELECT users.name,users.userID,groupRank FROM users INNER JOIN groupMembership ON users.userID=groupMembership.userID AND groupMembership.groupRank!='g' AND groupMembership.groupID=?", [req.params.groupID], function(err, results2) {
+                results2.forEach(function (v) {
+                    v.mappedRank = util.rankMappings[v.groupRank];
+                });
+
+                res.render("groupsettings.ejs", {username: req.user.name, group: results[0], users: results2});
+            });
         });
     });
 });
