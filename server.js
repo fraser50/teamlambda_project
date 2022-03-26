@@ -28,15 +28,6 @@ app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
 
-var rankMappings = {
-    //owner: o, admin: a, moderator: m, normal: n, guest: g
-    o: "Owner",
-    a: "Admin",
-    m: "Moderator",
-    n: "Normal"
-    
-}
-
 app.get("/", util.authenticateUserOptional, function(req, res) {
     if (req.user) {
         res.render("index", {username: req.user.name});
@@ -405,7 +396,7 @@ app.get("/group/:groupID/settings", util.authenticateUser, function(req, res) {
 
         conn.query("SELECT users.name,users.userID,groupRank FROM users INNER JOIN groupMembership ON users.userID=groupMembership.userID AND groupMembership.groupRank!='g' AND groupMembership.groupID=?", [req.params.groupID], function(err, results2) {
             results2.forEach(function (v) {
-                v.mappedRank = rankMappings[v.groupRank];
+                v.mappedRank = util.rankMappings[v.groupRank];
             });
 
             res.render("groupsettings.ejs", {username: req.user.name, group: results[0], users: results2});
@@ -421,8 +412,7 @@ app.post("/group/:groupID/settings", util.authenticateUser, function(req, res) {
             return res.redirect("/");
         }
 
-        // Settings can only be changed by a group owner or group admin
-        if (rank != "o" && rank != "a") {
+        if (!util.canAccessGroupSettings(rank)) {
             return res.redirect("/");
         }
 
