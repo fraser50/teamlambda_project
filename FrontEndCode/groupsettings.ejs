@@ -71,7 +71,7 @@
             <div id="rightoptions" style="float:right">
                 <form action="/group/<%= group.groupID %>/settings" method="post">
                     <input type="submit" value="Invite User" class="inputbutton" name="invite"><br>
-                    <input type="text" value="test"><br>
+                    <input type="text" name="invname"><br>
                     <input type="submit" value="Remove User" class="inputbutton" id="removeuser" name="remove" disabled><br>
                     <input type="submit" value="Promote User" class="inputbutton" id="promoteuser" name="promote" disabled><br>
                     <select id="rankselect" name="rank" style="display:none">

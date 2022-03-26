@@ -436,11 +436,26 @@ app.post("/group/:groupID/settings", util.authenticateUser, function(req, res) {
             var chosenRank = req.body.rank;
 
             if (chosenRank != "a" && chosenRank != "m" && chosenRank != "n") {
-                return res.redirect("/group/"+req.params.groupID + "/settings");
+                return res.redirect("/group/"+req.params.groupID+"/settings");
             }
 
             conn.query("UPDATE groupMembership SET groupRank=? WHERE userID=? AND groupID=?", [chosenRank, req.body.affecteduser, req.params.groupID], function(err, results) {
                 return res.redirect("/group/"+req.params.groupID + "/settings");
+            });
+
+        } else if (req.body.invite) {
+            conn.query("SELECT userID FROM users WHERE name=?", [req.body.invname], function(err, results) {
+                if (results.length != 1) {
+                    return res.redirect("/group/"+req.params.groupID+"/settings");
+                }
+
+                var uID = results[0].userID;
+                var gID = req.params.groupID;
+                // I read the MySQL doc for insert (specifically the bit about the IGNORE modifier)
+                // https://dev.mysql.com/doc/refman/8.0/en/insert.html
+                conn.query("INSERT IGNORE INTO groupMembership (userID,groupID,groupRank,dateJoined,favourite) VALUES (?,?,'n',?,?); UPDATE groupMembership SET groupRank=? WHERE userID=? AND groupID=?", [uID, gID, new Date(), "n", "n", uID, gID], function(err, results) {
+                    return res.redirect("/group/"+req.params.groupID+"/settings");
+                });
             });
 
         } else {
