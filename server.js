@@ -433,7 +433,15 @@ app.post("/group/:groupID/settings", util.authenticateUser, function(req, res) {
             });
 
         } else if (req.body.promote) {
-            return res.send("<html><body><h1>TODO</h1></body></html>");
+            var chosenRank = req.body.rank;
+
+            if (chosenRank != "a" && chosenRank != "m" && chosenRank != "n") {
+                return res.redirect("/group/"+req.params.groupID + "/settings");
+            }
+
+            conn.query("UPDATE groupMembership SET groupRank=? WHERE userID=? AND groupID=?", [chosenRank, req.body.affecteduser, req.params.groupID], function(err, results) {
+                return res.redirect("/group/"+req.params.groupID + "/settings");
+            });
 
         } else {
             return res.send("<html><body><h1>Unsupported option</h1></body></html>");
