@@ -10,6 +10,10 @@
             function selectUser(e) {
                 if (previousSelected != null) {
                     previousSelected.className = "useroption";
+
+                } else {
+                    document.getElementById("removeuser").toggleAttribute("disabled");
+                    document.getElementById("promoteuser").toggleAttribute("disabled");
                 }
 
                 e.className = "useroption_selected";
@@ -47,8 +51,8 @@
 
             <div id="rightoptions" style="float:right">
                 <input type="button" value="Invite User" class="inputbutton"><br>
-                <input type="button" value="Remove User" class="inputbutton"><br>
-                <input type="button" value="Promote User" class="inputbutton">
+                <input type="button" value="Remove User" class="inputbutton" id="removeuser" disabled><br>
+                <input type="button" value="Promote User" class="inputbutton" id="promoteuser" disabled>
                 <input type="text" name="affecteduser" id="au" style="display:none">
             </div>
 
