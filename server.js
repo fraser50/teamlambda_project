@@ -413,6 +413,33 @@ app.get("/group/:groupID/settings", util.authenticateUser, function(req, res) {
     });
 });
 
+app.post("/group/:groupID/settings", util.authenticateUser, function(req, res) {
+    conn.query("SELECT * FROM groupMembership WHERE groupID=? AND userID=?", [req.params.groupID, req.user.userID], function(err, results) {
+        var rank = results[0].groupRank;
+
+        if (results.length != 1) {
+            return res.redirect("/");
+        }
+
+        // Settings can only be changed by a group owner or group admin
+        if (rank != "o" && rank != "a") {
+            return res.redirect("/");
+        }
+
+        if (req.body.remove) {
+            conn.query("UPDATE groupMembership SET groupRank='g' WHERE userID=? AND groupID=?", [req.body.affecteduser, req.params.groupID], function(err, results) {
+                return res.redirect("/group/" + req.params.groupID + "/settings");
+            });
+
+        } else if (req.body.promote) {
+            return res.send("<html><body><h1>TODO</h1></body></html>");
+
+        } else {
+            return res.send("<html><body><h1>Unsupported option</h1></body></html>");
+        }
+    });
+});
+
 app.get("/admin", util.authenticateUser, function(req, res) {
     // SELECT COUNT(upload.*),SELECT COUNT(users.*),SELECT COUNT(groups.*),SELECT COUNT(uploadComments.*) FROM upload,users,groups,uploadComments
     conn.query("SELECT COUNT(*) AS C FROM upload; SELECT COUNT(*) AS C FROM users; SELECT COUNT(*) AS C FROM groups; SELECT COUNT(*) AS C FROM uploadComments;", [], function(err, results) {
