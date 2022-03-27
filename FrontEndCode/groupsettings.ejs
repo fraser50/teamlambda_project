@@ -9,6 +9,11 @@
             var previousOption = null;
 
             function selectUser(e) {
+                // Don't allow the group owner to be selected
+                if (e.getAttribute("rank") == "o") {
+                    return;
+                }
+
                 if (previousSelected != null) {
                     previousSelected.className = "useroption";
 
@@ -16,22 +21,23 @@
                     document.getElementById("removeuser").toggleAttribute("disabled");
                     document.getElementById("promoteuser").toggleAttribute("disabled");
                     document.getElementById("rankselect").style = "display:visible";
+                    
+                }
 
-                    var s = document.getElementById("rankselect");
+                var s = document.getElementById("rankselect");
 
-                    var rank = e.getAttribute("rank");
+                var rank = e.getAttribute("rank");
 
-                    var arr = s.children;
+                var arr = s.children;
 
-                    for (var i=0; i<arr.length; i++) {
-                        if (arr[i].tagName == "OPTION" && arr[i].value == rank) {
-                            if (previousOption != null) {
-                                previousOption.setAttribute("selected", "false");
-                            }
-                            previousOption = arr[i];
-
-                            arr[i].setAttribute("selected", "true");
+                for (var i=0; i<arr.length; i++) {
+                    if (arr[i].tagName == "OPTION" && arr[i].value == rank) {
+                        if (previousOption != null) {
+                            previousOption.removeAttribute("selected");
                         }
+                        previousOption = arr[i];
+                        
+                        arr[i].setAttribute("selected", "true");
                     }
                 }
 
