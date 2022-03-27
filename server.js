@@ -28,15 +28,6 @@ app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
 
-var rankMappings = {
-    //owner: o, admin: a, moderator: m, normal: n, guest: g
-    o: "Owner",
-    a: "Admin",
-    m: "Moderator",
-    n: "Normal"
-    
-}
-
 app.get("/", util.authenticateUserOptional, function(req, res) {
     if (req.user) {
         res.render("index", {username: req.user.name});
@@ -398,18 +389,78 @@ app.post("/report/:commentID", util.authenticateUser, function (req, res) {
 });
 
 app.get("/group/:groupID/settings", util.authenticateUser, function(req, res) {
-    conn.query("SELECT groups.* FROM groups INNER JOIN groupMembership ON groups.groupID=groupMembership.groupID AND groupMembership.userID=? WHERE groups.groupID=?", [req.user.userID, req.params.groupID], function(err, results) {
-        if (results.length != 1) {
-            return res.redirect("/groups");
+    conn.query("SELECT groupRank FROM groupMembership WHERE groupID=? AND userID=?", [req.params.groupID, req.user.userID], function(err, results_user) {
+        if (results_user.length != 1) {
+            return res.redirect("/");
         }
 
-        conn.query("SELECT users.name,users.userID,groupRank FROM users INNER JOIN groupMembership ON users.userID=groupMembership.userID AND groupMembership.groupRank!='g' AND groupMembership.groupID=?", [req.params.groupID], function(err, results2) {
-            results2.forEach(function (v) {
-                v.mappedRank = rankMappings[v.groupRank];
+        if (!util.canAccessGroupSettings(results_user[0].groupRank)) {
+            return res.redirect("/");
+        }
+    
+
+        conn.query("SELECT groups.* FROM groups INNER JOIN groupMembership ON groups.groupID=groupMembership.groupID AND groupMembership.userID=? WHERE groups.groupID=?", [req.user.userID, req.params.groupID], function(err, results) {
+            if (results.length != 1) {
+                return res.redirect("/groups");
+            }
+
+            conn.query("SELECT users.name,users.userID,groupRank FROM users INNER JOIN groupMembership ON users.userID=groupMembership.userID AND groupMembership.groupRank!='g' AND groupMembership.groupID=?", [req.params.groupID], function(err, results2) {
+                results2.forEach(function (v) {
+                    v.mappedRank = util.rankMappings[v.groupRank];
+                });
+
+                res.render("groupsettings.ejs", {username: req.user.name, group: results[0], users: results2});
+            });
+        });
+    });
+});
+
+app.post("/group/:groupID/settings", util.authenticateUser, function(req, res) {
+    conn.query("SELECT * FROM groupMembership WHERE groupID=? AND userID=?", [req.params.groupID, req.user.userID], function(err, results) {
+        var rank = results[0].groupRank;
+
+        if (results.length != 1) {
+            return res.redirect("/");
+        }
+
+        if (!util.canAccessGroupSettings(rank)) {
+            return res.redirect("/");
+        }
+
+        if (req.body.remove) {
+            conn.query("UPDATE groupMembership SET groupRank='g' WHERE userID=? AND groupID=?", [req.body.affecteduser, req.params.groupID], function(err, results) {
+                return res.redirect("/group/" + req.params.groupID + "/settings");
             });
 
-            res.render("groupsettings.ejs", {username: req.user.name, group: results[0], users: results2});
-        });
+        } else if (req.body.promote) {
+            var chosenRank = req.body.rank;
+
+            if (chosenRank != "a" && chosenRank != "m" && chosenRank != "n") {
+                return res.redirect("/group/"+req.params.groupID+"/settings");
+            }
+
+            conn.query("UPDATE groupMembership SET groupRank=? WHERE userID=? AND groupID=?", [chosenRank, req.body.affecteduser, req.params.groupID], function(err, results) {
+                return res.redirect("/group/"+req.params.groupID + "/settings");
+            });
+
+        } else if (req.body.invite) {
+            conn.query("SELECT userID FROM users WHERE name=?", [req.body.invname], function(err, results) {
+                if (results.length != 1) {
+                    return res.redirect("/group/"+req.params.groupID+"/settings");
+                }
+
+                var uID = results[0].userID;
+                var gID = req.params.groupID;
+                // I read the MySQL doc for insert (specifically the bit about the IGNORE modifier)
+                // https://dev.mysql.com/doc/refman/8.0/en/insert.html
+                conn.query("INSERT IGNORE INTO groupMembership (userID,groupID,groupRank,dateJoined,favourite) VALUES (?,?,'n',?,?); UPDATE groupMembership SET groupRank=? WHERE userID=? AND groupID=?", [uID, gID, new Date(), "n", "n", uID, gID], function(err, results) {
+                    return res.redirect("/group/"+req.params.groupID+"/settings");
+                });
+            });
+
+        } else {
+            return res.send("<html><body><h1>Unsupported option</h1></body></html>");
+        }
     });
 });
 
