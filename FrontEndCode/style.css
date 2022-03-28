@@ -196,7 +196,26 @@ main {
   text-align: left;
 }
 
+.user {
+  background-color: bisque;
+  width: 60%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  word-wrap: break-word;
+  text-align: center;
+  font-weight: bold;
+}
 
+.user_details {
+  background-color: white;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  word-wrap: break-word;
+  text-align: center;
+}
 
 /* does a media query that activates when width is smaller than 800px (e.g mobile): */
 /* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\START OF MOBILE CODE\\\\\\\\\\\\\\\\\\\\\\\\\\*/
