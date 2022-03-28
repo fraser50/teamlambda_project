@@ -250,6 +250,27 @@ nav a .icon {
   text-align: left;
 }
 
+.user {
+  background-color: bisque;
+  width: 60%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  word-wrap: break-word;
+  text-align: center;
+  font-weight: bold;
+}
+
+.user details {
+  background-color: white;
+  width: 60%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  word-wrap: break-word;
+  text-align: center;
+}
+
 .group_image {
   width: 250px;
   height: 250px;
