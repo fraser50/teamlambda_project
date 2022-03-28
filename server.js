@@ -496,6 +496,15 @@ app.get("/admin/users", util.authenticateUser, function(req, res) {
     });
 });
 
+app.post("/admin/users/adminStatus/:userID", util.authenticateUser, function(req, res) {
+    adminStat = req.body.admin;
+    user = req.params.userID;
+    conn.query("UPDATE users SET admin=? WHERE userID=?",[adminStat, user], function(err, results){
+        if (err) throw err;
+        return res.redirect("/admin/users");
+    } )
+})
+
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
     res.sendFile(path.join(__dirname, "FrontEndCode/style.css"));

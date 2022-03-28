@@ -21,7 +21,18 @@
                         <div class="user_details">
                             <p>Username: <%= u.name %> </p>
                             <p>Email: <%= u.email %></p>
-                            <p>Admin Status: <%= u.admin %></p> 
+                            <p>Admin Status: <%= u.admin %></p>
+                            <select name="admin" id="admin">
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                              </select> 
+                              <form action="/admin/users/adminStatus/<%= u.userID %>" method="post">
+                                <select name="admin" id="admin">
+                                    <option value="Y">Yes</option>
+                                    <option value="N">No</option>
+                                  </select> 
+                                <input type="submit" name="accept" value="Accept" class="inputbutton" style="background-color: white;width: 45%">
+                            </form>
                           </div>                     
                     </div><br><br>
                 <% }); %>
