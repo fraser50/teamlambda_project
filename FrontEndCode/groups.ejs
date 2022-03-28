@@ -17,6 +17,8 @@
                     <a href="/group/<%= g.groupID %>" style="color: black; text-decoration: none;">
                         <% if (g.favourite == 'y') { %>
                             <img src="/static/star_on.png" class="group_image">
+                        <% }else{ %>
+                            <img src="/static/star_off.png" class="group_image">
                         <% } %>
                         <h2 class="group_text"><%= g.groupName %></h2>
                         <img src="/uploads/<%= g.groupAvatar %>" class="group_image">
