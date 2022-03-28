@@ -1,23 +1,92 @@
 <html>
     <head>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="/style.css">
         <!-- meta tag used to help css respond to mobile screens better  -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Upload</title>
+        <script>
+            var previousSelected = null;
+            var previousOption = null;
+
+            function selectUser(e) {
+                // Don't allow the group owner to be selected
+                if (e.getAttribute("rank") == "o") {
+                    return;
+                }
+
+                if (previousSelected != null) {
+                    previousSelected.className = "useroption";
+
+                } else {
+                    document.getElementById("removeuser").toggleAttribute("disabled");
+                    document.getElementById("promoteuser").toggleAttribute("disabled");
+                    document.getElementById("rankselect").style = "display:visible";
+                    
+                }
+
+                var s = document.getElementById("rankselect");
+
+                var rank = e.getAttribute("rank");
+
+                var arr = s.children;
+
+                for (var i=0; i<arr.length; i++) {
+                    if (arr[i].tagName == "OPTION" && arr[i].value == rank) {
+                        if (previousOption != null) {
+                            previousOption.removeAttribute("selected");
+                        }
+                        previousOption = arr[i];
+                        
+                        arr[i].setAttribute("selected", "true");
+                    }
+                }
+
+                e.className = "useroption_selected";
+                var au = document.getElementById("au");
+                au.value = e.id;
+
+                previousSelected = e;
+            }
+        </script>
     </head>
 
     <body>
         <%- include("includes/nav.ejs"); %>
         <main>
             <div id="leftoptions" style="float:left">
-                <img src="/placeholder.png" style="width:50px;height:50px;">
-                <h1 style="float:right">GroupName</h1><br>
+                <img src="/uploads/<%= group.groupAvatar %>" style="width:50px;height:50px;">
+                <h1 style="float:right"><%= group.groupName %>  </h1><br>
                 <input type="button" value="Save Group" class="inputbutton">
                 <input type="button" value="Delete Group" class="inputbutton"><br>
             </div>
 
+            <div style="float:left">
+                <h2>Users</h2><br>
+                <table>
+                    <tbody>
+                        <% users.forEach(function(user) { %>
+                            <div onclick="selectUser(this)" class="<%= user.groupRank == 'o' ? "useroption_owner" : "useroption" %>" id="<%= user.userID %>" rank="<%= user.groupRank %>">
+                            <p style="float:left"><%= user.name %> </p>
+                            <p style="float:right"><%= user.mappedRank %> </p><br>
+                            </div>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+
             <div id="rightoptions" style="float:right">
-                <input type="button" value="Invite User" class="inputbutton"><br>
+                <form action="/group/<%= group.groupID %>/settings" method="post">
+                    <input type="submit" value="Invite User" class="inputbutton" name="invite"><br>
+                    <input type="text" name="invname"><br>
+                    <input type="submit" value="Remove User" class="inputbutton" id="removeuser" name="remove" disabled><br>
+                    <input type="submit" value="Promote User" class="inputbutton" id="promoteuser" name="promote" disabled><br>
+                    <select id="rankselect" name="rank" style="display:none">
+                        <option value="a">Admin</option>
+                        <option value="m">Moderator</option>
+                        <option value="n">Normal</option>
+                    </select>
+                    <input type="text" name="affecteduser" id="au" style="display:none">
+                </form>
             </div>
 
             <div id="inviteuser" style="position: absolute">

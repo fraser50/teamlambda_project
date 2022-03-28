@@ -74,6 +74,43 @@ function authenticateUserOptional(req, res, next) {
     });
 }
 
+// This function tries to authenticate an admin and will send them to the homepage if they aren't
+function authenticateAdmin(req, res, next) {
+    getUserFromCookies(req.headers.cookie, function(user) {
+        if (user) {
+            if (user.admin != 'Y') {
+                return res.redirect("/");
+            }
+            req.user = user;
+            next();
+
+        } else {
+            return res.redirect("/login");
+        }
+    });
+}
+
+var rankMappings = {
+    //owner: o, admin: a, moderator: m, normal: n, guest: g
+    o: "Owner",
+    a: "Admin",
+    m: "Moderator",
+    n: "Normal"
+    
+}
+
+var licenseMappings = {
+    "CC-BY": "Creative Commons Attribution",
+    "CC-BY-SA": "Creative Commons Attribution Sharealike",
+    "CC-BY-NC": "Creative Commons Attrubution Non-Commercial",
+    "none": "None (All Rights Reserved)"
+}
+
+// This function returns whether the given group rank is allowed to access and modify group settings
+function canAccessGroupSettings(rank) {
+    return rank == 'o' || rank == 'a';
+}
+
 function filter(lst, func) {
     var retlist = [];
 
@@ -91,4 +128,8 @@ exports.createSession = createSession;
 exports.parseCookies = parseCookies;
 exports.authenticateUser = authenticateUser;
 exports.authenticateUserOptional = authenticateUserOptional;
+exports.authenticateAdmin = authenticateAdmin;
+exports.rankMappings = rankMappings;
+exports.licenseMappings = licenseMappings;
+exports.canAccessGroupSettings = canAccessGroupSettings;
 exports.filter = filter;
