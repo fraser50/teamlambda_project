@@ -164,6 +164,11 @@ main {
   height: 100px;
   text-align: left;
   column-count: 4;
+  word-wrap: break-word;
+}
+
+.gold {
+  background-color: gold;
 }
 /* used in groups page (to show image of group+fav icon)*/
 .group_image{
