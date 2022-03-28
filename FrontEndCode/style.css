@@ -261,9 +261,9 @@ nav a .icon {
   font-weight: bold;
 }
 
-.user details {
+.user_details {
   background-color: white;
-  width: 60%;
+  width: 100%;
   border-width: 1px;
   border-style: solid;
   border-color: black;
