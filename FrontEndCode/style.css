@@ -166,8 +166,8 @@ main {
 }
 /* used in groups page (to show image of group+fav icon)*/
 .group_image{
-  width:100px;
-  height:100px;
+  width:90px;
+  height:90px;
   border-radius: 10px;
 }
 /* used in groups page (for the text)*/
