@@ -18,8 +18,6 @@
   },
   "homepage": "https://github.com/fraser50/teamlambda_project#readme",
   "dependencies": {
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
