@@ -306,22 +306,24 @@ app.post("/image/:uploadID/comment", util.authenticateUser, function(req, res) {
         return res.redirect("/image/"+uploadID);
     }
 
-    conn.query("INSERT INTO uploadComments (userID,uploadID,datePosted,commentContent) VALUES (?,?,?,?)", [req.user.userID,uploadID, new Date(), req.body.comment], function(err, results) {
+    conn.query("INSERT INTO uploadComments (userID,uploadID,datePosted,commentContent) VALUES (?,?,?,?)", [req.user.userID,uploadID, new Date(), req.body.comment], function(err, results1) {
         return res.redirect("/image/"+uploadID);
     });
 
 });
 
 app.get("/group/:groupID", util.authenticateUser, function(req, res) {
-    conn.query("SELECT favourite FROM groupMembership WHERE userID=? AND groupID=?", [req.user.userID, req.params.groupID], function (err, results) {
+    conn.query("SELECT favourite,groupRank FROM groupMembership WHERE userID=? AND groupID=?", [req.user.userID, req.params.groupID], function (err, results1) {
         var fav = 'n';
+        var rank = null;
 
-        if (results.length == 1) {
-            fav = results[0].favourite;
+        if (results1.length == 1) {
+            fav = results1[0].favourite;
+            rank = results1[0].groupRank;
         }
 
         conn.query("SELECT upload.* FROM upload INNER JOIN groupImageMembership ON groupImageMembership.uploadID=upload.uploadID AND groupImageMembership.groupID=?", [req.params.groupID],function(err, results, fields) {
-            res.render("group", {username: req.user.name, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png"});
+            res.render("group", {username: req.user.name, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png", rank: rank});
         });
     });
 

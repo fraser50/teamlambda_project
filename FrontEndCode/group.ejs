@@ -13,7 +13,10 @@
             <br><form action="/group/<%= gid %>/fav" method="post">
                 <img src="/static/<%= favstar %>" style="width:64px; height:64px"><br>
                 <input type="submit" value="<%= fav %>">
-            </form>
+            </form><br>
+            <% if (rank == 'o' || rank == 'a') { %>
+             <center><a href="/group/<%= gid %>/settings">Settings</a></center>
+            <% } %>
             <% if (group.length == 0) { %>
                 <br><h1>This group is currently empty!</h1><br>
             <% } %>
