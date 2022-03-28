@@ -4,16 +4,16 @@ authors: Ryan, Leah -->
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
-      
         <!-- meta tag used to help css respond to mobile screens better  -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home Page</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
         <style>
          @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&family=Roboto&display=swap');
          </style>
     </head>
-
     <body>
       <!--this page will have:
        a navigation bar at the top
@@ -23,67 +23,160 @@ authors: Ryan, Leah -->
       <%- include('includes/nav.ejs'); %>
 
       <div class="main">
-         <div class="main_container">
-            <div class="title">
+
+         <div class="title">
             <h1>WaveyBook</h1><br>
-            <h2>Display your passion</h2><br>
-            <p>ondsoinnnonvnnojsjnnnvojnoh</p><br>
-            <p>ibibbibibibibbib</p>
+            <h2>'Display your passion'</h2><br>
+
          </div>
-            <!--image slider with auto movement-->
-            <div class="slider-frame">
-               <div class="slider-images">
-                  <div class="img-container">
-                     <img src="/static/slide1.png">
+
+         <div class="main_container">
+                                
+            <div class="slideshow middle">
+
+               <div class="slides">
+                  <input type="radio" name="r" id="r1" checked>
+                  <input type="radio" name="r" id="r2">
+                  <input type="radio" name="r" id="r3">
+                  <input type="radio" name="r" id="r4">
+                  <input type="radio" name="r" id="r5">
+                  
+                  <div class="slide s1">
+                     <img src="static/column_1_dog1.jpg">
                   </div>
-                  <div class="img-container">
-                     <img src="/static/slide2.png">
+                  <div class="slide">
+                     <img src="static/column_1_car1.jpg">                     
                   </div>
-                  <div class="img-container">
-                     <img src="/static/slide3.png">
+                  <div class="slide">
+                     <img src="static/column_3_train1.jpg">
+                  </div>
+                  <div class="slide">
+                     <img src="static/column_2_boat1.jpg">
+                  </div>
+                  <div class="slide">
+                     <img src="static/column_1_tree1.jpg">
                   </div>
                </div>
-               
+
+               <div class="navigation">
+                  <label for="r1" class="bar"></label>
+                  <label for="r2" class="bar"></label>
+                  <label for="r3" class="bar"></label>
+                  <label for="r4" class="bar"></label>
+                  <label for="r5" class="bar"></label>
+               </div>
+
             </div>
-            
-         
+
          </div>
          
+         <!--Colums containing dummy data -->
+
          <div class="sub_container">
-            
             <div class="col_1">
-               <h1>Left</h1>
-               <p>this will be the left column</p>
-
-
-            </div>
+               <h1>New Groups</h1>
+               <img src="static/column_1_tree1.jpg" alt="tree" >
+               <img src="static/column_1_car1.jpg" alt="car" >
+               <img src="static/column_1_dog1.jpg" alt="dog" >
+            </div>         
             <div class="col_2">
-               <h1>Centre</h1>
-               <p>this will be the centre column</p>
-
-               
+               <h1>This weeks top groups</h1>
+               <img src="static/column_1_dog1.jpg" alt="dog" >
+               <img src="static/column_2_boat1.jpg" alt="boat" >
+               <img src="static/slide3.png" alt="group1" >
             </div>
+            
             <div class="col_3">
-               <h1>Right</h1>
-               <p>this will be the right column</p>
-               
+               <h1>Groups you might like</h1>
+               <img src="static/column_3_train1.jpg" alt="train 1" >
+               <img src="static/column_3_train2.jpg" alt="train 2" >
+               <img src="static/column_3_train3.jpg" alt="train 3" >
             </div>
-
             
-         </div>
-
-
-         
-            
-
-         </div>
-
-         <div class="footer">
-            &copy; All Rights Reserved.
          </div>
       </div>
 
+      <div class="footer">
+
+      </div>
+            
+         <style>
+         /* When screen width will less or 500px then it will apply */
+            @media only screen and  (max-width:500px) {
+
+               .main_container {
+                  padding: 0px;
+               }
+               .title h1{
+               font-size: 50px;
+               text-align: center;
+               padding-top: 20px;
+              }
+              .title h2{
+               font-size: 25px;
+               text-align: center;
+              }
+              .main_container p{
+                 display: none;
+                 margin: 20px
+              }
+              .main_container .title{
+                float: none;
+              }
+              .slider-frame{
+                 height:250px;
+                 width: 355px;
+                 margin-top: 0px;
+                 margin: 20px;
+                 border-radius: 30px;
+                 align-items: center;
+              }
+              .sub_container{
+                 width: 80%;
+                 height: 150vh;
+              }
+              .footer{
+                 display: none;
+              }
+              .sub_container h1{
+                 font-size: 30px;
+              }
+              .col_1{
+                 width: 45%;
+                 height: 45%;
+              }
+              .col_2{
+                 width: 45%;
+                 height: 45%;
+              }
+              .col_3{
+                 width: 50%;
+                 margin: 5px 0 0 65px;
+                 height: 45%;
+
+              }
+              
+              .slideshow{
+               width: 350px;
+               height: 200px;
+               overflow: hidden;
+                float: left;
+               margin-top: -50px;
+               margin-bottom: 0px;
+               }
+
+               .bar{
+                  width: 20px;
+                  height: 5px;
+               }
+
+               .title{
+                  height: 60vh;
+               }
+            }
+         </style>
     </body>
+
 
 
 </html>
