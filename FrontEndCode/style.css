@@ -218,6 +218,17 @@ main {
   text-align: center;
 }
 
+.column {
+  float: left;
+  width: 50%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 /* does a media query that activates when width is smaller than 800px (e.g mobile): */
 /* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\START OF MOBILE CODE\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 @media screen and (max-width: 800px) {
