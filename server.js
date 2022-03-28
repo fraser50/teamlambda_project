@@ -286,10 +286,12 @@ app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
             var uname = r.name;
             var caption = r.caption;
 
+            var license = util.licenseMappings[r.licenseType];
+
             // Fetch comments from database
             conn.query("SELECT commentID,commentContent AS content,datePosted,users.name FROM uploadComments INNER JOIN users ON users.userID=uploadComments.userID WHERE uploadID=?",
             [uploadID,], function(err, results) {
-                res.render("image", {username: username, comments: results, poster: uname, caption: caption, license: "Test", fName: r.fName, uploadID: uploadID});
+                res.render("image", {username: username, comments: results, poster: uname, caption: caption, license: license, fName: r.fName, uploadID: uploadID, licenseURL: undefined});
             });
 
         } else {
