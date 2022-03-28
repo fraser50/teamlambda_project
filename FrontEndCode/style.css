@@ -98,76 +98,8 @@ main {
     margin-left: 25%;
     margin-right: 25%;
 }
-/* styles for the index page for showing popular and recent content*/
-.column {
-  float: left;
-  width: 50%;
-}
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-/* does a media query that activates when width is smaller than 800px: */
-@media screen and (max-width: 800px) {
-  /* changes column above's width used in index page*/
-  .column {
-    width: 100%; /* The width is 100%, when the viewport is 800px or smaller.
-     So this will make the colums 1 after other rather than side by side*/
-  }
-  /* changes main above's width used in login and regester pages*/
-  main{
-    width: 100%;
-    margin-left: 0%;
-    margin-right: 0%;
-  }
 
-  /* nav bar turns into dropdown menue */
-  /* Style The Dropdown Button */
-nav {
-  overflow: hidden;
-  position: relative;
-  background-color: silver;
-  height: auto;
-  margin:auto;
-}
-/*links styles for mobile*/
-nav a {
-  position:relative;
-  width:55%;
-  color: #f2f2f2;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  display: block;
 
-}
-/* effects username in navbar*/
-nav p {
-  position: absolute;
-  right: 0;
-  top: 0;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* links (Hidden by Default) */
-nav .links {
-  display: none;
-}
-
-/* the wavey book icon  */
-nav a .icon {
-  display: block;
-  position: absolute;
-  width: auto;
-}
-
-}
 /* style for the Login page/ signup*/
 #user {
     width: auto;
@@ -221,16 +153,28 @@ nav a .icon {
     grid-column-gap: 50px;
     grid-row-gap:50px;
 }
-/* used in groups page and group page*/
+/* used in groups page (for the group link) and group page*/
 .group {
   background-color: white;
   border-width: 5px;
   border-style: solid;
   border-color: black;
-  width: 60%;
-  height: 25%;
+  width:90%;
+  height: 100px;
+  text-align: left;
+  column-count: 4;
 }
-
+/* used in groups page (to show image of group+fav icon)*/
+.group_image{
+  width:100px;
+  height:100px;
+  border-radius: 10px;
+}
+/* used in groups page (for the text)*/
+.group_text{
+  text-align: left;
+  padding-top: 40px;
+}
 .comment {
   background-color: white;
   width: 80%;
@@ -251,12 +195,69 @@ nav a .icon {
   text-align: left;
 }
 
-.group_image {
-  width: 250px;
-  height: 250px;
+
+
+/* does a media query that activates when width is smaller than 800px (e.g mobile): */
+/* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\START OF MOBILE CODE\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+@media screen and (max-width: 800px) {
+  /* changes column above's width used in index page*/
+  .column {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller.
+    So this will make the colums 1 after other rather than side by side*/
+  }
+  /* changes main above's width used in login and regester pages*/
+  main{
+    width: 100%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+
+  /* nav bar turns into dropdown menue */
+  /* Style The Dropdown Button */
+nav {
+  overflow: hidden;
+  position: relative;
+  background-color: silver;
+  height: auto;
+  margin:auto;
+}
+/*links styles for mobile*/
+nav a {
+  position:relative;
+  width:55%;
+  color: #f2f2f2;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+
+}
+/* effects username in navbar*/
+nav p {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
 }
 
+/* links (Hidden by Default) */
+nav .links {
+  display: none;
+}
 
+/* the wavey book icon  */
+nav a .icon {
+  display: block;
+  position: absolute;
+  width: auto;
+}
+
+}
+/* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\END OF MOBILE CODE\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 /* .container {
     position: relative;
     width: 90%;
