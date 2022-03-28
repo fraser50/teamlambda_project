@@ -466,14 +466,14 @@ app.post("/group/:groupID/settings", util.authenticateUser, function(req, res) {
     });
 });
 
-app.get("/admin", util.authenticateUser, function(req, res) {
+app.get("/admin", util.authenticateAdmin, function(req, res) {
     // SELECT COUNT(upload.*),SELECT COUNT(users.*),SELECT COUNT(groups.*),SELECT COUNT(uploadComments.*) FROM upload,users,groups,uploadComments
     conn.query("SELECT COUNT(*) AS C FROM upload; SELECT COUNT(*) AS C FROM users; SELECT COUNT(*) AS C FROM groups; SELECT COUNT(*) AS C FROM uploadComments;", [], function(err, results) {
         res.render("admin.ejs", {username: req.user.name, basicstats: results});
     });
 });
 
-app.get("/admin/reports", util.authenticateUser, function(req, res) {
+app.get("/admin/reports", util.authenticateAdmin, function(req, res) {
     conn.query("SELECT report.*,users.name,commentContent,(SELECT name FROM users INNER JOIN uploadComments ON uploadComments.userID=users.userID AND uploadComments.commentID=report.commentID) AS rid FROM report INNER JOIN uploadComments ON uploadComments.commentID=report.commentID INNER JOIN users ON users.userID=report.reporterID WHERE resolutionStatus='unresolved'",
     [req.user.userID], function(err, results) {
         res.render("adminreports", {username: req.user.name, reports: results});
@@ -481,7 +481,7 @@ app.get("/admin/reports", util.authenticateUser, function(req, res) {
     
 });
 
-app.post("/admin/reports/respond/:reportID", util.authenticateUser, function(req, res) {
+app.post("/admin/reports/respond/:reportID", util.authenticateAdmin, function(req, res) {
     // TODO: different handling in the event of a report being accepted (delete/hide comment and ban/warn commenting user)
     conn.query("UPDATE report SET resolutionStatus=? WHERE reportID=?", [req.body.reject ? "rejected" : "accepted", req.params.reportID], function(err, results) {
         if (err) throw err;
@@ -490,13 +490,13 @@ app.post("/admin/reports/respond/:reportID", util.authenticateUser, function(req
 
 });
 
-app.get("/admin/users", util.authenticateUser, function(req, res) {
+app.get("/admin/users", util.authenticateAdmin, function(req, res) {
     conn.query("SELECT * FROM users", [req.user.userID], function(err, results){
         res.render("userlist.ejs", {username: req.user.name, users: results});
     });
 });
 
-app.post("/admin/users/adminStatus/:userID", util.authenticateUser, function(req, res) {
+app.post("/admin/users/adminStatus/:userID", util.authenticateAdmin, function(req, res) {
     adminStat = req.body.admin;
     user = req.params.userID;
     conn.query("UPDATE users SET admin=? WHERE userID=?",[adminStat, user], function(err, results){
