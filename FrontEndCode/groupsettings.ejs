@@ -65,7 +65,7 @@
                 <table>
                     <tbody>
                         <% users.forEach(function(user) { %>
-                            <div onclick="selectUser(this)" class="useroption">
+                            <div onclick="selectUser(this)" class="<%= user.groupRank == 'o' ? "useroption_owner" : "useroption" %>" id="<%= user.userID %>" rank="<%= user.groupRank %>">
                             <p style="float:left"><%= user.name %> </p>
                             <p style="float:right"><%= user.mappedRank %> </p><br>
                             </div>
