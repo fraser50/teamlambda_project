@@ -464,7 +464,7 @@ padding-right: 100px;
   padding: 50px 50px;
 }
 
-.useroption {
+.useroption, .useroption_owner {
   background-color: grey;
 }
 
