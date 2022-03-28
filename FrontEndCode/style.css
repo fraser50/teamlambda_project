@@ -252,7 +252,18 @@ nav a .icon {
 
 .user {
   background-color: bisque;
-  width: 80%;
+  width: 60%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: black;
+  word-wrap: break-word;
+  text-align: center;
+  font-weight: bold;
+}
+
+.user details {
+  background-color: white;
+  width: 60%;
   border-width: 1px;
   border-style: solid;
   border-color: black;
