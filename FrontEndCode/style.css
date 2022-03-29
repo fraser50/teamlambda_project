@@ -613,6 +613,7 @@ input[name="r"]{
   background-color: white;
   word-wrap: break-word;
   align-items: center;
+  border-radius: 25px;
 
 }
 
