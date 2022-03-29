@@ -410,7 +410,7 @@ padding-right: 100px;
   z-index: 1;
   width: 100%;
   max-width: 75%;
-  padding: 0 50px;
+  padding: 0 20px;
   
   
 
@@ -602,7 +602,7 @@ input[name="r"]{
 
 .imagedisplay {
   margin: 15px;
-  width: 60%;
+  width: 90%;
   height: auto;
   border-style: solid;
   border-color: black;
