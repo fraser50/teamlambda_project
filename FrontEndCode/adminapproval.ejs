@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- this is the approval page -->
+<html>
+    <head>
+        <link rel="stylesheet" href="/style.css">
+        <!-- meta tag used to help css respond to mobile screens better -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin | Upload Approval</title>
+    </head>
+
+    <body>   
+      <%- include('includes/nav.ejs'); %>
+      <div style="width: 10%; float: left">
+        <%- include('includes/navadmin.ejs'); %>
+      </div>
+        <main>
+            <center>
+                <% approval.forEach(function(u) { %>
+                    <div class="approval"><br>
+                            <figure class="upload_thumb">
+                                <img src="/uploads/<%= u.fName %>" style="width:15%;height:15%;" class="group_image"><br>
+                                <p><%= u.caption %> </p><br>
+                                Author: <%= u.name %> 
+                            </figure>
+                            <form>
+                                <center>
+                                    <input type="submit" name="reject" value="Reject" class="inputbutton" style="background-color: rgb(200, 0, 0);width: 45%">
+                                    <input type="submit" name="accept" value="Accept" class="inputbutton" style="background-color: rgb(0, 200, 0);width: 45%">
+                                </center><br>
+                            </form>
+                    </div><br>
+                <% }); %>
+            </center>
+        </main>
+    </body>
+</html>
+
+    

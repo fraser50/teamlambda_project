@@ -505,7 +505,14 @@ app.post("/admin/users/adminStatus/:userID", util.authenticateAdmin, function(re
         if (err) throw err;
         return res.redirect("/admin/users");
     } )
-})
+});
+
+app.get("/admin/approval", util.authenticateAdmin, function(req, res) {
+    conn.query("SELECT upload.*,name FROM upload INNER JOIN users ON upload.userID=users.userID", [], function(err, results) {
+        res.render("adminapproval", {username: req.user.name, approval: results});
+
+    });
+});
 
 // TODO: Use a static directory for things like stylesheets, images, etc
 app.get("/style.css", function(req, res) {
