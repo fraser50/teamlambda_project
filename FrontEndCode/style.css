@@ -7,14 +7,14 @@ authors: Fraser, Leah, Emily, Kath, Ryan
     font-family: 'Kumbh Sana', sans-serif ;
 }
 body {
-    background-color: DimGray;
+    background-color: #68422a;
     overflow-x: hidden;
 }
 /* all nav effects the navbar*/
 nav {
     width: 100%;
     height: 48px;
-    background-color: silver;
+    background-color: #68422a;
     overflow: hidden;
 }
 /* effects username*/
@@ -49,7 +49,7 @@ nav a:hover {
 }
 /* Add a color to the active/current link */
 nav a.active {
-  background-color: cornflowerblue;
+  background-color: lightgray;
   color: white;
 }
 
@@ -320,7 +320,7 @@ nav a .icon {
   justify-self: center;
   margin: 0 auto;
   height: 75vh;
-  background-color: Azure;
+  background-color: #FFFAF0;
   z-index: 1;
   width: 100%;
   max-width: 75%;
@@ -328,8 +328,8 @@ nav a .icon {
 }
 
 .title h1 {
-  background-color: cornflowerblue;
-  background-image: linear-gradient(to top, blue 0%, rgb(165, 181, 255) 80%);
+ 
+  background-color: #303030;
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
@@ -344,8 +344,7 @@ nav a .icon {
 }
 
 .title h2 {
-  background-color: cornflowerblue;
-  background-image: linear-gradient(to top, blue 0%, rgb(165, 181, 255) 80%);
+  background-color: #303030;
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
@@ -362,7 +361,7 @@ nav a .icon {
   justify-self: center;
   margin: 0 auto;
   height: auto;
-  background-color: rgb(185, 119, 19);
+  background-color: #FFFAF0;
   z-index: 1;
   width: 100%;
   max-width: 80%;
@@ -407,7 +406,7 @@ padding-right: 100px;
   justify-self: center;
   margin: 0 auto;
   height: 100vh;
-  background-color: Azure;
+  background-color: #FFFAF0;
   z-index: 1;
   width: 100%;
   max-width: 75%;
@@ -433,7 +432,7 @@ padding-right: 100px;
 
 .col_1{
   background-color: rgb(180, 221, 255);
-  background-image: linear-gradient(to top, rgb(75, 75, 253) 0%, rgb(180, 221, 255) 100%);
+  background-image: linear-gradient(to top, #634e42 0%, #68422a 100%);
   width: 32%;
   float: left;
   height: 90%;
@@ -447,7 +446,7 @@ padding-right: 100px;
 
 .col_2{
   background-color: rgb(180, 221, 255);
-  background-image: linear-gradient(to top, rgb(180, 221, 255) 0%, rgb(75, 75, 253) 100%);
+  background-image: linear-gradient(to top, #634e42 0%, #68422a 100%);
   float: left;
   width: 32%;
   height: 90%;
@@ -460,7 +459,7 @@ padding-right: 100px;
 
 .col_3{
   background-color: rgb(180, 221, 255);
-  background-image: linear-gradient(to top, rgb(75, 75, 253) 0%, rgb(180, 221, 255) 100%);
+  background-image: linear-gradient(to top, #634e42 0%, #68422a 100%);
   width: 32%;
   float: left;
   height: 90%;
