@@ -601,13 +601,12 @@ input[name="r"]{
 }
 
 .imagedisplay {
-  width: 80%;
-  height: 30%;
+  margin: 15px;
+  width: 60%;
+  height: auto;
   border-style: solid;
   border-color: black;
   background-color: white;
-  margin-bottom: 15px;
-  margin-left: 10%;
   word-wrap: break-word;
 
 }
@@ -618,6 +617,7 @@ input[name="r"]{
 }
 
 .imagedisplay img {
-  width: 80%;
-  height: 65%;
+  margin: 15px;
+  width: 60%;
+  height: auto;
 }
