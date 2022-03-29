@@ -190,6 +190,8 @@ main {
   border-color: black;
   word-wrap: break-word;
   text-align: left;
+  border-radius: 25px;
+  padding: 10px;
 }
 
 .report {
@@ -200,6 +202,8 @@ main {
   border-color: black;
   word-wrap: break-word;
   text-align: left;
+  border-radius: 25px;
+  padding: 10px;
 }
 
 .user {
@@ -586,4 +590,12 @@ input[name="r"]{
 }
 #r5:checked ~ .s1{
   margin-left: -80%;
+}
+
+.approval {
+  width:80%;
+  background-color: white;
+  border-style: solid;
+  border-color: black;
+  border-radius: 25px;
 }
