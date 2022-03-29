@@ -30,6 +30,7 @@ app.set("views", path.join(__dirname, "FrontEndCode"));
 
 app.get("/", util.authenticateUserOptional, function(req, res) {
     conn.query("SELECT upload.*,(SELECT COUNT(*) FROM groupImageMembership WHERE upload.uploadID=groupImageMembership.uploadID) AS C FROM upload WHERE approved='Y' ORDER BY C DESC LIMIT 3;", [], function(err, results) {
+        if (err) throw err;
         if (req.user) {
             res.render("index", {username: req.user.name, popularUploads: results});
     
