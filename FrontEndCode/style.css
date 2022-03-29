@@ -599,3 +599,25 @@ input[name="r"]{
   border-color: black;
   border-radius: 25px;
 }
+
+.imagedisplay {
+  width: 80%;
+  height: 30%;
+  border-style: solid;
+  border-color: black;
+  background-color: white;
+  margin-bottom: 15px;
+  margin-left: 10%;
+  word-wrap: break-word;
+
+}
+
+.imagedisplay p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.imagedisplay img {
+  width: 80%;
+  height: 65%;
+}
