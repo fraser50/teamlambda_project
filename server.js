@@ -29,12 +29,15 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
 
 app.get("/", util.authenticateUserOptional, function(req, res) {
-    if (req.user) {
-        res.render("index", {username: req.user.name});
-
-    } else {
-        res.render("index", {username: undefined});
-    }
+    conn.query("SELECT upload.*,(SELECT COUNT(*) FROM groupImageMembership WHERE upload.uploadID=groupImageMembership.uploadID) AS C FROM upload WHERE approved='Y' ORDER BY C DESC LIMIT 3;", [], function(err, results) {
+        if (req.user) {
+            res.render("index", {username: req.user.name, popularUploads: results});
+    
+        } else {
+            res.render("index", {username: undefined, popularUploads: results});
+        }
+    });
+    
 });
 
 currentUsersNum = 0;

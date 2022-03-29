@@ -74,10 +74,10 @@ authors: Ryan, Leah -->
          <div class="sub_container">
 
             <div class="col_1">
-               <h1>New Groups</h1>
-               <img>
-               <img>
-               <img>
+               <h1>Most Shared</h1>
+               <% popularUploads.forEach(function(u) { %> 
+                  <img src="/uploads/<%= u.fName %>">
+               <% }); %> 
             </div>
             <div class="col_2">
                <h1>This weeks top groups</h1>
