@@ -435,7 +435,7 @@ padding-right: 100px;
   background-image: linear-gradient(to top, #634e42 0%, #68422a 100%);
   width: 32%;
   float: left;
-  height: 90%;
+  height: auto;
   margin: 30px 5px;
   text-align: center;
   padding: 40px, 10px;
