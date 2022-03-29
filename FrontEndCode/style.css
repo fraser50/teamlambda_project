@@ -608,6 +608,7 @@ input[name="r"]{
   border-color: black;
   background-color: white;
   word-wrap: break-word;
+  align-items: center;
 
 }
 
