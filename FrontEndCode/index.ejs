@@ -77,29 +77,38 @@ authors: Ryan, Leah -->
             <div class="col_1">
                <h2>Most Shared</h2>
                <% popularUploads.forEach(function(u) { %> 
-                  <div class="imagedisplay">
-                     <p><%= u.caption %> </p>
-                     <img src="/uploads/<%= u.fName %>">
-                  </div>
+                  <a href="/image/<%= u.uploadID %> ">
+                     <div class="imagedisplay">
+                        <p><%= u.caption %> </p>
+                        <img src="/uploads/<%= u.fName %>">
+                     </div>
+                     </a>
                <% }); %> 
             </div>
             <div class="col_2">
                <h2>Most Recent</h2>
                <% recentUploads.forEach(function(u) { %> 
+                  <a href="/image/<%= u.uploadID %> ">
                   <div class="imagedisplay">
                      <p><%= u.caption %> </p>
                      <img src="/uploads/<%= u.fName %>">
                   </div>
+                  </a>
                <% }); %> 
 
 
             </div>
 
             <div class="col_3">
-               <h2>Groups you might like</h2>
-               <img>
-               <img>
-               <img>
+               <h2>Most Commented</h2>
+               <% commentUploads.forEach(function(u) { %> 
+                  <a href="/image/<%= u.uploadID %> ">
+                  <div class="imagedisplay">
+                     <p><%= u.caption %> </p>
+                     <img src="/uploads/<%= u.fName %>">
+                  </div>
+                  </a>
+               <% }); %> 
             </div>
 
 
