@@ -70,7 +70,8 @@ CREATE TABLE IF NOT EXISTS upload(
     datePosted DATE,
     caption VARCHAR(500) NOT NULL,
     fName VARCHAR(64) NOT NULL,
-    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE,
+    approved CHAR(1) NOT NULL DEFAULT 'N'
 );
 
 CREATE TABLE IF NOT EXISTS uploadComments(
@@ -94,3 +95,15 @@ CREATE TABLE IF NOT EXISTS report(
     FOREIGN KEY (commentID) REFERENCES uploadComments(commentID) ON DELETE CASCADE,
     FOREIGN KEY (reporterID) REFERENCES users(userID) ON DELETE CASCADE
 );
+
+/*
+ * This table exists to store any notifications a user has been sent by a site admin (such as report status and warnings)
+*/
+/*CREATE TABLE IF NOT EXISTS notifications(
+    notificationID INTEGER PRIMARY KEY AUTO_INCREMENT,
+    userID INTEGER NOT NULL,
+    shortName VARCHAR(60) NOT NULL,
+    longText VARCHAR(500),
+    dateSent DATE,
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
+);*/
