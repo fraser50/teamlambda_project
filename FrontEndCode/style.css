@@ -225,6 +225,7 @@ main {
   border-color: black;
   word-wrap: break-word;
   text-align: center;
+  border-radius: 25px;
 }
 
 .column {

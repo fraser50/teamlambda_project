@@ -281,17 +281,26 @@ app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
     }
 
     conn.query("SELECT upload.*,users.name FROM upload INNER JOIN users ON upload.userID=users.userID WHERE uploadID=?", [uploadID,], function(err, results) {
+        var aler = undefined;
         if (results.length == 1) {
             var r = results[0];
             var uname = r.name;
             var caption = r.caption;
+            if (r.approved == 'N') {
+                if (req.user && req.user.userID == r.userID) {
+                    aler = "Warning! This image has not been approved and can only be seen by you!";
+
+                } else {
+                    return res.redirect("/");
+                }
+            }
 
             var license = util.licenseMappings[r.licenseType];
 
             // Fetch comments from database
             conn.query("SELECT commentID,commentContent AS content,datePosted,users.name FROM uploadComments INNER JOIN users ON users.userID=uploadComments.userID WHERE uploadID=?",
             [uploadID,], function(err, results) {
-                res.render("image", {username: username, comments: results, poster: uname, caption: caption, license: license, fName: r.fName, uploadID: uploadID, licenseURL: undefined});
+                res.render("image", {username: username, comments: results, poster: uname, caption: caption, license: license, fName: r.fName, uploadID: uploadID, licenseURL: undefined, alert: aler});
             });
 
         } else {
@@ -324,7 +333,7 @@ app.get("/group/:groupID", util.authenticateUser, function(req, res) {
             rank = results1[0].groupRank;
         }
 
-        conn.query("SELECT upload.* FROM upload INNER JOIN groupImageMembership ON groupImageMembership.uploadID=upload.uploadID AND groupImageMembership.groupID=?", [req.params.groupID],function(err, results, fields) {
+        conn.query("SELECT upload.* FROM upload INNER JOIN groupImageMembership ON groupImageMembership.uploadID=upload.uploadID AND groupImageMembership.groupID=? WHERE approved='Y'", [req.params.groupID],function(err, results, fields) {
             res.render("group", {username: req.user.name, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png", rank: rank});
         });
     });
@@ -508,10 +517,34 @@ app.post("/admin/users/adminStatus/:userID", util.authenticateAdmin, function(re
 });
 
 app.get("/admin/approval", util.authenticateAdmin, function(req, res) {
-    conn.query("SELECT upload.*,name FROM upload INNER JOIN users ON upload.userID=users.userID", [], function(err, results) {
+    conn.query("SELECT upload.*,name FROM upload INNER JOIN users ON upload.userID=users.userID WHERE upload.approved='N'", [], function(err, results) {
         res.render("adminapproval", {username: req.user.name, approval: results});
 
     });
+});
+
+app.post("/admin/approval/respond/:uploadID", util.authenticateAdmin, function (req, res) {
+    if (req.body.reject) {
+        conn.query("SELECT fName FROM upload WHERE uploadID=? AND approved='N'", [req.params.uploadID], function(err, results) {
+            if (results.length != 1) {
+                return res.redirect("/admin/approval");
+            }
+
+            // Delete the image file if it is rejected
+            var fName = results[0].fName;
+            if (fs.existsSync("uploads/" + fName)) {
+                fs.unlinkSync("uploads/" + fName);
+            }
+
+            conn.query("DELETE FROM upload WHERE uploadID=?", [req.params.uploadID], function(err, results) {
+                return res.redirect("/admin/approval");
+            });
+        });
+    } else {
+        conn.query("UPDATE upload SET approved='Y' WHERE uploadID=?", [req.params.uploadID], function(err, results) {
+            return res.redirect("/admin/approval");
+        });
+    }
 });
 
 // TODO: Use a static directory for things like stylesheets, images, etc
