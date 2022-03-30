@@ -636,3 +636,15 @@ input[name="r"]{
   width: 60%;
   height: auto;
 }
+
+.useroption, .useroption_owner {
+  background-color: grey;
+}
+
+.useroption:hover {
+  background-color: lightgrey;
+}
+
+.useroption_selected {
+  background-color: greenyellow;
+}

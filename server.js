@@ -29,7 +29,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "FrontEndCode"));
 
 app.get("/", util.authenticateUserOptional, function(req, res) {
-    conn.query("SELECT upload.*,(SELECT COUNT(*) FROM groupImageMembership WHERE upload.uploadID=groupImageMembership.uploadID) AS C FROM upload WHERE approved='Y' ORDER BY C DESC LIMIT 3;SELECT * FROM upload WHERE approved='Y' ORDER BY datePosted ASC LIMIT 3;SELECT upload.*,(SELECT COUNT(*) FROM uploadComments WHERE upload.uploadID=uploadComments.uploadID) AS C FROM upload WHERE approved='Y' ORDER BY C DESC LIMIT 3", [], function(err, results) {
+    conn.query("SELECT upload.*,(SELECT COUNT(*) FROM groupImageMembership WHERE upload.uploadID=groupImageMembership.uploadID) AS C FROM upload WHERE approved='Y' ORDER BY C DESC LIMIT 3;SELECT * FROM upload WHERE approved='Y' ORDER BY datePosted DESC LIMIT 3;SELECT upload.*,(SELECT COUNT(*) FROM uploadComments WHERE upload.uploadID=uploadComments.uploadID) AS C FROM upload WHERE approved='Y' ORDER BY C DESC LIMIT 3", [], function(err, results) {
         // SELECT * FROM upload WHERE approved='Y' ORDER BY datePosted ASC LIMIT 3
         // SELECT upload.*,(SELECT COUNT(*) FROM uploadComments WHERE upload.uploadID=uploadComments.uploadID) AS C FROM upload WHERE approved='Y' ORDER BY C DESC LIMIT 3
         if (err) throw err;
