@@ -290,7 +290,10 @@ nav p {
 nav .links {
   display: none;
 }
-
+/* linksuser for links only shown by the user (Hidden by Default) */
+nav .linksuser {
+  display: none;
+}
 /* the wavey book icon  */
 nav a .icon {
   display: block;
