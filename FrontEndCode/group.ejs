@@ -15,7 +15,7 @@
                 <input type="submit" value="<%= fav %>">
             </form><br>
             <% if (rank == 'o' || rank == 'a') { %>
-             <center><a href="/group/<%= gid %>/settings">Settings</a></center>
+                <center><a href="/group/<%= gid %>/settings">Settings</a></center>
             <% } %>
             <% if (group.length == 0) { %>
                 <br><h1>This group is currently empty!</h1><br>
@@ -26,7 +26,7 @@
                     <a href="/image/<%= u.uploadID %>" style="color: black; text-decoration: none;">        
                             <figure class="upload_thumb">
                                 <img src="/uploads/<%= u.fName %>" style="width:50%;height:50%;" class="group_image"><br>
-                                <figcaption class="upload_caption"
+                                <figcaption class="upload_caption">
                                     <p><%= u.caption %></p></figcaption>
                             </figure>
                             </div></a>
