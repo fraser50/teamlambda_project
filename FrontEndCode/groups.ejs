@@ -16,7 +16,7 @@
                 <a href="/group/<%= g.groupID %>" style="color: black; text-decoration: none;">
                     <div class="<%= g.favourite == 'y' ? "group gold" : "group" %> ">
                         <h2 class="group_text"><%= g.groupName %></h2>
-                        <img src="/uploads/<%= g.groupAvatar %>" class="group_image">
+                        <img src=<%= g.groupAvatar == null ? "/static/book.png" : "/uploads/"+g.groupAvatar %> class="group_image">
                         <p class="group_text"><%= g.groupDesc %></p>
                     </div></a><br>
             <% }); %>
