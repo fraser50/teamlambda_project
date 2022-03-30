@@ -300,6 +300,13 @@ nav a .icon {
   position: absolute;
   width: auto;
 }
+nav a .iconuser {
+  display: block;
+  position: absolute;
+  width: auto;
+  right: 0;
+  top: 0;
+}
 
 }
 /* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\END OF MOBILE CODE\\\\\\\\\\\\\\\\\\\\\\\\\\*/
