@@ -94,10 +94,10 @@ nav a.active {
 }
 /* used in login and register page for to hold the form */
 main {
-    background-color: silver;
-    width: 50%;
-    margin-left: 25%;
-    margin-right: 25%;
+  background-color: #68422a;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
 }
 
 
@@ -298,7 +298,6 @@ nav .linksuser {
 nav a .icon {
   display: block;
   position: absolute;
-  width: auto;
 }
 nav a .iconuser {
   display: block;
