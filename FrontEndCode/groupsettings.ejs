@@ -53,14 +53,14 @@
     <body>
         <%- include("includes/nav.ejs"); %>
         <main>
-            <div id="leftoptions" style="float:left">
+            <div id="leftoptions" style="float:left;padding:5%">
                 <img src="/uploads/<%= group.groupAvatar %>" style="width:50px;height:50px;">
                 <h1 style="float:right"><%= group.groupName %>  </h1><br>
                 <input type="button" value="Save Group" class="inputbutton">
                 <input type="button" value="Delete Group" class="inputbutton"><br>
             </div>
 
-            <div style="float:left">
+            <div style="float:left;padding:2%">
                 <h2>Users</h2><br>
                 <table>
                     <tbody>
@@ -74,7 +74,7 @@
                 </table>
             </div>
 
-            <div id="rightoptions" style="float:right">
+            <div id="rightoptions" style="float:right;padding:2%;">
                 <form action="/group/<%= group.groupID %>/settings" method="post">
                     <input type="submit" value="Invite User" class="inputbutton" name="invite"><br>
                     <input type="text" name="invname"><br>
