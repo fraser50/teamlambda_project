@@ -266,7 +266,7 @@ nav {
 /*links styles for mobile*/
 nav a {
   position:relative;
-  width:50%;
+  width:45%;
   color: #f2f2f2;
   padding: 14px 16px;
   text-decoration: none;
@@ -492,7 +492,7 @@ padding-right: 100px;
 
 .grid-container {
   display: grid;
-    grid-template-columns: 315px 315px;
+    grid-template-columns: 50% auto;
     background-color: white;
     border: 5px solid black;
 }
