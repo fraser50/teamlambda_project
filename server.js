@@ -287,6 +287,7 @@ app.get("/groups", util.authenticateUserOptional, function(req, res) {
 
 app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
     var uploadID = req.params.uploadID;
+    var uid = req.user ? req.user.userID : -1;
 
     // TODO: Additional features when user logged in (republish, add to one of my groups, etc)
     var username = undefined;
@@ -294,10 +295,10 @@ app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
         username = req.user.name;
     }
 
-    conn.query("SELECT upload.*,users.name FROM upload INNER JOIN users ON upload.userID=users.userID WHERE uploadID=?", [uploadID,], function(err, results) {
+    conn.query("SELECT upload.*,users.name FROM upload INNER JOIN users ON upload.userID=users.userID WHERE uploadID=?; SELECT groups.* FROM groups INNER JOIN groupImageMembership ON groups.groupID=groupImageMembership.groupID WHERE uploadID=?;SELECT groups.groupID AS groupID,groupName,groupRank FROM groups INNER JOIN groupMembership ON userID=? AND groupMembership.groupID=groups.groupID", [uploadID, uploadID, uid], function(err, results) {
         var aler = undefined;
-        if (results.length == 1) {
-            var r = results[0];
+        if (results[0].length == 1) {
+            var r = results[0][0];
             var uname = r.name;
             var caption = r.caption;
             if (r.approved == 'N') {
@@ -309,18 +310,27 @@ app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
                 }
             }
 
+            var gps = results[2];
+
             var license = util.licenseMappings[r.licenseType];
 
             // Fetch comments from database
             conn.query("SELECT commentID,commentContent AS content,datePosted,users.name FROM uploadComments INNER JOIN users ON users.userID=uploadComments.userID WHERE uploadID=?",
             [uploadID,], function(err, results) {
-                res.render("image", {username: username, comments: results, poster: uname, caption: caption, license: license, fName: r.fName, uploadID: uploadID, licenseURL: undefined, alert: aler});
+                res.render("image", {username: username, groups: gps, comments: results, poster: uname, caption: caption, license: license, fName: r.fName, uploadID: uploadID, licenseURL: undefined, alert: aler});
             });
 
         } else {
             // TODO: Give an actual error page to the user
             return res.status(404).send("<html><body><p>That content does not appear to exist!</p></body></html>");
         }
+    });
+});
+
+app.post("/image/:uploadID/addtogroup", util.authenticateUser, function(req, res) {
+    var selectedgroup = req.body.selectedgroup == "none" ? null : parseInt(req.body.selectedgroup);
+    conn.query("INSERT INTO groupImageMembership (groupID,uploadID,dateAdded) VALUES (?,?,?)", [selectedgroup, req.params.uploadID, new Date()], function(err, results) {
+        return res.redirect("/image/"+req.params.uploadID);
     });
 });
 

@@ -25,6 +25,17 @@ authors: Fraser, Leah -->
             
             <h1><%= caption %></h1><br>
             <img src="/uploads/<%= fName %>" style="width:300px; height:300px"><br>
+            <% if (username != undefined) { %>
+            <form action="/image/<%= uploadID %>/addtogroup" method="post">
+              <select name="selectedgroup">
+                <option value="none">No group</option>
+                <% groups.forEach(function(g) { %>
+                  <option value="<%= g.groupID %>"><%= g.groupName %></option>
+                <% }); %>
+              </select>
+              <input type="submit" value="Add"><br><br>
+            </form>
+            <% } %>
             <p>Poster: <%= poster %></p><br>
             <p>License: <%= license %></p><br><br>
             <h2>Comments</h2><br>
