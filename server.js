@@ -269,11 +269,19 @@ app.post("/creategroup", util.authenticateUser, function(req, res) {
     });
 });
 
-app.get("/groups", util.authenticateUser, function(req, res) {
-    conn.query("SELECT groups.*, (SELECT favourite FROM groupMembership WHERE userID=? AND groupMembership.groupID=groups.groupID) AS favourite FROM groups",
+app.get("/groups", util.authenticateUserOptional, function(req, res) {
+    if (req.user) {
+        conn.query("SELECT groups.*, (SELECT favourite FROM groupMembership WHERE userID=? AND groupMembership.groupID=groups.groupID) AS favourite FROM groups",
     [req.user.userID], function(err, results) {
         res.render("groups", {username: req.user.name, groups: results});
     });
+    } else {
+        conn.query("SELECT groups.* FROM groups",
+    [], function(err, results) {
+        res.render("groups", {username: undefined, groups: results});
+    });
+}
+    
 
 });
 
