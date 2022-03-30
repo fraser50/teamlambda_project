@@ -117,7 +117,7 @@ app.get("/upload", util.authenticateUser, function(req, res) {
         if (err) throw err;
         var groups = util.filter(results, function(v) {
             // TODO: Check for other group ranks (might want to move this into util)
-            return v.groupRank == 'o';
+            return v.groupRank == 'o' || v.groupRank == 'a' || v.groupRank == 'm' || v.groupRank == 'n';
         });
 
         res.render("upload", {username: req.user.name, alert: undefined, groups: groups});
@@ -310,7 +310,10 @@ app.get("/image/:uploadID", util.authenticateUserOptional, function(req, res) {
                 }
             }
 
-            var gps = results[2];
+            var gps = util.filter(results[2], function(v) {
+                // TODO: Check for other group ranks (might want to move this into util)
+                return v.groupRank == 'o' || v.groupRank == 'a' || v.groupRank == 'm' || v.groupRank == 'n';
+            });
 
             var license = util.licenseMappings[r.licenseType];
 
