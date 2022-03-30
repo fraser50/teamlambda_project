@@ -337,8 +337,10 @@ app.post("/image/:uploadID/comment", util.authenticateUser, function(req, res) {
 
 });
 
-app.get("/group/:groupID", util.authenticateUser, function(req, res) {
-    conn.query("SELECT favourite,groupRank FROM groupMembership WHERE userID=? AND groupID=?", [req.user.userID, req.params.groupID], function (err, results1) {
+app.get("/group/:groupID", util.authenticateUserOptional, function(req, res) {
+    var uid = req.user ? req.user.userID : -1;
+    var u = req.user ? req.user.name : undefined;
+    conn.query("SELECT favourite,groupRank FROM groupMembership WHERE userID=? AND groupID=?", [uid, req.params.groupID], function (err, results1) {
         var fav = 'n';
         var rank = null;
 
@@ -348,7 +350,7 @@ app.get("/group/:groupID", util.authenticateUser, function(req, res) {
         }
 
         conn.query("SELECT upload.* FROM upload INNER JOIN groupImageMembership ON groupImageMembership.uploadID=upload.uploadID AND groupImageMembership.groupID=? WHERE approved='Y'", [req.params.groupID],function(err, results, fields) {
-            res.render("group", {username: req.user.name, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png", rank: rank});
+            res.render("group", {username: u, group: results, gid: req.params.groupID, fav: fav == 'y' ? "Unfavourite" : "Favourite", favstar: fav == 'y' ? "star_on.png" : "star_off.png", rank: rank});
         });
     });
 

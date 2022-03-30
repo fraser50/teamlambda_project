@@ -10,10 +10,11 @@
     <%- include('includes/nav.ejs'); %>
     <body>
         <main>
-            <br><form action="/group/<%= gid %>/fav" method="post">
+            <% if (username != undefined) { %> <br><form action="/group/<%= gid %>/fav" method="post">
                 <img src="/static/<%= favstar %>" style="width:64px; height:64px"><br>
                 <input type="submit" value="<%= fav %>">
             </form><br>
+            <% } %> 
             <% if (rank == 'o' || rank == 'a') { %>
                 <center><a href="/group/<%= gid %>/settings">Settings</a></center>
             <% } %>
