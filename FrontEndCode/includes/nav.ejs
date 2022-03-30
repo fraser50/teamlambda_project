@@ -8,7 +8,7 @@ authors: Fraser, Leah, Emily -->
   </a>
   <% if (username) { %>
     <!-- If a user is logged in display username and additional links (on mobile should be hidden)-->
-    <p style="float:right" onclick="displayMenuUser()"><%= username %></p>
+    <a href="javascript:void(0);" style="float:right" onclick="displayMenuUser()"><%= username %></a>
     <div class="linksuser">
         <a style="float:right" href="/upload">Upload</a>
         <!-- Might want to replace this with a link on the left to all the groups, then a create group button there when logged in -->
