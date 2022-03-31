@@ -525,7 +525,17 @@ app.post("/admin/reports/respond/:reportID", util.authenticateAdmin, function(re
     // TODO: different handling in the event of a report being accepted (delete/hide comment and ban/warn commenting user)
     conn.query("UPDATE report SET resolutionStatus=? WHERE reportID=?", [req.body.reject ? "rejected" : "accepted", req.params.reportID], function(err, results) {
         if (err) throw err;
-        return res.redirect("/admin/reports");
+
+        if (req.body.reject == undefined) {
+            conn.query("DELETE FROM uploadComments WHERE commentID=(SELECT commentID FROM report WHERE reportID=?)", [req.params.reportID], function(err, results) {
+                return res.redirect("/admin/reports");
+            });
+
+        } else {
+            return res.redirect("/admin/reports");
+        }
+        
+        
     });
 
 });
